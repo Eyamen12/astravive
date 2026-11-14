@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Database files (generated locally)
+*.db
+
+# Secrets — NEVER commit these
+.env
+.env.*
+*.key
+*.pem
+
+# Build artifacts
+*.zip
+ASTRAVIVE_NASA_SpaceApps_2026_Complete.zip
+
+# Model artifacts (large binary — users regenerate locally)
+# Uncomment the next line if your .pkl is too large for GitHub (>50MB)
+# models/*.pkl

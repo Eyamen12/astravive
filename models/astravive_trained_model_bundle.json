@@ -1,0 +1,85 @@
+{
+  "astravive_model_bundle_version": "2.0.0",
+  "trained_at_utc": "2026-11-08T06:34:15.818Z",
+  "random_seed": 2026,
+  "anti_leakage_validation": {
+    "classification_split": "GroupKFold (6 subjects, per-fold StandardScaler)",
+    "forecasting_split": "TimeSeriesSplit (Chronological Epochs 0..27 -> 28..39)"
+  },
+  "learned_logistic_regression_parameters": {
+    "w0": -1.0016638652884082,
+    "wHr": 0.924866270812603,
+    "wEda": 1.0793929506019821,
+    "wRm": -0.9058331093041212,
+    "mHr": 69.23812382413226,
+    "sHr": 11.212279388606287,
+    "mEda": 1.85959803230362,
+    "sEda": 1.6170508343974852,
+    "mRm": 46.64128847409829,
+    "sRm": 8.662739084707335
+  },
+  "computed_classification_metrics": [
+    {
+      "name": "0. Baseline (Dummy Majority)",
+      "acc": 0.725,
+      "prec": 0,
+      "rec": 0,
+      "f1": 0,
+      "auc": 0.5
+    },
+    {
+      "name": "1. Logistic Regression (L2)",
+      "acc": 1,
+      "prec": 1,
+      "rec": 1,
+      "f1": 1,
+      "auc": 1
+    },
+    {
+      "name": "2. Random Forest / GBDT Ensemble",
+      "acc": 1,
+      "prec": 1,
+      "rec": 1,
+      "f1": 1,
+      "auc": 1
+    },
+    {
+      "name": "3. IsolationForest (Baseline-Fit Anomaly)",
+      "acc": 0.9541666666666667,
+      "prec": 0.8571428571428571,
+      "rec": 1,
+      "f1": 0.923076923076923,
+      "auc": 1
+    }
+  ],
+  "computed_regression_metrics": [
+    {
+      "name": "0A. Baseline (Historical Mean Dummy)",
+      "mae": 12.04155620210268,
+      "rmse": 14.245211542144432,
+      "r2": -0.1357232093029923,
+      "mape": 15.655015971715391
+    },
+    {
+      "name": "0B. Baseline (Naive Persistence y_t)",
+      "mae": 2.4649324175608665,
+      "rmse": 3.001912813235891,
+      "r2": 0.9495651371390944,
+      "mape": 3.399833476322598
+    },
+    {
+      "name": "1. Time-Series ARX Lag Model (Ridge)",
+      "mae": 2.610845155222765,
+      "rmse": 3.22183206171621,
+      "r2": 0.9419047676196936,
+      "mape": 3.756887709858461
+    },
+    {
+      "name": "2. HistGradientBoosting Regressor",
+      "mae": 2.6897186040975583,
+      "rmse": 3.4503899544556855,
+      "r2": 0.9333698092463423,
+      "mape": 3.6679963928338206
+    }
+  ]
+}

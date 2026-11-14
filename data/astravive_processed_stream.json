@@ -1,0 +1,72 @@
+[
+  {
+    "subject_id": "I4-COHORT-MEAN",
+    "timestamp_utc": "2026-01-29T08:00:00Z",
+    "timepoint": "L-92",
+    "wbc_10e3_ul": 5.8,
+    "hgb_g_dl": 14.6,
+    "glucose_mg_dl": 87.5,
+    "derived_wbc_zscore": -0.41,
+    "pred_hematology_status": "NOMINAL",
+    "data_classification": "PUBLIC DATA",
+    "derived_class": "DERIVED DATA",
+    "pred_class": "MODEL PREDICTION",
+    "audit": "VALIDATED_OSD575_OSD569"
+  },
+  {
+    "subject_id": "I4-COHORT-MEAN",
+    "timestamp_utc": "2026-03-18T08:00:00Z",
+    "timepoint": "L-44",
+    "wbc_10e3_ul": 5.9,
+    "hgb_g_dl": 14.5,
+    "glucose_mg_dl": 88.2,
+    "derived_wbc_zscore": 0,
+    "pred_hematology_status": "NOMINAL",
+    "data_classification": "PUBLIC DATA",
+    "derived_class": "DERIVED DATA",
+    "pred_class": "MODEL PREDICTION",
+    "audit": "VALIDATED_OSD575_OSD569"
+  },
+  {
+    "subject_id": "I4-COHORT-MEAN",
+    "timestamp_utc": "2026-04-28T08:00:00Z",
+    "timepoint": "L-3",
+    "wbc_10e3_ul": 6,
+    "hgb_g_dl": 14.7,
+    "glucose_mg_dl": 89,
+    "derived_wbc_zscore": 0.41,
+    "pred_hematology_status": "NOMINAL",
+    "data_classification": "PUBLIC DATA",
+    "derived_class": "DERIVED DATA",
+    "pred_class": "MODEL PREDICTION",
+    "audit": "VALIDATED_OSD575_OSD569"
+  },
+  {
+    "subject_id": "I4-COHORT-MEAN",
+    "timestamp_utc": "2026-05-02T14:00:00Z",
+    "timepoint": "R+1",
+    "wbc_10e3_ul": 7.5,
+    "hgb_g_dl": 14.9,
+    "glucose_mg_dl": 94.5,
+    "derived_wbc_zscore": 6.53,
+    "pred_hematology_status": "ACUTE_FLIGHT_SHIFT",
+    "data_classification": "PUBLIC DATA",
+    "derived_class": "DERIVED DATA",
+    "pred_class": "MODEL PREDICTION",
+    "audit": "VALIDATED_OSD575_OSD569"
+  },
+  {
+    "subject_id": "I4-COHORT-MEAN",
+    "timestamp_utc": "2026-06-15T08:00:00Z",
+    "timepoint": "R+45",
+    "wbc_10e3_ul": 6.1,
+    "hgb_g_dl": 14.5,
+    "glucose_mg_dl": 88.8,
+    "derived_wbc_zscore": 0.82,
+    "pred_hematology_status": "RECOVERED",
+    "data_classification": "PUBLIC DATA",
+    "derived_class": "DERIVED DATA",
+    "pred_class": "MODEL PREDICTION",
+    "audit": "VALIDATED_OSD575_OSD569"
+  }
+]

@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src https://cdn.jsdelivr.net https://cdnjs.cloudflare.com data:; img-src data: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<title>ASTRAVIVE — Mission-Health Digital Twin</title>
+<meta name="description" content="ASTRAVIVE: an exploratory mission-health digital twin research prototype. NASA Space Apps Challenge 2026." />
+<!-- Third-party assets are version-pinned with Subresource Integrity. Tailwind is precompiled and inlined (no runtime CDN). -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js" integrity="sha384-RRHfJ6w1mTlKUBMYT/hvnRiOzEB/vyRV3DrQOseb6oYfvaZSfdd0byS4bHps0k2R" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/400.css" integrity="sha384-plvHPamCpQvGXYKgEdJAz1ijiAhzXR0PwuixVr/ixFVvnnIeWe7p7XIN/t1lVuOo" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/500.css" integrity="sha384-RLH5Taa3HV4nScDW/gsIx5FTDCCAK3y/YBXOQTuU7Xl6ugp8JU4/kjPhNdLWGenF" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/600.css" integrity="sha384-tTxwv+V3obd48y7dk5weqcsMkR7W1jPewE84W/2Yv/mGVTb4hJ+vBydBFEkFWNAS" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.1.0/700.css" integrity="sha384-ob21+geQweTMFxw49brwjVaw9Qz0ggOJiqVuYmFIHT6avMdxBq4VPfmIVuMOnDZY" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.1.0/400.css" integrity="sha384-8X0qYYsBdYZ9bk70hw4HTDsWIeMfYCwYmUcsezfamiqI024ZDkBKbaTx68Kwh6wx" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous" />
+<style id="tailwind-compiled">
+*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:Inter,system-ui,sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:JetBrains Mono,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mt-1{margin-top:.25rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.block{display:block}.flex{display:flex}.table{display:table}.grid{display:grid}.hidden{display:none}.w-full{width:100%}.flex-1{flex:1 1 0%}.resize{resize:both}.grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-5{gap:1.25rem}.space-y-1>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.25rem*var(--tw-space-y-reverse))}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-4>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem*var(--tw-space-y-reverse))}.space-y-5>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem*var(--tw-space-y-reverse))}.overflow-x-auto{overflow-x:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.break-all{word-break:break-all}.rounded{border-radius:.25rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-cyan-400\/10{border-color:rgba(82,217,232,.1)}.border-cyan-400\/20{border-color:rgba(82,217,232,.2)}.bg-abyss-800\/60{background-color:rgba(7,19,27,.6)}.bg-cyan-400\/5{background-color:rgba(82,217,232,.05)}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-5{padding:1.25rem}.pt-2{padding-top:.5rem}.pt-4{padding-top:1rem}.text-right{text-align:right}.font-mono{font-family:JetBrains Mono,monospace}.font-sans{font-family:Inter,system-ui,sans-serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[12\.5px\]{font-size:12.5px}.text-\[12px\]{font-size:12px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.leading-relaxed{line-height:1.625}.tracking-wider{letter-spacing:.05em}.text-crit-soft{--tw-text-opacity:1;color:rgb(248 113 113/var(--tw-text-opacity,1))}.text-cyan-300{--tw-text-opacity:1;color:rgb(156 236 242/var(--tw-text-opacity,1))}.text-cyan-300\/80{color:rgba(156,236,242,.8)}.text-cyan-300\/90{color:rgba(156,236,242,.9)}.text-cyan-400\/80{color:rgba(82,217,232,.8)}.text-ok-soft{--tw-text-opacity:1;color:rgb(52 211 153/var(--tw-text-opacity,1))}.text-warn-soft{--tw-text-opacity:1;color:rgb(251 191 36/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.ring{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.invert{--tw-invert:invert(100%)}.filter,.invert{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}@media (min-width:640px){.sm\:col-span-2{grid-column:span 2/span 2}.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:768px){.md\:inline{display:inline}.md\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (min-width:1024px){.lg\:col-span-3{grid-column:span 3/span 3}.lg\:col-span-4{grid-column:span 4/span 4}.lg\:col-span-5{grid-column:span 5/span 5}.lg\:col-span-6{grid-column:span 6/span 6}.lg\:col-span-7{grid-column:span 7/span 7}.lg\:col-span-8{grid-column:span 8/span 8}.lg\:grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.lg\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.lg\:grid-cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>
+<style>
+  :root {
+    --bg-abyss: #050d14;
+    --bg-deep:  #07131B;
+    --bg-mid:   #0A1D27;
+    --bg-soft:  #0f2a36;
+    --glass:    rgba(14, 38, 52, 0.55);
+    --glass-strong: rgba(18, 48, 66, 0.72);
+    --border:   rgba(82, 217, 232, 0.18);
+    --border-strong: rgba(82, 217, 232, 0.35);
+    --cyan:     #52D9E8;
+    --cyan-soft:#9CECF2;
+    --text:     #e6f4f7;
+    --text-dim: #9fb8c2;
+    --text-mute:#6b8590;
+    --warn:     #f5a524;
+    --crit:     #ef4444;
+    --ok:       #10b981;
+    --grid:     rgba(82, 217, 232, 0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-abyss);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background layers */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(82,217,232,0.10), transparent 60%),
+      radial-gradient(900px 600px at 90% 10%, rgba(34,195,214,0.08), transparent 60%),
+      radial-gradient(800px 600px at 50% 110%, rgba(15,42,54,0.9), transparent 60%),
+      linear-gradient(180deg, #050d14 0%, #07131B 50%, #050d14 100%);
+    z-index: -2;
+    pointer-events: none;
+  }
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 85%);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  /* Glass panel */
+  .glass {
+    background: var(--glass);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    border-radius: 14px;
+    position: relative;
+  }
+  .glass::before {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(82,217,232,0.35), rgba(82,217,232,0) 40%, rgba(82,217,232,0.15) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .glass-strong {
+    background: var(--glass-strong);
+    border: 1px solid var(--border-strong);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border-radius: 14px;
+  }
+
+  /* Corner brackets */
+  .cornered { position: relative; }
+  .cornered::before, .cornered::after,
+  .cornered > .corner-tl, .cornered > .corner-tr,
+  .cornered > .corner-bl, .cornered > .corner-br {
+    content: ""; position: absolute; width: 14px; height: 14px;
+    border-color: var(--cyan);
+    opacity: 0.75;
+  }
+  .cornered::before { top: -1px; left: -1px; border-top: 1px solid; border-left: 1px solid; border-top-left-radius: 14px; }
+  .cornered::after  { top: -1px; right: -1px; border-top: 1px solid; border-right: 1px solid; border-top-right-radius: 14px; }
+  .corner-bl { bottom: -1px; left: -1px; border-bottom: 1px solid; border-left: 1px solid; border-bottom-left-radius: 14px; }
+  .corner-br { bottom: -1px; right: -1px; border-bottom: 1px solid; border-right: 1px solid; border-bottom-right-radius: 14px; }
+
+  /* Section title */
+  .section-title {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--cyan-soft);
+    font-weight: 600;
+  }
+  .section-title::before {
+    content: ""; width: 8px; height: 8px; border-radius: 2px;
+    background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
+  }
+  .section-title .num {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--cyan); opacity: 0.8;
+  }
+
+  /* Header */
+  .topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 22px;
+    background: linear-gradient(180deg, rgba(10,29,39,0.85), rgba(7,19,27,0.6));
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(14px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .brand-logo {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: radial-gradient(circle at 30% 30%, #9CECF2, #22c3d6 50%, #0A1D27 100%);
+    display: grid; place-items: center;
+    box-shadow: 0 0 20px rgba(82,217,232,0.35), inset 0 0 10px rgba(5,13,20,0.6);
+    position: relative;
+  }
+  .brand-logo::after {
+    content: ""; position: absolute; inset: 3px; border-radius: 8px;
+    border: 1px solid rgba(5,13,20,0.5);
+  }
+  .brand-logo i { color: #050d14; font-size: 18px; }
+  .brand-name { font-weight: 700; letter-spacing: 0.18em; font-size: 16px; color: #fff; }
+  .brand-sub { font-size: 10px; letter-spacing: 0.25em; color: var(--cyan-soft); text-transform: uppercase; opacity: 0.8; }
+
+  .mission-meta {
+    display: flex; flex-wrap: wrap; gap: 18px; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .mission-meta .item { display: flex; align-items: center; gap: 8px; }
+  .mission-meta .label { color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.15em; font-size: 9.5px; }
+  .mission-meta .val { color: var(--text); }
+  .mission-meta .val.ok { color: var(--ok); }
+  .mission-meta .val.warn { color: var(--warn); }
+  .mission-meta .val.crit { color: var(--crit); }
+
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ok); box-shadow: 0 0 8px var(--ok);
+    animation: pulse-dot 2.4s ease-in-out infinite;
+  }
+  .status-dot.warn { background: var(--warn); box-shadow: 0 0 8px var(--warn); }
+  .status-dot.crit { background: var(--crit); box-shadow: 0 0 8px var(--crit); }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.55; transform: scale(0.85); }
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    padding: 10px 16px;
+    background: rgba(7,19,27,0.7);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 69px; z-index: 40;
+  }
+  .tab-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+  }
+  .tab-btn i { font-size: 11px; color: var(--text-mute); }
+  .tab-btn:hover {
+    color: var(--cyan-soft);
+    background: rgba(82,217,232,0.05);
+    border-color: rgba(82,217,232,0.15);
+  }
+  .tab-btn:hover i { color: var(--cyan); }
+  .tab-btn.active {
+    color: #fff;
+    background: linear-gradient(180deg, rgba(82,217,232,0.18), rgba(82,217,232,0.05));
+    border-color: var(--border-strong);
+    box-shadow: 0 0 14px rgba(82,217,232,0.12), inset 0 0 12px rgba(82,217,232,0.05);
+  }
+  .tab-btn.active i { color: var(--cyan); }
+  .tab-btn .tnum {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--text-mute);
+    padding: 1px 5px; border-radius: 4px;
+    background: rgba(82,217,232,0.08);
+    border: 1px solid rgba(82,217,232,0.15);
+  }
+  .tab-btn.active .tnum { color: var(--cyan); border-color: var(--cyan); }
+
+  /* Tab content */
+  .tab-panel { display: none; padding: 22px; animation: fadeIn 0.4s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* KPI cards */
+  .kpi {
+    padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .kpi .kpi-label {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--text-mute);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .kpi .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px; font-weight: 600; color: #fff;
+    line-height: 1;
+  }
+  .kpi .kpi-unit { font-size: 12px; color: var(--text-dim); margin-left: 4px; font-weight: 400; }
+  .kpi .kpi-delta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .kpi .kpi-delta.up { color: var(--ok); }
+  .kpi .kpi-delta.down { color: var(--crit); }
+  .kpi .kpi-delta.flat { color: var(--warn); }
+  .kpi .kpi-spark {
+    position: absolute; right: 14px; bottom: 12px;
+    width: 90px; height: 34px; opacity: 0.85;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px; border-radius: 999px;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .badge.public { color: var(--cyan-soft); border-color: rgba(82,217,232,0.4); background: rgba(82,217,232,0.08); }
+  .badge.predicted { color: #c4b5fd; border-color: rgba(196,181,253,0.4); background: rgba(196,181,253,0.08); }
+  .badge.simulated { color: var(--warn); border-color: rgba(245,165,36,0.4); background: rgba(245,165,36,0.08); }
+  .badge.derived { color: #f0abfc; border-color: rgba(240,171,252,0.4); background: rgba(240,171,252,0.08); }
+  .badge.cached { color: var(--text-dim); border-color: rgba(159,184,194,0.3); background: rgba(159,184,194,0.08); }
+  .badge.unavailable { color: var(--crit); border-color: rgba(239,68,68,0.4); background: rgba(239,68,68,0.08); }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text);
+    background: linear-gradient(180deg, rgba(82,217,232,0.12), rgba(82,217,232,0.04));
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+  }
+  .btn:hover {
+    background: linear-gradient(180deg, rgba(82,217,232,0.22), rgba(82,217,232,0.08));
+    border-color: var(--cyan);
+    box-shadow: 0 0 14px rgba(82,217,232,0.25);
+    color: #fff;
+  }
+  .btn.primary {
+    background: linear-gradient(180deg, rgba(82,217,232,0.3), rgba(34,195,214,0.15));
+    color: #fff;
+  }
+  .btn.ghost {
+    background: transparent;
+    border-color: var(--border);
+  }
+  .btn.danger {
+    background: linear-gradient(180deg, rgba(239,68,68,0.18), rgba(239,68,68,0.06));
+    border-color: rgba(239,68,68,0.4);
+    color: #fecaca;
+  }
+  .btn.danger:hover { border-color: var(--crit); box-shadow: 0 0 14px rgba(239,68,68,0.25); }
+
+  /* Sliders */
+  input[type="range"].astro-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px;
+    background: linear-gradient(90deg, rgba(82,217,232,0.25), rgba(82,217,232,0.08));
+    border-radius: 4px; outline: none;
+  }
+  input[type="range"].astro-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #9CECF2, #22c3d6);
+    border: 2px solid #050d14;
+    box-shadow: 0 0 10px rgba(82,217,232,0.6);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  input[type="range"].astro-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  input[type="range"].astro-slider::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #9CECF2, #22c3d6);
+    border: 2px solid #050d14;
+    box-shadow: 0 0 10px rgba(82,217,232,0.6);
+    cursor: pointer;
+  }
+
+  /* Tables */
+  .astro-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12px;
+  }
+  .astro-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cyan-soft);
+    background: rgba(82,217,232,0.06);
+    border-bottom: 1px solid var(--border-strong);
+    font-weight: 600;
+  }
+  .astro-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(82,217,232,0.08);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+  }
+  .astro-table tr:hover td { background: rgba(82,217,232,0.04); }
+
+  /* Select */
+  select.astro-select {
+    background: rgba(10,29,39,0.6);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  select.astro-select:focus { border-color: var(--cyan); box-shadow: 0 0 10px rgba(82,217,232,0.2); }
+
+  /* 3D canvas container */
+  .holo-stage {
+    position: relative;
+    width: 100%; height: 520px;
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(82,217,232,0.10), transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(82,217,232,0.08), transparent 70%),
+      linear-gradient(180deg, rgba(5,13,20,0.6), rgba(10,29,39,0.4));
+    border: 1px solid var(--border);
+  }
+  .holo-stage canvas { display: block; }
+  .holo-overlay {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent 0%, transparent 85%, rgba(5,13,20,0.6) 100%);
+  }
+  .holo-scan {
+    position: absolute; left: 10%; right: 10%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    box-shadow: 0 0 20px var(--cyan);
+    opacity: 0.6;
+    animation: scan 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scan {
+    0%, 100% { top: 15%; opacity: 0; }
+    10% { opacity: 0.6; }
+    50% { top: 80%; opacity: 0.6; }
+    60% { opacity: 0; }
+  }
+
+  /* Organ node */
+  .organ-node {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--cyan) 0%, rgba(82,217,232,0.2) 60%, transparent 100%);
+    border: 1px solid var(--cyan);
+    cursor: pointer;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+    animation: organ-pulse 2.6s ease-in-out infinite;
+  }
+  .organ-node::before {
+    content: ""; position: absolute; inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(82,217,232,0.3);
+    animation: organ-ring 2.6s ease-out infinite;
+  }
+  .organ-node:hover {
+    transform: translate(-50%, -50%) scale(1.4);
+    background: radial-gradient(circle, #fff 0%, var(--cyan) 60%, transparent 100%);
+    box-shadow: 0 0 20px var(--cyan);
+  }
+  .organ-node .organ-label {
+    position: absolute;
+    left: 24px; top: 50%; transform: translateY(-50%);
+    white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--cyan-soft);
+    background: rgba(5,13,20,0.8);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .organ-node:hover .organ-label { opacity: 1; }
+  @keyframes organ-pulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(82,217,232,0.5); }
+    50% { box-shadow: 0 0 16px rgba(82,217,232,0.9); }
+  }
+  @keyframes organ-ring {
+    0% { transform: scale(0.8); opacity: 0.8; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  /* SANS brain panel */
+  .sans-brain {
+    position: relative;
+    width: 100%; height: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(82,217,232,0.08), transparent 70%),
+      linear-gradient(180deg, rgba(5,13,20,0.8), rgba(10,29,39,0.5));
+    border: 1px solid var(--border);
+  }
+
+  /* Waveform */
+  .waveform {
+    width: 100%; height: 60px;
+    position: relative;
+  }
+  .waveform canvas { width: 100%; height: 100%; display: block; }
+
+  /* Subsystem readiness bar */
+  .readiness-bar {
+    height: 6px; border-radius: 3px;
+    background: rgba(82,217,232,0.1);
+    overflow: hidden;
+    position: relative;
+  }
+  .readiness-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+    border-radius: 3px;
+    transition: width 0.6s ease;
+    box-shadow: 0 0 8px rgba(82,217,232,0.5);
+  }
+  .readiness-bar.warn > div { background: linear-gradient(90deg, var(--warn), #fbbf24); box-shadow: 0 0 8px rgba(245,165,36,0.5); }
+  .readiness-bar.crit > div { background: linear-gradient(90deg, var(--crit), #f87171); box-shadow: 0 0 8px rgba(239,68,68,0.5); }
+
+  /* Scenario comparison */
+  .scenario-card {
+    padding: 18px;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  .scenario-card.a {
+    background: linear-gradient(180deg, rgba(159,184,194,0.08), rgba(159,184,194,0.02));
+    border: 1px solid rgba(159,184,194,0.25);
+  }
+  .scenario-card.b {
+    background: linear-gradient(180deg, rgba(82,217,232,0.12), rgba(82,217,232,0.03));
+    border: 1px solid rgba(82,217,232,0.4);
+    box-shadow: 0 0 18px rgba(82,217,232,0.12);
+  }
+  .scenario-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    padding: 3px 8px; border-radius: 4px;
+    display: inline-block;
+  }
+  .scenario-tag.a { color: var(--text-dim); background: rgba(159,184,194,0.12); border: 1px solid rgba(159,184,194,0.3); }
+  .scenario-tag.b { color: var(--cyan); background: rgba(82,217,232,0.12); border: 1px solid rgba(82,217,232,0.4); }
+
+  /* SHAP bar */
+  .shap-row {
+    display: grid; grid-template-columns: 140px 1fr 60px;
+    align-items: center; gap: 10px;
+    padding: 6px 0;
+    font-size: 12px;
+  }
+  .shap-bar-track {
+    position: relative; height: 18px;
+    background: rgba(82,217,232,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .shap-bar-center {
+    position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+    background: rgba(255,255,255,0.2);
+  }
+  .shap-bar {
+    position: absolute; top: 2px; bottom: 2px;
+    border-radius: 2px;
+    transition: all 0.4s ease;
+  }
+  .shap-bar.pos { background: linear-gradient(90deg, rgba(82,217,232,0.4), var(--cyan)); box-shadow: 0 0 8px rgba(82,217,232,0.4); }
+  .shap-bar.neg { background: linear-gradient(270deg, rgba(239,68,68,0.4), var(--crit)); box-shadow: 0 0 8px rgba(239,68,68,0.3); }
+
+  /* Pipeline schematic */
+  .pipeline {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .pipe-step {
+    padding: 10px 8px;
+    border-radius: 8px;
+    background: rgba(82,217,232,0.05);
+    border: 1px solid var(--border);
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cyan-soft);
+    position: relative;
+    transition: all 0.2s ease;
+  }
+  .pipe-step:hover {
+    background: rgba(82,217,232,0.12);
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+  }
+  .pipe-step .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--cyan);
+    display: block; margin-bottom: 4px;
+  }
+  .pipe-step.active {
+    background: rgba(82,217,232,0.18);
+    border-color: var(--cyan);
+    box-shadow: 0 0 12px rgba(82,217,232,0.25);
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(5,13,20,0.8);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.25s ease;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    width: 100%; max-width: 640px;
+    max-height: 85vh; overflow-y: auto;
+    background: linear-gradient(180deg, rgba(14,38,52,0.95), rgba(10,29,39,0.95));
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(82,217,232,0.15);
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    background: rgba(82,217,232,0.08);
+    border: 1px solid var(--border);
+    color: var(--cyan-soft);
+    cursor: pointer;
+    display: grid; place-items: center;
+    transition: all 0.2s ease;
+  }
+  .modal-close:hover { background: rgba(239,68,68,0.15); border-color: var(--crit); color: var(--crit); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(5,13,20,0.5); }
+  ::-webkit-scrollbar-thumb { background: rgba(82,217,232,0.25); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(82,217,232,0.45); }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .holo-scan { display: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .topbar { grid-template-columns: 1fr; gap: 10px; padding: 12px 16px; }
+    .mission-meta { font-size: 10px; }
+    .tabs { top: auto; position: relative; overflow-x: auto; flex-wrap: nowrap; }
+    .tab-btn { white-space: nowrap; }
+    .holo-stage { height: 420px; }
+    .pipeline { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .tab-panel { padding: 14px; }
+    .kpi .kpi-value { font-size: 22px; }
+    .holo-stage { height: 360px; }
+    .brand-name { font-size: 14px; }
+    .brand-sub { font-size: 9px; }
+  }
+
+  /* Chart container */
+  .chart-wrap { position: relative; width: 100%; }
+  .chart-wrap canvas { width: 100% !important; height: auto !important; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    padding: 12px 18px;
+    background: rgba(14,38,52,0.95);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 13px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    z-index: 200;
+    display: flex; align-items: center; gap: 10px;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: rgba(16,185,129,0.5); }
+  .toast.error { border-color: rgba(239,68,68,0.5); }
+
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(90deg, rgba(82,217,232,0.05) 0%, rgba(82,217,232,0.15) 50%, rgba(82,217,232,0.05) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Equation box */
+  .eq-box {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    padding: 10px 14px;
+    background: rgba(5,13,20,0.6);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--cyan-soft);
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+
+  /* Disclaimer */
+  .disclaimer {
+    padding: 12px 16px;
+    background: rgba(245,165,36,0.06);
+    border: 1px solid rgba(245,165,36,0.25);
+    border-radius: 10px;
+    color: #fde68a;
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+  .disclaimer i { color: var(--warn); }
+
+  /* ===== v2.1 accessibility & polish additions (audit) ===== */
+  :root { --text-mute: #8aa3ad; } /* was #6b8590: ~4.2:1 on glass panels, now >= 5.5:1 */
+  :focus-visible { outline: 2px solid #9CECF2; outline-offset: 2px; border-radius: 6px; }
+  .skip-link { position: absolute; left: 12px; top: -60px; z-index: 300; padding: 10px 14px; background: #0A1D27; color: #fff; border: 1px solid var(--cyan); border-radius: 8px; }
+  .skip-link:focus { top: 12px; }
+  .tablist { display: flex; flex-wrap: wrap; gap: 4px; }
+  .tab-btn, .btn, select.astro-select { min-height: 44px; }
+  .btn-sm { min-height: 44px; padding: 6px 12px; font-size: 11px; }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  .tab-btn .tnum { color: #a9c3cc; }
+  .modal-close { width: 44px; height: 44px; top: 10px; right: 10px; }
+  .astro-input { width: 100%; min-height: 44px; padding: 8px 12px; background: rgba(7,19,27,.6); border: 1px solid rgba(82,217,232,.25); border-radius: 8px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .astro-input:focus { border-color: var(--cyan); }
+  .file-input { display: block; width: 100%; font-size: 12px; color: #c6e6ec; }
+  .file-input::file-selector-button { min-height: 44px; margin-right: 12px; padding: 8px 16px; border: 1px solid rgba(82,217,232,.35); border-radius: 8px; background: rgba(82,217,232,.1); color: #9CECF2; font-weight: 600; letter-spacing: .08em; cursor: pointer; }
+  input[type="range"].astro-slider { height: 24px; background: transparent; }
+  input[type="range"].astro-slider::-webkit-slider-runnable-track { height: 4px; border-radius: 4px; background: linear-gradient(90deg, rgba(82,217,232,0.35), rgba(82,217,232,0.12)); }
+  input[type="range"].astro-slider::-webkit-slider-thumb { width: 22px; height: 22px; margin-top: -9px; }
+  input[type="range"].astro-slider::-moz-range-track { height: 4px; border-radius: 4px; background: rgba(82,217,232,0.25); }
+  input[type="range"].astro-slider::-moz-range-thumb { width: 22px; height: 22px; }
+  /* Organ nodes are real buttons: 44px hit target around an 18px visual dot */
+  .organ-node { width: 44px; height: 44px; background: transparent; border: 0; padding: 0; border-radius: 50%; animation: none; display: grid; place-items: center; }
+  .organ-node::before { display: none; }
+  .organ-node:hover, .organ-node:focus-visible { transform: translate(-50%, -50%); background: transparent; box-shadow: none; }
+  .organ-dot { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--cyan); background: radial-gradient(circle, var(--cyan) 0%, rgba(82,217,232,0.2) 60%, transparent 100%); animation: organ-pulse 2.6s ease-in-out infinite; transition: transform .2s ease; }
+  .organ-node:hover .organ-dot, .organ-node:focus-visible .organ-dot { transform: scale(1.35); background: radial-gradient(circle, #fff 0%, var(--cyan) 60%, transparent 100%); }
+  .organ-node:hover .organ-label, .organ-node:focus-visible .organ-label { opacity: 1; }
+  .organ-node .organ-label { left: 40px; color: #c6f3f7; }
+  .holo-fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #c6e6ec; }
+  .chart-wrap { position: relative; }
+  .chart-fallback { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 12px; font-size: 12px; color: #c6e6ec; border: 1px dashed rgba(82,217,232,.3); border-radius: 8px; }
+  .provenance-note { font-size: 12px; color: #c6e6ec; padding: 10px 14px; border: 1px solid rgba(82,217,232,.2); border-radius: 10px; background: rgba(82,217,232,.05); }
+  .astro-table th.row-head { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0; text-transform: none; background: transparent; color: #9CECF2; border-bottom: 1px solid rgba(82,217,232,0.08); }
+  .astro-table td.font-sans { font-family: 'Inter', system-ui, sans-serif; }
+  .diag-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 8px 10px; border: 1px solid rgba(82,217,232,.12); border-radius: 8px; background: rgba(7,19,27,.5); }
+  .diag-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid; }
+  .diag-badge.ok { color: #34d399; border-color: rgba(52,211,153,.5); }
+  .diag-badge.fail { color: #fca5a5; border-color: rgba(239,68,68,.6); }
+  .section-title { font-size: 12px; line-height: 1.4; margin-top: 0; }
+  .section-title:not([class*="mb-"]) { margin-bottom: 14px; }
+  .shap-row { grid-template-columns: minmax(0, 190px) 1fr 64px; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: .95em; color: #9CECF2; }
+  .tab-panel[hidden] { display: none !important; }
+  @media (max-width: 1024px) { .tablist { flex-wrap: nowrap; } .tabs { overflow-x: auto; } }
+  @media (max-width: 640px) {
+    .shap-row { grid-template-columns: minmax(0, 120px) 1fr 56px; font-size: 11px; }
+    .mission-meta { gap: 10px; }
+    .toast { left: 12px; right: 12px; bottom: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .organ-dot { animation: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to dashboard content</a>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-logo" aria-hidden="true"><i class="fa-solid fa-atom"></i></div>
+    <div>
+      <div class="brand-name">ASTRAVIVE</div>
+      <div class="brand-sub">Mission-Health Digital Twin · v2.1</div>
+    </div>
+  </div>
+
+  <div class="mission-meta" id="missionMeta" aria-label="Mission status">
+    <div class="item"><span class="label">Mission</span><span class="val" id="missionName">ARTEMIS-III · 90-SOL</span></div>
+    <div class="item"><span class="label">Crew</span><span class="val" id="crewName">CDR. R. CHEN</span></div>
+    <div class="item"><span class="label">Sol</span><span class="val" id="solValue">042 / 090</span></div>
+    <div class="item"><span class="label">Environment</span><span class="val" id="envValue">LUNAR GATEWAY</span></div>
+    <div class="item"><span class="label">Pipeline</span><span class="val warn" id="pipelineStatus">DIAG: NOT RUN</span></div>
+    <div class="item" role="status" aria-live="polite"><span class="status-dot" id="systemDot" aria-hidden="true"></span><span class="val" id="systemStatus">COMPUTING…</span></div>
+    <div class="item"><span class="label">UTC</span><span class="val" id="utcClock">--:--:--</span></div>
+  </div>
+
+  <div class="flex gap-2">
+    <button type="button" class="btn ghost" id="btnExportJson" aria-label="Export state bundle as JSON"><i class="fa-solid fa-download" aria-hidden="true"></i><span class="hidden md:inline">Export</span></button>
+    <button type="button" class="btn primary" id="btnEmergency" aria-label="Open emergency simulation" aria-haspopup="dialog"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span class="hidden md:inline">Emergency</span></button>
+  </div>
+</header>
+
+<!-- ============ TAB NAV ============ -->
+<nav class="tabs" aria-label="Dashboard sections">
+  <div role="tablist" id="tabNav" aria-label="Dashboard sections" class="tablist">
+    <button type="button" role="tab" class="tab-btn active" id="tabbtn-overview" data-tab="overview" aria-controls="tab-overview" aria-selected="true"><span class="tnum">01</span><i class="fa-solid fa-satellite-dish" aria-hidden="true"></i>Mission Overview</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-health" data-tab="health" aria-controls="tab-health" aria-selected="false" tabindex="-1"><span class="tnum">02</span><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>Astronaut Health</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-forecast" data-tab="forecast" aria-controls="tab-forecast" aria-selected="false" tabindex="-1"><span class="tnum">03</span><i class="fa-solid fa-chart-line" aria-hidden="true"></i>Health Forecast</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-twin" data-tab="twin" aria-controls="tab-twin" aria-selected="false" tabindex="-1"><span class="tnum">04</span><i class="fa-solid fa-user-astronaut" aria-hidden="true"></i>Digital Twin</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-environment" data-tab="environment" aria-controls="tab-environment" aria-selected="false" tabindex="-1"><span class="tnum">05</span><i class="fa-solid fa-globe" aria-hidden="true"></i>Environment</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-xai" data-tab="xai" aria-controls="tab-xai" aria-selected="false" tabindex="-1"><span class="tnum">06</span><i class="fa-solid fa-brain" aria-hidden="true"></i>Explainable AI</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-performance" data-tab="performance" aria-controls="tab-performance" aria-selected="false" tabindex="-1"><span class="tnum">07</span><i class="fa-solid fa-gauge-high" aria-hidden="true"></i>Model Performance</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-data" data-tab="data" aria-controls="tab-data" aria-selected="false" tabindex="-1"><span class="tnum">08</span><i class="fa-solid fa-database" aria-hidden="true"></i>Data &amp; Methods</button>
+    <button type="button" role="tab" class="tab-btn" id="tabbtn-settings" data-tab="settings" aria-controls="tab-settings" aria-selected="false" tabindex="-1"><span class="tnum">09</span><i class="fa-solid fa-sliders" aria-hidden="true"></i>Settings &amp; QA</button>
+  </div>
+</nav>
+
+<main id="main">
+<!-- ============ TAB 1: MISSION OVERVIEW ============ -->
+<section class="tab-panel active" id="tab-overview" role="tabpanel" aria-labelledby="tabbtn-overview" tabindex="0">
+  <p class="provenance-note mb-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> All overview values are computed live from the mechanistic digital twin (Scenario A settings) at the current Sol. They are <b>SIMULATED</b> research outputs, not crew measurements.</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+    <div class="glass kpi cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="kpi-label"><i class="fa-solid fa-shield-halved" style="color:var(--cyan)" aria-hidden="true"></i>Composite Readiness</div>
+      <div class="kpi-value"><span id="kpiReadiness">—</span><span class="kpi-unit">/100</span></div>
+      <div class="kpi-delta flat" id="kpiReadinessDelta">—</div>
+      <canvas class="kpi-spark" id="sparkReadiness" aria-hidden="true"></canvas>
+    </div>
+    <div class="glass kpi cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="kpi-label"><i class="fa-solid fa-heart" style="color:#f87171" aria-hidden="true"></i>Autonomic / Cardio</div>
+      <div class="kpi-value"><span id="kpiCardio">—</span><span class="kpi-unit">/100</span></div>
+      <div class="kpi-delta flat" id="kpiCardioDelta">—</div>
+      <canvas class="kpi-spark" id="sparkCardio" aria-hidden="true"></canvas>
+    </div>
+    <div class="glass kpi cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="kpi-label"><i class="fa-solid fa-bone" style="color:#fbbf24" aria-hidden="true"></i>Musculoskeletal</div>
+      <div class="kpi-value"><span id="kpiMusculo">—</span><span class="kpi-unit">/100</span></div>
+      <div class="kpi-delta flat" id="kpiMusculoDelta">—</div>
+      <canvas class="kpi-spark" id="sparkMusculo" aria-hidden="true"></canvas>
+    </div>
+    <div class="glass kpi cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="kpi-label"><i class="fa-solid fa-brain" style="color:#c4b5fd" aria-hidden="true"></i>Neuro-Ocular (SANS)</div>
+      <div class="kpi-value"><span id="kpiNeuro">—</span><span class="kpi-unit">/100</span></div>
+      <div class="kpi-delta flat" id="kpiNeuroDelta">—</div>
+      <canvas class="kpi-spark" id="sparkNeuro" aria-hidden="true"></canvas>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-3 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">01</span>Twin State · Current Sol</h2>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[11px] text-cyan-300 font-mono tracking-wider">RESTING HR</span>
+              <span class="text-[11px] text-white font-mono"><span id="hrValue">—</span> <span class="text-cyan-300/80">bpm</span></span>
+            </div>
+            <div class="waveform"><canvas id="waveHR" aria-hidden="true"></canvas></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[11px] text-cyan-300 font-mono tracking-wider">HRV · RMSSD</span>
+              <span class="text-[11px] text-white font-mono"><span id="rmssdValue">—</span> <span class="text-cyan-300/80">ms</span></span>
+            </div>
+            <div class="waveform"><canvas id="waveRMSSD" aria-hidden="true"></canvas></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[11px] text-cyan-300 font-mono tracking-wider">SLEEP PRESSURE S<sub>t</sub></span>
+              <span class="text-[11px] text-white font-mono"><span id="sleepValue">—</span> <span class="text-cyan-300/80">/ 95</span></span>
+            </div>
+            <div class="readiness-bar warn" role="progressbar" aria-label="Sleep pressure" aria-valuemin="0" aria-valuemax="95" id="sleepBarWrap"><div id="sleepBar" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[11px] text-cyan-300 font-mono tracking-wider">CUMULATIVE DOSE</span>
+              <span class="text-[11px] text-white font-mono"><span id="doseValue">—</span> <span class="text-cyan-300/80">mSv</span></span>
+            </div>
+            <div class="readiness-bar" role="progressbar" aria-label="Cumulative dose as share of 600 mSv career limit" aria-valuemin="0" aria-valuemax="600" id="doseBarWrap"><div id="doseBar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-cyan-400/10 flex gap-2 flex-wrap">
+          <span class="badge simulated">SIMULATED · TWIN OUTPUT</span>
+          <span class="badge cached">WAVEFORMS ILLUSTRATIVE</span>
+        </div>
+      </div>
+
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">02</span>Subsystem Readiness</h2>
+        <div class="space-y-3" id="subsystemMatrix"></div>
+        <p class="mt-3 text-[11px] text-cyan-300/80">Radiation is shown as remaining career-limit margin and is not part of the composite score.</p>
+      </div>
+    </div>
+
+    <div class="lg:col-span-6">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h2 class="section-title"><span class="num">03</span>Anatomical Digital Twin</h2>
+          <span class="badge simulated">SIMULATED</span>
+        </div>
+        <div class="holo-stage" id="holoStage">
+          <div class="holo-scan" aria-hidden="true"></div>
+          <div class="holo-overlay" aria-hidden="true"></div>
+          <div id="organNodes"></div>
+        </div>
+        <div class="mt-3 flex justify-between items-center text-[11px] text-cyan-300/80 font-mono flex-wrap gap-2">
+          <span><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Select an organ node to see its subsystem equation</span>
+          <span id="renderMode">RENDER: WebGL · THREE.JS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-3 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-3"><span class="num">04</span>Neuro-Ocular · SANS</h2>
+        <div class="sans-brain" id="sansBrain"><canvas id="sansCanvas" role="img" aria-label="Schematic of cephalad fluid shift and optic disc, illustrative only"></canvas></div>
+        <div class="mt-3 grid grid-cols-2 gap-2 text-[11px] font-mono">
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">SANS PROXY</div>
+            <div class="text-white text-lg" id="sansRisk">—</div>
+          </div>
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">pCO₂</div>
+            <div class="text-white text-lg"><span id="sansPco2">—</span> <span class="text-cyan-300/80 text-xs">mmHg</span></div>
+          </div>
+        </div>
+        <div class="disclaimer mt-3 text-[11px]"><i class="fa-solid fa-flask" aria-hidden="true"></i> Risk proxy from the twin model. Not a measured optic-disc metric and not clinically validated.</div>
+      </div>
+
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-3"><span class="num">05</span>Readiness Trajectory</h2>
+        <div class="chart-wrap" style="height:180px"><canvas id="chartOverviewForecast" role="img" aria-label="Composite readiness over the mission for scenarios A and B"></canvas></div>
+      </div>
+
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-3"><span class="num">06</span>Environment Inputs</h2>
+        <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">CABIN pCO₂</div>
+            <div class="text-white text-lg"><span id="envCo2">—</span> <span class="text-cyan-300/80 text-xs">mmHg</span></div>
+            <div class="text-cyan-300/80 text-[10px]" id="envCo2ppm">—</div>
+          </div>
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">DOSE RATE</div>
+            <div class="text-white text-lg"><span id="envDose">—</span> <span class="text-cyan-300/80 text-xs">mSv/d</span></div>
+          </div>
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">GRAVITY</div>
+            <div class="text-white text-lg"><span id="envGravity">—</span> <span class="text-cyan-300/80 text-xs">g</span></div>
+          </div>
+          <div class="p-2 rounded bg-abyss-800/60 border border-cyan-400/10">
+            <div class="text-cyan-300/80 tracking-wider">LIMIT USED</div>
+            <div class="text-white text-lg"><span id="envLimit">—</span> <span class="text-cyan-300/80 text-xs">%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">07</span>Subsystem Trajectory · <span id="trajLabel">90</span> Sol</h2>
+      <div class="chart-wrap" style="height:260px"><canvas id="chartSubsystemTrajectory" role="img" aria-label="Subsystem scores over the mission, scenario A"></canvas></div>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">08</span>Health Radar · Current Sol</h2>
+      <div class="chart-wrap" style="height:260px"><canvas id="chartRadar" role="img" aria-label="Radar of subsystem scores, scenario A versus B at current sol"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 2: ASTRONAUT HEALTH ============ -->
+<section class="tab-panel" id="tab-health" role="tabpanel" aria-labelledby="tabbtn-health" tabindex="0" hidden>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-8 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+          <h2 class="section-title"><span class="num">01</span>Continuous Autonomic Telemetry</h2>
+          <div class="flex gap-2 flex-wrap">
+            <label class="sr-only" for="healthChannel">Channel</label>
+            <select class="astro-select" id="healthChannel">
+              <option value="hr">Heart Rate (bpm)</option>
+              <option value="rmssd">HRV · RMSSD (ms)</option>
+              <option value="eda">Electrodermal · EDA (μS)</option>
+              <option value="enmo">Actigraphy · ENMO (mg)</option>
+            </select>
+            <label class="sr-only" for="healthWindow">Time window</label>
+            <select class="astro-select" id="healthWindow">
+              <option value="60">Last 60 min</option>
+              <option value="360" selected>Last 6 h</option>
+              <option value="1440">Last 24 h</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-wrap" style="height:300px"><canvas id="chartHealthTelemetry" role="img" aria-label="Simulated telemetry time series for the selected channel"></canvas></div>
+        <div class="mt-3 flex gap-2 flex-wrap">
+          <span class="badge simulated">SIMULATED STREAM (MMASH-like ranges)</span>
+          <span class="badge cached">SEEDED · REPRODUCIBLE</span>
+        </div>
+      </div>
+
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">02</span>CBC · Inspiration4 Timepoints</h2>
+        <div class="overflow-x-auto" tabindex="0" role="region" aria-label="CBC table, scrollable">
+          <table class="astro-table" id="tableCBC">
+            <caption class="sr-only">Complete blood count, cohort-level anchors by timepoint</caption>
+            <thead><tr><th scope="col">Timepoint</th><th scope="col">WBC (10³/μL)</th><th scope="col">RBC (10⁶/μL)</th><th scope="col">Hgb (g/dL)</th><th scope="col">Hct (%)</th><th scope="col">Platelets (10³/μL)</th><th scope="col">Lymph (%)</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="mt-3 flex gap-2 flex-wrap"><span class="badge derived">ENCODED COHORT-LEVEL ANCHORS</span><span class="text-[11px] text-cyan-300/80">Values as encoded in the data pipeline; verify against NASA OSDR OSD-569 before citing.</span></div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-4 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">03</span>CMP · Inspiration4 Timepoints</h2>
+        <div class="overflow-x-auto" tabindex="0" role="region" aria-label="CMP table, scrollable">
+          <table class="astro-table" id="tableCMP">
+            <caption class="sr-only">Comprehensive metabolic panel, cohort-level anchors by timepoint</caption>
+            <thead><tr><th scope="col">TP</th><th scope="col">Glu</th><th scope="col">BUN</th><th scope="col">Creat</th><th scope="col">Na⁺</th><th scope="col">K⁺</th><th scope="col">Ca²⁺</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="mt-3 flex gap-2 flex-wrap"><span class="badge derived">ENCODED COHORT-LEVEL ANCHORS</span><span class="text-[11px] text-cyan-300/80">Verify against OSD-575 before citing. Units: mg/dL, mEq/L.</span></div>
+      </div>
+
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">04</span>Autonomic Summary · <span id="sumWindow">6 h</span></h2>
+        <dl class="space-y-3 text-[12px]">
+          <div class="flex justify-between"><dt class="text-cyan-300/80">Mean HR</dt><dd class="font-mono text-white" id="sumHR">—</dd></div>
+          <div class="flex justify-between"><dt class="text-cyan-300/80">Mean RMSSD</dt><dd class="font-mono text-white" id="sumRMSSD">—</dd></div>
+          <div class="flex justify-between"><dt class="text-cyan-300/80">SD of RMSSD</dt><dd class="font-mono text-white" id="sumSDNN">—</dd></div>
+          <div class="flex justify-between"><dt class="text-cyan-300/80">Mean EDA</dt><dd class="font-mono text-white" id="sumEDA">—</dd></div>
+          <div class="flex justify-between"><dt class="text-cyan-300/80">Mean ENMO</dt><dd class="font-mono text-white" id="sumENMO">—</dd></div>
+          <div class="flex justify-between"><dt class="text-cyan-300/80">Anomaly flags (|z| &gt; 3)</dt><dd class="font-mono text-white" id="sumAnomaly">—</dd></div>
+        </dl>
+        <p class="mt-3 text-[11px] text-cyan-300/80">Computed from the simulated stream in the selected window.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 3: FORECAST ============ -->
+<section class="tab-panel" id="tab-forecast" role="tabpanel" aria-labelledby="tabbtn-forecast" tabindex="0" hidden>
+  <div class="glass p-5 cornered mb-5">
+    <div class="corner-bl"></div><div class="corner-br"></div>
+    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+      <h2 class="section-title"><span class="num">01</span>Mechanistic Forecast · Input-Uncertainty Envelope</h2>
+      <div class="flex gap-2 flex-wrap">
+        <label class="sr-only" for="forecastSubsystem">Subsystem</label>
+        <select class="astro-select" id="forecastSubsystem">
+          <option value="readiness">Composite Readiness</option>
+          <option value="rmssd">Autonomic · RMSSD (ms)</option>
+          <option value="bmd">Musculoskeletal · BMD Δ (%)</option>
+          <option value="sans">Neuro-Ocular · SANS proxy</option>
+          <option value="S">Sleep pressure S</option>
+          <option value="dose">Cumulative Radiation (mSv)</option>
+        </select>
+        <label class="sr-only" for="forecastHorizon">Horizon</label>
+        <select class="astro-select" id="forecastHorizon">
+          <option value="30">30 Sol</option>
+          <option value="90" selected>90 Sol</option>
+          <option value="180">180 Sol</option>
+          <option value="900">900 Sol (Mars class)</option>
+        </select>
+      </div>
+    </div>
+    <div class="chart-wrap" style="height:380px"><canvas id="chartForecast" role="img" aria-label="Median forecast with 95 percent input-uncertainty band"></canvas></div>
+    <div class="mt-3 flex gap-2 flex-wrap items-center">
+      <span class="badge simulated">SIMULATED · MONTE CARLO</span>
+      <span class="text-[11px] text-cyan-300/80 font-mono" id="forecastMeta">500 seeded trajectories · 2.5 / 50 / 97.5 percentiles</span>
+    </div>
+    <div class="disclaimer mt-4"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> The band shows how the twin responds to assumed day-to-day variation in its inputs (sleep, recovery, workload, exercise, CO₂, dose rate). It is not a calibrated predictive interval and not a clinical prognosis.</div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">02</span>Forecast Equation</h2>
+      <div class="eq-box">x<sub>t+1</sub> = f<sub>mech</sub>(x<sub>t</sub>, u<sub>t</sub> + δu<sub>t</sub>, e; θ)</div>
+      <div class="mt-3 text-[11px] text-cyan-300/80 leading-relaxed">
+        <b class="text-cyan-300">f<sub>mech</sub></b>: the same discrete daily equations as the Python simulator (see Data &amp; Methods).<br>
+        <b class="text-cyan-300">δu<sub>t</sub></b>: daily Gaussian input jitter (sleep σ 0.5 h, recovery σ 0.3 h, workload σ 5 %, exercise σ 10 min, CO₂ σ 0.3 mmHg, dose rate σ 15 %).<br>
+        The ML residual term g<sub>ML</sub> described in the docs is not applied in this build.
+      </div>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">03</span>Horizon Summary</h2>
+      <dl class="space-y-3 text-[12px]" id="forecastSummary"></dl>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">04</span>Inputs Used (Scenario A)</h2>
+      <dl class="space-y-3 text-[12px]" id="forecastInputs"></dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 4: DIGITAL TWIN ============ -->
+<section class="tab-panel" id="tab-twin" role="tabpanel" aria-labelledby="tabbtn-twin" tabindex="0" hidden>
+  <div class="disclaimer mb-5"><i class="fa-solid fa-flask" aria-hidden="true"></i> <b>Scenario sandbox.</b> The in-browser twin is a line-for-line port of <code>astravive_digital_twin_simulator.py</code> (parity checked in Settings &amp; QA). Outputs are simulations, not clinical predictions.</div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-3"><div class="scenario-card a cornered" id="cardA">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <span class="scenario-tag a">SCENARIO A · BASELINE</span>
+        <button type="button" class="btn ghost btn-sm" data-reset="A" aria-label="Reset scenario A to defaults">Reset</button>
+      </div>
+      <div class="space-y-4 text-[12px]" data-sliders="A"></div>
+    </div></div>
+
+    <div class="lg:col-span-3"><div class="scenario-card b cornered" id="cardB">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <span class="scenario-tag b">SCENARIO B · COUNTERMEASURE</span>
+        <button type="button" class="btn ghost btn-sm" data-reset="B" aria-label="Reset scenario B to defaults">Reset</button>
+      </div>
+      <div class="space-y-4 text-[12px]" data-sliders="B"></div>
+    </div></div>
+
+    <div class="lg:col-span-6 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h2 class="section-title"><span class="num">01</span>Side-by-Side Trajectories · <span id="twinSols">90</span> Sol</h2>
+          <label class="sr-only" for="twinMetric">Metric</label>
+          <select class="astro-select" id="twinMetric">
+            <option value="readiness">Composite readiness</option>
+            <option value="rmssd">RMSSD (ms)</option>
+            <option value="bmd">BMD Δ (%)</option>
+            <option value="sans">SANS proxy</option>
+            <option value="S">Sleep pressure</option>
+          </select>
+        </div>
+        <div class="chart-wrap" style="height:300px"><canvas id="chartTwinCompare" role="img" aria-label="Scenario A versus B trajectory for the selected metric"></canvas></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="glass p-5 cornered">
+          <div class="corner-bl"></div><div class="corner-br"></div>
+          <h2 class="section-title mb-3"><span class="num">02</span>Terminal-Sol Radar</h2>
+          <div class="chart-wrap" style="height:240px"><canvas id="chartTwinRadar" role="img" aria-label="Subsystem radar at final sol, A versus B"></canvas></div>
+        </div>
+        <div class="glass p-5 cornered">
+          <div class="corner-bl"></div><div class="corner-br"></div>
+          <h2 class="section-title mb-3"><span class="num">03</span>Net Effect (B − A) · Final Sol</h2>
+          <dl class="space-y-3" id="netBenefit"></dl>
+          <div class="mt-4 p-3 rounded bg-cyan-400/5 border border-cyan-400/20">
+            <div class="text-[10px] text-cyan-300/80 font-mono tracking-wider">READINESS DELTA</div>
+            <div class="text-2xl font-mono text-white" id="readinessDelta" aria-live="polite">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 5: ENVIRONMENT ============ -->
+<section class="tab-panel" id="tab-environment" role="tabpanel" aria-labelledby="tabbtn-environment" tabindex="0" hidden>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-8 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+          <h2 class="section-title"><span class="num">01</span>Cabin pCO₂ · 30-Day Profile</h2>
+          <span class="badge simulated">SIMULATED</span>
+        </div>
+        <div class="chart-wrap" style="height:280px"><canvas id="chartEnvCO2" role="img" aria-label="Simulated cabin carbon dioxide partial pressure over 30 days"></canvas></div>
+        <p class="mt-3 text-[11px] text-cyan-300/80">Seeded profile around the Scenario A set point. Dashed line: 2.5 mmHg, the threshold the twin uses for the sleep-fragmentation penalty. ppm ≈ mmHg × 1316 at 1 atm.</p>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+          <h2 class="section-title"><span class="num">02</span>Cumulative Dose · Mission</h2>
+          <span class="badge simulated">SIMULATED · ASSUMED RATE</span>
+        </div>
+        <div class="chart-wrap" style="height:280px"><canvas id="chartEnvDose" role="img" aria-label="Cumulative radiation dose across the mission"></canvas></div>
+        <p class="mt-3 text-[11px] text-cyan-300/80" id="doseNote"></p>
+      </div>
+    </div>
+    <div class="lg:col-span-4 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">03</span>Space Weather Events</h2>
+        <div class="disclaimer mb-3 text-[11px]">ILLUSTRATIVE SAMPLE EVENTS — not live DONKI data.</div>
+        <label class="sr-only" for="donkiEvent">Event type</label>
+        <select class="astro-select w-full mb-3" id="donkiEvent">
+          <option value="all">All event types</option>
+          <option value="sep">Solar Energetic Particle (SEP)</option>
+          <option value="cme">Coronal Mass Ejection (CME)</option>
+          <option value="flare">Solar Flare (M/X)</option>
+          <option value="gst">Geomagnetic Storm</option>
+        </select>
+        <ul class="space-y-2 text-[12px]" id="donkiFeed"></ul>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">04</span>Environment Summary</h2>
+        <dl class="space-y-3 text-[12px]" id="envSummary"></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 6: XAI ============ -->
+<section class="tab-panel" id="tab-xai" role="tabpanel" aria-labelledby="tabbtn-xai" tabindex="0" hidden>
+  <div class="disclaimer mb-5"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Attributions φ<sub>j</sub> here are exact Shapley values of the <b>digital-twin model</b> computed in your browser over its 5 inputs (2⁵ = 32 coalitions). They explain the model, not human biology, and do not establish causation. The Python backend separately explains its RandomForest with SHAP TreeExplainer.</div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-7 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">01</span>Global Importance · mean |φ|</h2>
+        <div id="globalShap" class="space-y-1"></div>
+        <div class="mt-4 flex gap-2 flex-wrap">
+          <span class="badge derived">Exact Shapley · digital-twin model (in-browser)</span>
+          <span class="badge cached" id="globalShapMeta">60 seeded profiles</span>
+        </div>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">02</span>Local Explanation</h2>
+        <div class="flex gap-2 mb-4 flex-wrap">
+          <label class="sr-only" for="xaiPreset">Profile</label>
+          <select class="astro-select" id="xaiPreset">
+            <option value="A">Scenario A (current)</option>
+            <option value="B">Scenario B (current)</option>
+            <option value="fatigued">Fatigued · short sleep, high load</option>
+            <option value="co2">Elevated pCO₂</option>
+            <option value="nominal">Nominal schedule</option>
+          </select>
+          <label class="sr-only" for="xaiTarget">Target</label>
+          <select class="astro-select" id="xaiTarget">
+            <option value="readiness">Explain: Readiness</option>
+            <option value="sans">Explain: SANS proxy</option>
+            <option value="S">Explain: Sleep pressure</option>
+            <option value="rmssd">Explain: RMSSD</option>
+          </select>
+        </div>
+        <div id="localShap" class="space-y-1"></div>
+        <div class="mt-4 eq-box">f(x) = f(r) + Σ<sub>j</sub> φ<sub>j</sub> · <span id="shapEquation">—</span><br>additivity residual |f(r) + Σφ − f(x)| = <span id="shapResidual">—</span></div>
+      </div>
+    </div>
+    <div class="lg:col-span-5 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">03</span>Dependence · φ<sub>sleep</sub> vs sleep</h2>
+        <div class="chart-wrap" style="height:280px"><canvas id="chartShapDependence" role="img" aria-label="Shapley value of sleep against sleep hours across profiles"></canvas></div>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">04</span>What Explains A vs B?</h2>
+        <p class="text-[11px] text-cyan-300/80 mb-3">Shapley decomposition of the final-Sol readiness gap, with Scenario B as the reference.</p>
+        <dl class="space-y-3 text-[12px]" id="mechanisticAttr"></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 7: PERFORMANCE ============ -->
+<section class="tab-panel" id="tab-performance" role="tabpanel" aria-labelledby="tabbtn-performance" tabindex="0" hidden>
+  <div class="glass p-5 cornered mb-5">
+    <div class="corner-bl"></div><div class="corner-br"></div>
+    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+      <h2 class="section-title"><span class="num">01</span>In-Browser Benchmark</h2>
+      <div class="flex gap-2 flex-wrap items-center">
+        <label class="text-[11px] text-cyan-300/80" for="benchSeed">Seed</label>
+        <select class="astro-select" id="benchSeed"><option>42</option><option>7</option><option>2026</option></select>
+        <button type="button" class="btn" id="btnRunBenchmark"><i class="fa-solid fa-play" aria-hidden="true"></i>Run Benchmark</button>
+      </div>
+    </div>
+    <div class="disclaimer text-[11px]" id="benchDisclaimer">Models are fitted and scored here on seeded <b>SIMULATED</b> data (6 subjects × 40 epochs, overlapping classes, ~5 % label noise). The numbers show the evaluation protocol works; they are not evidence of real-world accuracy. Backend metrics come from <code>python astravive_ml_pipeline.py</code>.</div>
+    <div class="pipeline mt-4" id="pipelineSchematic" aria-label="Pipeline stages">
+      <div class="pipe-step"><span class="num">01</span>Data</div><div class="pipe-step"><span class="num">02</span>Ingest</div><div class="pipe-step"><span class="num">03</span>Validate</div><div class="pipe-step"><span class="num">04</span>Preprocess</div><div class="pipe-step"><span class="num">05</span>Features</div>
+      <div class="pipe-step"><span class="num">06</span>Classify</div><div class="pipe-step"><span class="num">07</span>Forecast</div><div class="pipe-step"><span class="num">08</span>Explain</div><div class="pipe-step"><span class="num">09</span>Twin</div><div class="pipe-step"><span class="num">10</span>Dashboard</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-4"><span class="num">02</span>Leave-One-Subject-Out · Per Fold</h2>
+      <div class="chart-wrap" style="height:280px"><canvas id="chartCV" role="img" aria-label="F1 and AUC per held-out subject for logistic regression"></canvas></div>
+      <p class="mt-3 text-[11px] text-cyan-300/80" id="cvNote">—</p>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-4"><span class="num">03</span>Calibration · Held-Out Probabilities</h2>
+      <div class="chart-wrap" style="height:280px"><canvas id="chartCalibration" role="img" aria-label="Reliability diagram of held-out predicted probabilities"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-5">
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">04</span>Stress Classifier</h2>
+      <div class="overflow-x-auto"><table class="astro-table" id="tableClf"><caption class="sr-only">Classifier metrics, mean over held-out subjects</caption><thead><tr><th scope="col">Model</th><th scope="col">F1</th><th scope="col">Acc</th><th scope="col">AUC</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">05</span>Forecaster · Chronological</h2>
+      <div class="overflow-x-auto"><table class="astro-table" id="tableFc"><caption class="sr-only">Forecaster metrics on the chronological test segment</caption><thead><tr><th scope="col">Model</th><th scope="col">MAE</th><th scope="col">RMSE</th><th scope="col">R²</th></tr></thead><tbody></tbody></table></div>
+      <p class="mt-3 text-[11px] text-cyan-300/80" id="fcNote">—</p>
+    </div>
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-3"><span class="num">06</span>Anomaly Detector</h2>
+      <dl class="space-y-2 text-[12px]">
+        <div class="flex justify-between"><dt class="text-cyan-300/80">Method</dt><dd class="font-mono text-white">z-distance</dd></div>
+        <div class="flex justify-between"><dt class="text-cyan-300/80">Fit on</dt><dd class="font-mono text-white">nominal train rows</dd></div>
+        <div class="flex justify-between"><dt class="text-cyan-300/80">False-positive rate</dt><dd class="font-mono text-white" id="perfFPR">—</dd></div>
+        <div class="flex justify-between"><dt class="text-cyan-300/80">Recall (stress rows)</dt><dd class="font-mono text-white" id="perfRecall">—</dd></div>
+        <div class="flex justify-between"><dt class="text-cyan-300/80">Train/test subjects disjoint</dt><dd class="font-mono text-white" id="perfDisjoint">—</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 8: DATA ============ -->
+<section class="tab-panel" id="tab-data" role="tabpanel" aria-labelledby="tabbtn-data" tabindex="0" hidden>
+  <div class="glass p-5 cornered mb-5">
+    <div class="corner-bl"></div><div class="corner-br"></div>
+    <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+      <h2 class="section-title"><span class="num">01</span>Dataset Registry · 12 Sources</h2>
+      <div class="flex gap-2 flex-wrap">
+        <label class="sr-only" for="datasetFilter">Provenance tier</label>
+        <select class="astro-select" id="datasetFilter">
+          <option value="all">All provenance tiers</option>
+          <option value="A">Category A · Spaceflight</option>
+          <option value="B">Category B · Terrestrial / Wearable</option>
+          <option value="C">Category C · Mechanistic priors</option>
+        </select>
+        <button type="button" class="btn" id="btnDownloadDatasets"><i class="fa-solid fa-download" aria-hidden="true"></i>Export (.csv)</button>
+      </div>
+    </div>
+    <div class="overflow-x-auto" tabindex="0" role="region" aria-label="Dataset registry table, scrollable">
+      <table class="astro-table" id="tableDatasets">
+        <caption class="sr-only">Dataset registry</caption>
+        <thead><tr><th scope="col">ID</th><th scope="col">Provenance</th><th scope="col">Source</th><th scope="col">Variables</th><th scope="col">N</th><th scope="col">License</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="mt-3 text-[11px] text-cyan-300/80">Registry entries describe the source datasets the pipeline is designed for. This browser build does not download them; the Python pipeline ingests them when placed in <code>data/</code>.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-4"><span class="num">02</span>Ingestion &amp; Validation</h2>
+      <div class="space-y-3">
+        <div>
+          <label for="fileIngest" class="text-[11px] text-cyan-300/80 tracking-wider block mb-2">UPLOAD CSV / JSON (max 5 MB, parsed locally)</label>
+          <input type="file" id="fileIngest" accept=".csv,.json,text/csv,application/json" class="file-input" />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[12px]" aria-live="polite">
+          <div class="p-3 rounded bg-abyss-800/60 border border-cyan-400/10"><div class="text-cyan-300/80 text-[10px] tracking-wider">FILE</div><div class="text-white font-mono mt-1 break-all" id="ingestFile">—</div></div>
+          <div class="p-3 rounded bg-abyss-800/60 border border-cyan-400/10"><div class="text-cyan-300/80 text-[10px] tracking-wider">SCHEMA CHECK</div><div class="text-white font-mono mt-1" id="ingestSchema">—</div></div>
+          <div class="p-3 rounded bg-abyss-800/60 border border-cyan-400/10"><div class="text-cyan-300/80 text-[10px] tracking-wider">PHYSIO BOUNDS</div><div class="text-white font-mono mt-1" id="ingestBounds">—</div></div>
+          <div class="p-3 rounded bg-abyss-800/60 border border-cyan-400/10"><div class="text-cyan-300/80 text-[10px] tracking-wider">ROWS PARSED</div><div class="text-white font-mono mt-1" id="ingestRows">—</div></div>
+          <div class="p-3 rounded bg-abyss-800/60 border border-cyan-400/10 sm:col-span-2"><div class="text-cyan-300/80 text-[10px] tracking-wider">MISSING VALUES</div><div class="text-white font-mono mt-1" id="ingestNan">—</div></div>
+        </div>
+        <ul class="text-[11px] font-mono text-cyan-300/80 space-y-1" id="ingestDetails"></ul>
+      </div>
+    </div>
+
+    <div class="glass p-5 cornered">
+      <div class="corner-bl"></div><div class="corner-br"></div>
+      <h2 class="section-title mb-4"><span class="num">03</span>Twin Equations (as implemented)</h2>
+      <p class="text-[11px] text-cyan-300/80 mb-3">w = workload/100, g = gravity, wake = 24 − sleep. Same equations in Python and JS.</p>
+      <div class="space-y-3">
+        <div><div class="text-[11px] text-cyan-300/80 mb-1">1. Sleep pressure S (S₀ = 22)</div>
+          <div class="eq-box">S<sub>t+1</sub> = clip(S<sub>t</sub> + 0.22·[1.15·(wake − 16) + 8.5·(w − 0.55) − 2.65·(sleep − 7.5) − 1.40·(rec − 1.5) + 1.25·max(0, pCO₂ − 2.5)], 6, 95)</div></div>
+        <div><div class="text-[11px] text-cyan-300/80 mb-1">2. Vagal tone RMSSD (RMSSD₀ = 48.2 ms)</div>
+          <div class="eq-box">target = 48.2 − 14·(w − 0.5) + 3.6·(rec − 1.5) − 0.24·(S<sub>t+1</sub> − 22) + 0.04·min(ex, 90)<br>RMSSD<sub>t+1</sub> = clip(RMSSD<sub>t</sub> + 0.28·(target − RMSSD<sub>t</sub>), 14, 82)</div></div>
+        <div><div class="text-[11px] text-cyan-300/80 mb-1">3. Bone mineral density Δ (%)</div>
+          <div class="eq-box">BMD<sub>t+1</sub> = BMD<sub>t</sub> − 0.0433·(1 − g) + 0.0330·(ex/120) − 0.012·max(0, w − 0.70)·max(0, (8 − sleep)/4)</div></div>
+        <div><div class="text-[11px] text-cyan-300/80 mb-1">4. SANS risk proxy</div>
+          <div class="eq-box">SANS<sub>t+1</sub> = clip(10 + 24·(1 − e<sup>−(t+1)/18</sup>)·(1 − g) + 8.4·max(0, pCO₂ − 2)<sup>1.25</sup> − 4.5·rec/3 + 0.15·max(0, S<sub>t+1</sub> − 40), 5, 96)</div></div>
+        <div><div class="text-[11px] text-cyan-300/80 mb-1">5. Composite readiness</div>
+          <div class="eq-box">R = 0.25·(100 − S) + 0.25·clip(RMSSD/55·100, 20, 100) + 0.25·clip(100 − 8·|BMD|, 20, 100) + 0.25·(100 − SANS)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TAB 9: SETTINGS ============ -->
+<section class="tab-panel" id="tab-settings" role="tabpanel" aria-labelledby="tabbtn-settings" tabindex="0" hidden>
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <div class="lg:col-span-4 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">01</span>Mission Configuration</h2>
+        <form class="space-y-3" id="cfgForm" novalidate>
+          <div><label for="cfgMission" class="text-[11px] text-cyan-300/80 tracking-wider block mb-1">MISSION NAME</label>
+            <input type="text" id="cfgMission" maxlength="40" value="ARTEMIS-III · 90-SOL" class="astro-input" autocomplete="off" /></div>
+          <div><label for="cfgCrew" class="text-[11px] text-cyan-300/80 tracking-wider block mb-1">CREW PROFILE</label>
+            <select class="astro-select w-full" id="cfgCrew"><option>CDR. R. CHEN</option><option>MS. A. OKAFOR</option><option>DR. L. PETROV</option><option>ENG. J. MARTINEZ</option></select></div>
+          <div><label for="cfgEnv" class="text-[11px] text-cyan-300/80 tracking-wider block mb-1">ENVIRONMENT</label>
+            <select class="astro-select w-full" id="cfgEnv">
+              <option value="gateway">LUNAR GATEWAY</option>
+              <option value="iss">ISS · LEO</option>
+              <option value="mars">MARS TRANSIT</option>
+              <option value="lunar">ARTEMIS BASE · LUNAR SOUTH POLE</option>
+            </select></div>
+          <div class="grid grid-cols-2 gap-3">
+            <div><label for="cfgDuration" class="text-[11px] text-cyan-300/80 tracking-wider block mb-1">DURATION (14–900 SOL)</label>
+              <input type="number" id="cfgDuration" value="90" min="14" max="900" step="1" class="astro-input" inputmode="numeric" /></div>
+            <div><label for="cfgSol" class="text-[11px] text-cyan-300/80 tracking-wider block mb-1">CURRENT SOL</label>
+              <input type="number" id="cfgSol" value="42" min="1" max="900" step="1" class="astro-input" inputmode="numeric" /></div>
+          </div>
+          <p class="text-[11px] text-cyan-300/80" id="cfgMsg" aria-live="polite"></p>
+          <button type="submit" class="btn primary w-full" id="btnApplyConfig"><i class="fa-solid fa-check" aria-hidden="true"></i>Apply Configuration</button>
+        </form>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">02</span>Export</h2>
+        <div class="space-y-2">
+          <button type="button" class="btn w-full" id="btnExportCSV"><i class="fa-solid fa-file-csv" aria-hidden="true"></i>Scenario trajectories (.csv)</button>
+          <button type="button" class="btn w-full" id="btnExportJSON"><i class="fa-solid fa-file-code" aria-hidden="true"></i>State bundle (.json)</button>
+          <button type="button" class="btn w-full" id="btnExportSQLite"><i class="fa-solid fa-database" aria-hidden="true"></i>SQLite schema + rows (.sql)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-8 space-y-5">
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-3">
+          <h2 class="section-title"><span class="num">03</span>Verification Suite</h2>
+          <button type="button" class="btn primary" id="btnRunDiagnostics"><i class="fa-solid fa-stethoscope" aria-hidden="true"></i>Run Verification Suite</button>
+        </div>
+        <ul class="space-y-2" id="diagnosticsList" aria-live="polite"></ul>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">04</span>Fault Boundary Tests</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button type="button" class="btn" data-fault="hr_spike"><i class="fa-solid fa-bolt" aria-hidden="true"></i>HR spike (295 bpm)</button>
+          <button type="button" class="btn" data-fault="pco2_high"><i class="fa-solid fa-wind" aria-hidden="true"></i>pCO₂ 8.2 mmHg into twin</button>
+          <button type="button" class="btn" data-fault="missing_data"><i class="fa-solid fa-question" aria-hidden="true"></i>Missing data (20 %)</button>
+          <button type="button" class="btn" data-fault="empty_subject"><i class="fa-solid fa-user-slash" aria-hidden="true"></i>Empty subject ID</button>
+          <button type="button" class="btn danger" data-fault="webgl_disable"><i class="fa-solid fa-cube" aria-hidden="true"></i>Disable WebGL (fallback)</button>
+          <button type="button" class="btn" data-fault="reset"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i>Reset</button>
+        </div>
+        <div class="mt-4 p-3 rounded bg-abyss-800/60 border border-cyan-400/10 text-[11px] font-mono text-cyan-300/90" id="faultLog" aria-live="polite">Awaiting fault injection.</div>
+      </div>
+      <div class="glass p-5 cornered">
+        <div class="corner-bl"></div><div class="corner-br"></div>
+        <h2 class="section-title mb-4"><span class="num">05</span>Scientific Responsibility</h2>
+        <div class="space-y-2 text-[12px] text-cyan-300/90 leading-relaxed">
+          <p><b class="text-white">Provenance labels.</b> Every number on this dashboard is tagged SIMULATED, DERIVED or ENCODED ANCHOR. No value on screen is a live NASA measurement.</p>
+          <p><b class="text-white">Research prototype.</b> ASTRAVIVE is an exploratory simulation sandbox. It is <b class="text-warn-soft">not</b> a clinically validated physiological twin or a medical device.</p>
+          <p><b class="text-white">Correlation vs causation.</b> Shapley attributions describe model behaviour and do not establish biological causation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ MODALS ============ -->
+<div class="modal-backdrop" id="modalOrgan" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="organTitle">
+    <button type="button" class="modal-close" data-close aria-label="Close dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    <h2 class="section-title mb-3" id="organTitle">Organ</h2>
+    <div id="organBody" class="text-[12.5px] text-cyan-300/90 leading-relaxed space-y-3"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalEmergency" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="emergencyTitle">
+    <button type="button" class="modal-close" data-close aria-label="Close dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+    <h2 class="section-title mb-3" style="color:#fca5a5" id="emergencyTitle">Emergency Simulation</h2>
+    <p class="text-[12.5px] text-cyan-300/90 mb-4">Re-run the twin for the whole mission with one stressor overridden and compare the final Sol against Scenario A.</p>
+    <div class="space-y-3">
+      <label class="sr-only" for="emergencyType">Event type</label>
+      <select class="astro-select w-full" id="emergencyType">
+        <option value="spe">Solar particle event (dose rate × 10 for 3 Sols)</option>
+        <option value="co2">Cabin pCO₂ excursion (6.8 mmHg requested)</option>
+        <option value="insomnia">Severe sleep restriction (4 h/night)</option>
+        <option value="ortho">Orthostatic intolerance</option>
+      </select>
+      <div class="flex gap-2 flex-wrap">
+        <button type="button" class="btn danger flex-1" id="btnInjectEmergency"><i class="fa-solid fa-bolt" aria-hidden="true"></i>Run Event</button>
+        <button type="button" class="btn ghost" data-close>Cancel</button>
+      </div>
+    </div>
+    <div class="mt-4 p-3 rounded bg-abyss-800/60 border border-cyan-400/10 text-[11px] font-mono text-cyan-300/90" id="emergencyLog" aria-live="polite">Choose an event and select Run Event.</div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+'use strict';
+/* ASTRAVIVE front-end v2.1. Every on-screen number is computed by the functions below.
+   No unseeded platform RNG: all synthetic streams use the seeded mulberry32 generator. */
+
+/* ---------- Utilities ---------- */
+const $ = (s, p = document) => p.querySelector(s);
+const $$ = (s, p = document) => Array.from(p.querySelectorAll(s));
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const fmt = (x, d = 1) => (Number.isFinite(+x) ? Number(x).toFixed(d) : '—');
+const signed = (x, d = 1) => (x >= 0 ? '+' : '') + fmt(x, d);
+const mean = a => a.reduce((s, v) => s + v, 0) / (a.length || 1);
+const std = a => { const m = mean(a); return Math.sqrt(mean(a.map(v => (v - m) ** 2))); };
+const quantile = (sorted, q) => { if (!sorted.length) return NaN; const p = (sorted.length - 1) * q, lo = Math.floor(p), hi = Math.ceil(p); return sorted[lo] + (sorted[hi] - sorted[lo]) * (p - lo); };
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === 'class') n.className = v; else if (k === 'text') n.textContent = v; else if (k === 'style') n.style.cssText = v; else n.setAttribute(k, v);
+  }
+  kids.flat().forEach(k => n.append(k instanceof Node ? k : document.createTextNode(String(k))));
+  return n;
+}
+function setText(id, v) { const n = document.getElementById(id); if (n) n.textContent = v; }
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+const uni = (r, a, b) => a + r() * (b - a);
+function gauss(r) { let u = 0, v = 0; while (u === 0) u = r(); while (v === 0) v = r(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+function toast(msg, type = 'success') {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast show ' + type;
+  clearTimeout(toast._h); toast._h = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ---------- Configuration ---------- */
+// Dose-rate assumptions (mSv/day). Sources are listed in the audit report.
+const ENVIRONMENTS = {
+  gateway: { label: 'LUNAR GATEWAY', gravity: 0.0, dose: 1.8, note: 'deep-space GCR, MSL/RAD cruise measurement ~1.8 mSv/d' },
+  iss: { label: 'ISS · LEO', gravity: 0.0, dose: 0.5, note: 'ISS typical ~0.5 mSv/d' },
+  mars: { label: 'MARS TRANSIT', gravity: 0.0, dose: 1.8, note: 'MSL/RAD cruise ~1.8 mSv/d' },
+  lunar: { label: 'ARTEMIS BASE · LUNAR SOUTH POLE', gravity: 0.17, dose: 1.37, note: "Chang'e-4 LND lunar surface ~1.37 mSv/d" },
+};
+const CAREER_LIMIT_MSV = 600;
+const PARAM_SPEC = [
+  { key: 'sleep', label: 'Sleep duration', unit: 'h', min: 4, max: 10, step: 0.5, d: 1 },
+  { key: 'rec', label: 'Recovery block', unit: 'h', min: 0.5, max: 4, step: 0.25, d: 2 },
+  { key: 'workload', label: 'Workload intensity', unit: '%', min: 20, max: 100, step: 5, d: 0 },
+  { key: 'ex', label: 'Exercise', unit: 'min/d', min: 0, max: 180, step: 5, d: 0 },
+  { key: 'co2', label: 'Cabin pCO₂', unit: 'mmHg', min: 0.5, max: 6, step: 0.1, d: 1 },
+];
+const DEFAULTS = { A: { sleep: 6, rec: 1.0, workload: 80, ex: 45, co2: 3.8 }, B: { sleep: 8, rec: 2.5, workload: 55, ex: 120, co2: 2.0 } };
+// Reference values produced by the Python simulator (default A/B, 90 Sols, gravity 0). Used by the parity check.
+const PY_REFERENCE = { A: { 42: 46.67, 90: 43.09 }, B: { 42: 90.65, 90: 89.12 }, sans90A: 58.10, rmssd90B: 58.54, bmd90A: -2.837 };
+
+const STATE = {
+  mission: { name: 'ARTEMIS-III · 90-SOL', crew: 'CDR. R. CHEN', sol: 42, total: 90, env: 'gateway' },
+  scen: { A: { ...DEFAULTS.A }, B: { ...DEFAULTS.B } },
+  overrides: {}, charts: {}, waveforms: {}, three: null, threePaused: false, webglEnabled: true,
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  results: null, bench: null, diag: null, xai: null, ingest: null, faults: [],
+};
+const env = () => ENVIRONMENTS[STATE.mission.env];
+
+/* ---------- Digital twin (exact port of astravive_digital_twin_simulator.py) ---------- */
+function boundParams(p) {
+  return {
+    sleep: clamp(+p.sleep, 4, 10), rec: clamp(+p.rec, 0.5, 4), workload: clamp(+p.workload, 20, 100),
+    ex: clamp(+p.ex, 0, 180), co2: clamp(+p.co2, 0.5, 6),
+  };
+}
+/** Returns per-Sol arrays (index = Sol, 0..n). jitter(r) optional: returns daily input noise. */
+function twinSimulate(params, opts = {}) {
+  const n = clamp(Math.round(opts.sols ?? STATE.mission.total), 14, 900);
+  const g = clamp(opts.gravity ?? env().gravity, 0, 1);
+  const doseRate = opts.doseRate ?? env().dose;
+  const base = boundParams(params);
+  const out = { S: [], rmssd: [], hr: [], bmd: [], sans: [], readiness: [], dose: [], sols: n };
+  let S = 22.0, R = 48.2, B = 0.0, SANS = 10.0, dose = 0.0;
+  for (let sol = 0; sol <= n; sol++) {
+    const p = opts.jitter ? boundParams(opts.jitter(base, sol)) : base;
+    const w = p.workload / 100;
+    const readiness = 0.25 * (100 - S) + 0.25 * clamp(R / 55 * 100, 20, 100) + 0.25 * clamp(100 - Math.abs(B) * 8, 20, 100) + 0.25 * (100 - SANS);
+    const hr = 64 + (48.2 - R) * 0.55 + (w - 0.5) * 14 + (S - 22) * 0.12;
+    out.S.push(S); out.rmssd.push(R); out.hr.push(hr); out.bmd.push(B); out.sans.push(SANS); out.readiness.push(readiness); out.dose.push(dose);
+    const wake = 24 - p.sleep;
+    const dS = 1.15 * (wake - 16) + 8.5 * (w - 0.55) - 2.65 * (p.sleep - 7.5) - 1.40 * (p.rec - 1.5) + 1.25 * Math.max(0, p.co2 - 2.5);
+    S = clamp(S + 0.22 * dS, 6, 95);
+    const target = 48.2 - 14 * (w - 0.5) + 3.6 * (p.rec - 1.5) - 0.24 * (S - 22) + 0.04 * Math.min(p.ex, 90);
+    R = clamp(R + 0.28 * (target - R), 14, 82);
+    B = B - 0.0433 * (1 - g) + 0.0330 * (p.ex / 120) - 0.012 * Math.max(0, w - 0.70) * Math.max(0, (8 - p.sleep) / 4);
+    SANS = clamp(10 + 24 * (1 - Math.exp(-(sol + 1) / 18)) * (1 - g) + 8.4 * Math.max(0, p.co2 - 2) ** 1.25 - 4.5 * (p.rec / 3) + 0.15 * Math.max(0, S - 40), 5, 96);
+    const rate = typeof doseRate === 'function' ? doseRate(sol) : doseRate;
+    dose += rate * (opts.jitterDose ? opts.jitterDose(sol) : 1);
+  }
+  return out;
+}
+function subsystems(t, i) {
+  return {
+    autonomic: clamp(t.rmssd[i] / 55 * 100, 20, 100),
+    musculo: clamp(100 - Math.abs(t.bmd[i]) * 8, 20, 100),
+    neuro: 100 - t.sans[i],
+    sleep: 100 - t.S[i],
+    radiation: clamp(100 * (1 - t.dose[i] / CAREER_LIMIT_MSV), 0, 100),
+  };
+}
+function computeAll() {
+  STATE.results = { A: twinSimulate(STATE.scen.A), B: twinSimulate(STATE.scen.B) };
+  return STATE.results;
+}
+
+/* ---------- Charts (graceful fallback if Chart.js is unavailable) ---------- */
+const HAS_CHART = typeof window.Chart !== 'undefined';
+if (HAS_CHART) {
+  Object.assign(Chart.defaults, { color: '#a9c3cc', borderColor: 'rgba(82,217,232,0.12)' });
+  Chart.defaults.font.family = "'JetBrains Mono', monospace"; Chart.defaults.font.size = 10;
+  Chart.defaults.plugins.legend.labels.boxWidth = 10;
+  Object.assign(Chart.defaults.plugins.tooltip, { backgroundColor: 'rgba(10,29,39,0.95)', borderColor: 'rgba(82,217,232,0.4)', borderWidth: 1, titleColor: '#9CECF2', bodyColor: '#e6f4f7', padding: 10 });
+  Chart.defaults.animation.duration = STATE.reducedMotion ? 0 : 500;
+  Chart.defaults.maintainAspectRatio = false;
+}
+const GRID = { color: 'rgba(82,217,232,0.08)' };
+function mkChart(key, canvasId, config) {
+  const c = document.getElementById(canvasId); if (!c) return null;
+  if (STATE.charts[key]) { STATE.charts[key].destroy(); delete STATE.charts[key]; }
+  if (!HAS_CHART) {
+    const wrap = c.parentElement;
+    if (!wrap.querySelector('.chart-fallback')) wrap.append(el('div', { class: 'chart-fallback', text: 'Chart library unavailable (offline). Values remain available in exports.' }));
+    return null;
+  }
+  STATE.charts[key] = new Chart(c, config);
+  return STATE.charts[key];
+}
+const solLabels = n => Array.from({ length: n + 1 }, (_, i) => i);
+
+/* ---------- Sparklines and waveforms ---------- */
+function drawSparkline(canvasId, data, color = '#52D9E8') {
+  const c = document.getElementById(canvasId); if (!c || !data.length) return;
+  const dpr = window.devicePixelRatio || 1, ctx = c.getContext('2d');
+  const w = c.width = c.offsetWidth * dpr, h = c.height = c.offsetHeight * dpr;
+  ctx.clearRect(0, 0, w, h);
+  const min = Math.min(...data), max = Math.max(...data), range = max - min || 1;
+  ctx.strokeStyle = color; ctx.lineWidth = 1.5 * dpr; ctx.beginPath();
+  data.forEach((v, i) => { const x = (i / Math.max(1, data.length - 1)) * w, y = h - ((v - min) / range) * h * 0.85 - h * 0.05; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+  ctx.stroke();
+  const grad = ctx.createLinearGradient(0, 0, 0, h); grad.addColorStop(0, color + '40'); grad.addColorStop(1, color + '00');
+  ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath(); ctx.fillStyle = grad; ctx.fill();
+}
+const waveRng = mulberry32(1337);
+function initWaveform(id, opts) {
+  const c = document.getElementById(id); if (!c) return;
+  STATE.waveforms[id] = { ctx: c.getContext('2d'), canvas: c, opts, phase: 0, data: Array.from({ length: 120 }, () => opts.base + uni(waveRng, -opts.noise, opts.noise)) };
+  drawWaveform(STATE.waveforms[id]);
+}
+function drawWaveform(s) {
+  const { ctx, canvas, data, opts } = s, dpr = window.devicePixelRatio || 1;
+  const w = canvas.width = canvas.offsetWidth * dpr, h = canvas.height = canvas.offsetHeight * dpr;
+  ctx.clearRect(0, 0, w, h); ctx.strokeStyle = 'rgba(82,217,232,0.08)'; ctx.lineWidth = 1;
+  for (let i = 0; i < 5; i++) { const y = (i / 4) * h; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+  const min = opts.base - opts.range, range = 2 * opts.range;
+  ctx.strokeStyle = opts.color; ctx.lineWidth = 1.5 * dpr; ctx.beginPath();
+  data.forEach((v, i) => { const x = (i / (data.length - 1)) * w, y = h - ((v - min) / range) * h * 0.85 - h * 0.05; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+  ctx.stroke();
+}
+let lastWaveTick = 0;
+function tickWaveforms(ts) {
+  // AUDIT FIX: always reschedule; the old version returned early when paused and never resumed.
+  requestAnimationFrame(tickWaveforms);
+  if (STATE.reducedMotion || STATE.threePaused || document.hidden || ts - lastWaveTick < 50) return;
+  lastWaveTick = ts;
+  Object.values(STATE.waveforms).forEach(s => {
+    s.phase += 0.15;
+    const last = s.data[s.data.length - 1];
+    const pull = (s.opts.base - last) * 0.1;
+    s.data.push(clamp(last + pull + uni(waveRng, -s.opts.noise, s.opts.noise) + Math.sin(s.phase) * s.opts.noise * 0.5, s.opts.base - s.opts.range, s.opts.base + s.opts.range));
+    s.data.shift(); drawWaveform(s);
+  });
+}
+
+/* ---------- Overview ---------- */
+const SUBSYS_META = [
+  { key: 'autonomic', name: 'Autonomic / Cardio', icon: 'fa-heart' },
+  { key: 'musculo', name: 'Musculoskeletal', icon: 'fa-bone' },
+  { key: 'neuro', name: 'Neuro-Ocular', icon: 'fa-brain' },
+  { key: 'sleep', name: 'Sleep / Cognitive', icon: 'fa-moon' },
+  { key: 'radiation', name: 'Radiation margin', icon: 'fa-radiation' },
+];
+function setDelta(id, d, invert = false) {
+  const n = document.getElementById(id); if (!n) return;
+  const good = invert ? d < 0 : d > 0;
+  n.className = 'kpi-delta ' + (Math.abs(d) < 0.05 ? 'flat' : good ? 'up' : 'down');
+  n.textContent = `${signed(d, 2)} vs Sol ${STATE.mission.sol - 1}`;
+}
+function renderOverview() {
+  const { A, B } = STATE.results, i = STATE.mission.sol, sub = subsystems(A, i), prev = subsystems(A, i - 1);
+  setText('kpiReadiness', fmt(A.readiness[i])); setDelta('kpiReadinessDelta', A.readiness[i] - A.readiness[i - 1]);
+  setText('kpiCardio', fmt(sub.autonomic)); setDelta('kpiCardioDelta', sub.autonomic - prev.autonomic);
+  setText('kpiMusculo', fmt(sub.musculo)); setDelta('kpiMusculoDelta', sub.musculo - prev.musculo);
+  setText('kpiNeuro', fmt(sub.neuro)); setDelta('kpiNeuroDelta', sub.neuro - prev.neuro);
+  const lo = Math.max(0, i - 20), sl = arr => arr.slice(lo, i + 1);
+  drawSparkline('sparkReadiness', sl(A.readiness));
+  drawSparkline('sparkCardio', sl(A.rmssd), '#f87171');
+  drawSparkline('sparkMusculo', sl(A.bmd), '#fbbf24');
+  drawSparkline('sparkNeuro', sl(A.sans).map(v => 100 - v), '#c4b5fd');
+  setText('hrValue', fmt(A.hr[i])); setText('rmssdValue', fmt(A.rmssd[i])); setText('sleepValue', fmt(A.S[i]));
+  $('#sleepBar').style.width = (A.S[i] / 95 * 100) + '%'; $('#sleepBarWrap').setAttribute('aria-valuenow', fmt(A.S[i]));
+  setText('doseValue', fmt(A.dose[i])); $('#doseBar').style.width = clamp(A.dose[i] / CAREER_LIMIT_MSV * 100, 0, 100) + '%'; $('#doseBarWrap').setAttribute('aria-valuenow', fmt(A.dose[i]));
+  const wfHR = STATE.waveforms.waveHR, wfR = STATE.waveforms.waveRMSSD;
+  if (wfHR) wfHR.opts.base = A.hr[i]; if (wfR) wfR.opts.base = A.rmssd[i];
+  setText('sansRisk', fmt(A.sans[i])); setText('sansPco2', fmt(STATE.scen.A.co2));
+  setText('envCo2', fmt(STATE.scen.A.co2)); setText('envCo2ppm', `≈ ${Math.round(STATE.scen.A.co2 * 1316)} ppm`);
+  setText('envDose', fmt(env().dose, 2)); setText('envGravity', fmt(env().gravity, 2)); setText('envLimit', fmt(A.dose[i] / CAREER_LIMIT_MSV * 100));
+  const m = $('#subsystemMatrix'); m.replaceChildren();
+  SUBSYS_META.forEach(s => {
+    const v = sub[s.key], cls = v < 60 ? 'crit' : v < 75 ? 'warn' : '';
+    m.append(el('div', {},
+      el('div', { class: 'flex justify-between items-center mb-1' },
+        el('span', { class: 'text-[11px] text-cyan-300/90 flex items-center gap-2' }, el('i', { class: `fa-solid ${s.icon} text-cyan-400/80`, 'aria-hidden': 'true' }), s.name),
+        el('span', { class: 'font-mono text-[11px] text-white', text: fmt(v) })),
+      el('div', { class: 'readiness-bar ' + cls, role: 'progressbar', 'aria-label': s.name, 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': fmt(v) }, el('div', { style: `width:${v}%` }))));
+  });
+  setText('trajLabel', STATE.mission.total);
+  const n = A.sols, marker = { label: 'Current Sol', data: solLabels(n).map(s => (s === i ? A.readiness[i] : null)), pointRadius: 5, pointBackgroundColor: '#fff', showLine: false };
+  mkChart('ovForecast', 'chartOverviewForecast', { type: 'line', data: { labels: solLabels(n), datasets: [
+    { label: 'A', data: A.readiness, borderColor: '#9fb8c2', pointRadius: 0, borderWidth: 1.5 },
+    { label: 'B', data: B.readiness, borderColor: '#52D9E8', borderDash: [4, 3], pointRadius: 0, borderWidth: 1.5 }, marker] },
+    options: { plugins: { legend: { display: false } }, scales: { x: { grid: GRID, ticks: { maxTicksLimit: 6 }, title: { display: true, text: 'Sol' } }, y: { grid: GRID, min: 0, max: 100 } } } });
+  const colors = ['#f87171', '#fbbf24', '#c4b5fd', '#52D9E8', '#34d399'];
+  mkChart('ovTraj', 'chartSubsystemTrajectory', { type: 'line', data: { labels: solLabels(n), datasets: SUBSYS_META.map((s, k) => ({ label: s.name, data: solLabels(n).map(j => subsystems(A, j)[s.key]), borderColor: colors[k], pointRadius: 0, borderWidth: 1.5 })) },
+    options: { scales: { x: { grid: GRID, ticks: { maxTicksLimit: 8 }, title: { display: true, text: 'Sol' } }, y: { grid: GRID, min: 0, max: 100 } } } });
+  const sb = subsystems(B, i);
+  mkChart('ovRadar', 'chartRadar', { type: 'radar', data: { labels: SUBSYS_META.map(s => s.name), datasets: [
+    { label: 'Scenario A', data: SUBSYS_META.map(s => sub[s.key]), borderColor: '#9fb8c2', backgroundColor: 'rgba(159,184,194,0.15)' },
+    { label: 'Scenario B', data: SUBSYS_META.map(s => sb[s.key]), borderColor: '#52D9E8', backgroundColor: 'rgba(82,217,232,0.15)' }] },
+    options: { scales: { r: { min: 0, max: 100, grid: GRID, angleLines: GRID, pointLabels: { color: '#c6dde3' }, ticks: { display: false } } } } });
+}
+function renderHeader() {
+  const { A } = STATE.results, i = STATE.mission.sol, r = A.readiness[i];
+  setText('missionName', STATE.mission.name); setText('crewName', STATE.mission.crew); setText('envValue', env().label);
+  setText('solValue', `${String(i).padStart(3, '0')} / ${String(STATE.mission.total).padStart(3, '0')}`);
+  const level = r >= 75 ? ['', 'NOMINAL'] : r >= 60 ? ['warn', 'CAUTION'] : ['crit', 'WARNING'];
+  $('#systemDot').className = 'status-dot ' + level[0];
+  setText('systemStatus', `READINESS ${level[1]} (${fmt(r)})`);
+}
+
+/* ---------- 3D astronaut (seeded geometry; 2D fallback) ---------- */
+const ORGANS = [
+  { label: 'Brain · SANS', x: 50, y: 12, key: 'neuro' }, { label: 'Heart · Autonomic', x: 53, y: 38, key: 'cardio' },
+  { label: 'Spine · BMD', x: 45, y: 52, key: 'musculo' }, { label: 'Femur · BMD', x: 48, y: 74, key: 'musculo' },
+];
+const ORGAN_INFO = {
+  cardio: { title: 'Autonomic / Cardiovascular', eq: 'target = 48.2 − 14·(w − 0.5) + 3.6·(rec − 1.5) − 0.24·(S − 22) + 0.04·min(ex, 90);  RMSSD ← RMSSD + 0.28·(target − RMSSD)', text: 'Vagal tone (RMSSD) relaxes toward a load-dependent target. Workload and sleep pressure suppress it; recovery blocks and up to 90 min of exercise restore it. Resting HR is derived from RMSSD.' },
+  musculo: { title: 'Musculoskeletal · BMD', eq: 'BMD ← BMD − 0.0433·(1 − g) + 0.0330·ex/120 − 0.012·max(0, w − 0.7)·max(0, (8 − sleep)/4)', text: '0.0433 %/day is about 1.3 %/month of unmitigated weight-bearing bone loss; 120 min/day of exercise offsets roughly three quarters of it.' },
+  neuro: { title: 'Neuro-Ocular · SANS proxy', eq: 'SANS = clip(10 + 24·(1 − e^(−(t+1)/18))·(1 − g) + 8.4·max(0, pCO₂ − 2)^1.25 − 1.5·rec + 0.15·max(0, S − 40), 5, 96)', text: 'A risk proxy combining cephalad fluid-shift saturation, chronic hypercapnia, recovery and fatigue. It is not a measured optic-disc metric.' },
+};
+function renderOrganNodes(container) {
+  container.replaceChildren(...ORGANS.map(o => {
+    const b = el('button', { type: 'button', class: 'organ-node', style: `left:${o.x}%;top:${o.y}%`, 'aria-label': `${o.label}: open subsystem details`, 'aria-haspopup': 'dialog' }, el('span', { class: 'organ-dot', 'aria-hidden': 'true' }), el('span', { class: 'organ-label', text: o.label }));
+    b.addEventListener('click', () => openOrganModal(o.key, b)); return b;
+  }));
+}
+function openOrganModal(key, opener) {
+  const info = ORGAN_INFO[key];
+  setText('organTitle', info.title);
+  $('#organBody').replaceChildren(el('p', { text: info.text }), el('div', { class: 'eq-box', text: info.eq }), el('p', { class: 'text-[11px] text-cyan-300/80', text: 'Research prototype, not clinically validated.' }));
+  openModal('#modalOrgan', opener);
+}
+function webglFallback(reason) {
+  STATE.webglEnabled = false;
+  const stage = $('#holoStage');
+  if (STATE.three) { STATE.three.stop = true; STATE.three.renderer.dispose(); STATE.three = null; }
+  stage.querySelectorAll('canvas').forEach(c => c.remove());
+  const msg = stage.querySelector('.holo-fallback') || el('div', { class: 'holo-fallback' });
+  msg.textContent = `WebGL unavailable (${reason}). Organ nodes remain interactive.`;
+  stage.prepend(msg); setText('renderMode', 'RENDER: 2D FALLBACK');
+}
+function initHolographicAstronaut() {
+  const stage = $('#holoStage'); renderOrganNodes($('#organNodes'));
+  if (typeof THREE === 'undefined') return webglFallback('Three.js not loaded');
+  try {
+    const canvas = el('canvas', { 'aria-hidden': 'true', style: 'position:absolute;inset:0' }); stage.prepend(canvas);
+    const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(40, stage.clientWidth / stage.clientHeight, 0.1, 100);
+    camera.position.set(0, 0.5, 5.5); camera.lookAt(0, 0.3, 0);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); renderer.setSize(stage.clientWidth, stage.clientHeight);
+    const geoRng = mulberry32(7), astronaut = new THREE.Group();
+    const build = () => {
+      const pts = [];
+      for (let k = 0; k < 1800; k++) {
+        const y = -1.6 + (k / 1800) * 3.2; let r;
+        if (y < -1.3) r = 0.08; else if (y < -0.6) r = 0.12 + 0.02 * Math.sin((y + 0.6) * 4); else if (y < 0) r = 0.22 + 0.04 * Math.sin(y * 3);
+        else if (y < 0.6) r = 0.28 + 0.06 * Math.sin((y - 0.3) * 2.5); else if (y < 0.9) r = 0.32 - (y - 0.6) * 0.4; else if (y < 1.0) r = 0.12;
+        else r = 0.22 * Math.sqrt(Math.max(0, 1 - ((y - 1.25) / 0.28) ** 2));
+        const a = geoRng() * Math.PI * 2, rr = r * (0.85 + geoRng() * 0.3);
+        let x = Math.cos(a) * rr, z = Math.sin(a) * rr * 0.7;
+        if (y > 0.1 && y < 0.75 && geoRng() < 0.18) { x = (geoRng() < 0.5 ? -1 : 1) * (0.35 + (0.75 - y) * 0.15) + uni(geoRng, -0.04, 0.04); z = uni(geoRng, -0.05, 0.05); }
+        pts.push(x, y, z);
+      }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3)); return g;
+    };
+    astronaut.add(new THREE.Points(build(), new THREE.PointsMaterial({ color: 0x9CECF2, size: 0.03, transparent: true, opacity: 0.85 })));
+    const glow = new THREE.Points(build(), new THREE.PointsMaterial({ color: 0x52D9E8, size: 0.06, transparent: true, opacity: 0.35 })); glow.scale.set(1.08, 1.02, 1.08); astronaut.add(glow);
+    const wire = new THREE.LineBasicMaterial({ color: 0x52D9E8, transparent: true, opacity: 0.55 });
+    const ring = (radius, y) => new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({ length: 65 }, (_, k) => new THREE.Vector3(Math.cos(k / 64 * 2 * Math.PI) * radius, y, Math.sin(k / 64 * 2 * Math.PI) * radius))), wire);
+    const rings = [-1.2, -0.4, 0.4, 1.0].map((y, k) => { const r = ring(0.5 + k * 0.05, y); astronaut.add(r); return r; });
+    const base = new THREE.Mesh(new THREE.RingGeometry(0.6, 1.2, 64), new THREE.MeshBasicMaterial({ color: 0x52D9E8, transparent: true, opacity: 0.15, side: THREE.DoubleSide }));
+    base.rotation.x = -Math.PI / 2; base.position.y = -1.7; astronaut.add(base); scene.add(astronaut);
+    STATE.three = { scene, camera, renderer, stop: false };
+    let t = 0;
+    const animate = () => {
+      if (!STATE.three || STATE.three.stop) return;
+      requestAnimationFrame(animate);
+      if (STATE.threePaused || document.hidden) return;
+      if (!STATE.reducedMotion) { t += 0.008; astronaut.rotation.y = Math.sin(t * 0.5) * 0.25; astronaut.position.y = Math.sin(t) * 0.05; rings.forEach((r, k) => { r.rotation.y = t * (0.3 + k * 0.1); }); base.rotation.z = t * 0.4; }
+      renderer.render(scene, camera);
+    };
+    animate();
+    new ResizeObserver(() => { if (!STATE.three) return; camera.aspect = stage.clientWidth / stage.clientHeight; camera.updateProjectionMatrix(); renderer.setSize(stage.clientWidth, stage.clientHeight); }).observe(stage);
+  } catch (e) { webglFallback('initialisation failed'); }
+}
+
+/* ---------- SANS schematic ---------- */
+function drawSansBrain() {
+  const c = $('#sansCanvas'); if (!c) return;
+  const parent = c.parentElement, dpr = window.devicePixelRatio || 1;
+  c.width = parent.offsetWidth * dpr; c.height = parent.offsetHeight * dpr; c.style.width = parent.offsetWidth + 'px'; c.style.height = parent.offsetHeight + 'px';
+  const ctx = c.getContext('2d'), w = c.width, h = c.height, s = Math.min(w, h) * 0.0035;
+  const risk = STATE.results ? STATE.results.A.sans[STATE.mission.sol] / 100 : 0.3;
+  ctx.clearRect(0, 0, w, h); ctx.save(); ctx.translate(w * 0.45, h * 0.55); ctx.scale(s, s);
+  ctx.strokeStyle = 'rgba(156,236,242,0.6)'; ctx.lineWidth = 1.2 / s; ctx.beginPath();
+  ctx.moveTo(-40, 40); ctx.bezierCurveTo(-55, 20, -55, -20, -35, -45); ctx.bezierCurveTo(-15, -62, 20, -60, 40, -45); ctx.bezierCurveTo(55, -30, 55, -5, 48, 15); ctx.bezierCurveTo(45, 25, 40, 35, 30, 42); ctx.bezierCurveTo(20, 48, 5, 50, -10, 48); ctx.bezierCurveTo(-25, 46, -35, 45, -40, 40); ctx.stroke();
+  const g = ctx.createRadialGradient(0, -15, 5, 0, -15, 40); g.addColorStop(0, 'rgba(82,217,232,0.35)'); g.addColorStop(1, 'rgba(82,217,232,0.02)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(-30, -10); ctx.bezierCurveTo(-35, -30, -15, -48, 5, -45); ctx.bezierCurveTo(25, -42, 38, -25, 35, -5); ctx.bezierCurveTo(32, 10, 15, 18, -5, 15); ctx.bezierCurveTo(-20, 12, -28, 5, -30, -10); ctx.fill();
+  ctx.strokeStyle = `rgba(239,68,68,${0.35 + 0.6 * risk})`; ctx.lineWidth = 2 / s; ctx.beginPath(); ctx.moveTo(20, -5); ctx.bezierCurveTo(30, 0, 38, 5, 42, 15); ctx.stroke();
+  ctx.fillStyle = `rgba(239,68,68,${0.4 + 0.6 * risk})`; ctx.beginPath(); ctx.arc(20, -5, 2 + 4 * risk, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = 'rgba(251,191,36,0.8)'; ctx.lineWidth = 1 / s; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(-10, 40); ctx.lineTo(-10, -30); ctx.stroke(); ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(-14, -25); ctx.lineTo(-10, -32); ctx.lineTo(-6, -25); ctx.stroke(); ctx.restore();
+  ctx.font = `${10 * dpr}px "JetBrains Mono", monospace`; ctx.fillStyle = 'rgba(198,230,236,0.95)';
+  ctx.fillText('OPTIC DISC', w * 0.66, h * 0.32); ctx.fillStyle = 'rgba(252,165,165,0.95)'; ctx.fillText(`SANS ${fmt(risk * 100, 0)}`, w * 0.66, h * 0.40);
+  ctx.fillStyle = 'rgba(253,224,138,0.95)'; ctx.fillText('FLUID SHIFT', w * 0.04, h * 0.92);
+}
+
+/* ---------- Health: seeded simulated stream ---------- */
+function generateStream(seed = 42, minutes = 1440) {
+  const r = mulberry32(seed), rows = [];
+  let rm = 46, ed = 3.5;
+  for (let m = 0; m < minutes; m++) {
+    const circ = Math.sin((m / 1440) * 2 * Math.PI - Math.PI / 2);
+    rm = clamp(rm + 0.15 * (46 - 6 * circ - rm) + gauss(r) * 1.6, 15, 110);
+    ed = clamp(ed + 0.1 * (3.5 + 1.2 * circ - ed) + gauss(r) * 0.25, 0.05, 25);
+    let hr = 68 + 8 * circ - 0.25 * (rm - 46) + gauss(r) * 2.5;
+    if (m % 397 === 211) { hr += 25; ed += 4; } // a few seeded stress excursions
+    rows.push({ t: m, hr: clamp(hr, 35, 200), rmssd: rm, eda: ed, enmo: clamp(25 + 20 * Math.max(0, circ) + gauss(r) * 8, 0, 400) });
+  }
+  return rows;
+}
+const STREAM = generateStream(42);
+function zFlags(rows, keys) {
+  const stats = keys.map(k => { const v = rows.map(x => x[k]); return [mean(v), std(v) || 1]; });
+  return rows.filter(x => keys.some((k, j) => Math.abs((x[k] - stats[j][0]) / stats[j][1]) > 3)).length;
+}
+function renderHealth() {
+  const ch = $('#healthChannel').value, win = +$('#healthWindow').value, rows = STREAM.slice(-win);
+  const units = { hr: 'bpm', rmssd: 'ms', eda: 'μS', enmo: 'mg' };
+  mkChart('health', 'chartHealthTelemetry', { type: 'line', data: { labels: rows.map(x => `${String(Math.floor(x.t / 60)).padStart(2, '0')}:${String(x.t % 60).padStart(2, '0')}`), datasets: [{ label: `${ch.toUpperCase()} (${units[ch]})`, data: rows.map(x => x[ch]), borderColor: '#52D9E8', backgroundColor: 'rgba(82,217,232,0.08)', fill: true, pointRadius: 0, borderWidth: 1.2 }] },
+    options: { scales: { x: { grid: GRID, ticks: { maxTicksLimit: 8 }, title: { display: true, text: 'Simulated clock (HH:MM)' } }, y: { grid: GRID } } } });
+  setText('sumWindow', win >= 60 * 6 ? `${win / 60} h` : `${win} min`);
+  setText('sumHR', fmt(mean(rows.map(x => x.hr))) + ' bpm'); setText('sumRMSSD', fmt(mean(rows.map(x => x.rmssd))) + ' ms');
+  setText('sumSDNN', fmt(std(rows.map(x => x.rmssd))) + ' ms'); setText('sumEDA', fmt(mean(rows.map(x => x.eda)), 2) + ' μS');
+  setText('sumENMO', fmt(mean(rows.map(x => x.enmo))) + ' mg'); setText('sumAnomaly', `${zFlags(rows, ['hr', 'eda'])} / ${rows.length}`);
+}
+const CBC = [['L-92', 5.8, 4.85, 14.6, 43.1, 248, 30.2], ['L-44', 5.9, 4.88, 14.5, 43.0, 252, 29.8], ['L-3', 6.0, 4.90, 14.7, 43.4, 255, 29.5], ['R+1', 7.5, 4.72, 14.9, 41.9, 262, 23.1], ['R+45', 6.1, 4.84, 14.5, 42.8, 250, 28.9]];
+const CMP = [['L-92', 87.5, 14.2, 0.89, 140.0, 4.1, 9.4], ['L-44', 88.2, 14.6, 0.90, 139.8, 4.2, 9.5], ['L-3', 89.0, 14.8, 0.91, 140.2, 4.1, 9.4], ['R+1', 94.5, 16.4, 0.95, 140.8, 4.3, 9.7], ['R+45', 88.8, 14.5, 0.90, 140.1, 4.1, 9.4]];
+function fillTable(sel, rows) { $(sel + ' tbody').replaceChildren(...rows.map(r => el('tr', {}, ...r.map((v, k) => el(k ? 'td' : 'th', k ? {} : { scope: 'row', class: 'row-head' }, String(v)))))); }
+
+/* ---------- Forecast: seeded Monte Carlo ---------- */
+function monteCarlo(params, n, metric, seed = 42, N = 500) {
+  const r = mulberry32(seed), traj = [];
+  for (let k = 0; k < N; k++) {
+    const jitter = (b) => ({ sleep: b.sleep + 0.5 * gauss(r), rec: b.rec + 0.3 * gauss(r), workload: b.workload + 5 * gauss(r), ex: b.ex + 10 * gauss(r), co2: b.co2 + 0.3 * gauss(r) });
+    const t = twinSimulate(params, { sols: n, jitter, jitterDose: () => Math.max(0, 1 + 0.15 * gauss(r)) });
+    traj.push(t[metric]);
+  }
+  const bands = { lo: [], med: [], hi: [] };
+  for (let s = 0; s <= n; s++) { const col = traj.map(t => t[s]).sort((a, b) => a - b); bands.lo.push(quantile(col, 0.025)); bands.med.push(quantile(col, 0.5)); bands.hi.push(quantile(col, 0.975)); }
+  return bands;
+}
+const METRIC_LABEL = { readiness: 'Composite readiness', rmssd: 'RMSSD (ms)', bmd: 'BMD Δ (%)', sans: 'SANS proxy', S: 'Sleep pressure S', dose: 'Cumulative dose (mSv)' };
+function renderForecast() {
+  const metric = $('#forecastSubsystem').value, n = +$('#forecastHorizon').value;
+  const b = monteCarlo(STATE.scen.A, n, metric), det = twinSimulate(STATE.scen.A, { sols: n })[metric];
+  mkChart('forecast', 'chartForecast', { type: 'line', data: { labels: solLabels(n), datasets: [
+    { label: '97.5th pct', data: b.hi, borderColor: 'rgba(196,181,253,0.4)', backgroundColor: 'rgba(196,181,253,0.12)', fill: '+1', pointRadius: 0, borderWidth: 1 },
+    { label: '2.5th pct', data: b.lo, borderColor: 'rgba(196,181,253,0.4)', pointRadius: 0, borderWidth: 1, fill: false },
+    { label: 'Median', data: b.med, borderColor: '#c4b5fd', pointRadius: 0, borderWidth: 2 },
+    { label: 'Deterministic', data: det, borderColor: '#52D9E8', borderDash: [4, 3], pointRadius: 0, borderWidth: 1.5 }] },
+    options: { interaction: { mode: 'index', intersect: false }, scales: { x: { grid: GRID, ticks: { maxTicksLimit: 10 }, title: { display: true, text: 'Sol' } }, y: { grid: GRID, title: { display: true, text: METRIC_LABEL[metric] } } } } });
+  const fs = $('#forecastSummary'); fs.replaceChildren();
+  const row = (k, v) => el('div', { class: 'flex justify-between gap-3' }, el('dt', { class: 'text-cyan-300/80', text: k }), el('dd', { class: 'font-mono text-white text-right', text: v }));
+  fs.append(row('Horizon', `${n} Sol`), row(`Median @ Sol ${n}`, fmt(b.med[n], 2)), row('95 % envelope', `${fmt(b.lo[n], 2)} – ${fmt(b.hi[n], 2)}`), row('Deterministic', fmt(det[n], 2)));
+  if (metric === 'readiness') { const cross = b.med.findIndex(v => v < 60); fs.append(row('Median below 60', cross < 0 ? 'never' : `Sol ${cross}`)); }
+  if (metric === 'dose') fs.append(row('Career limit', `${CAREER_LIMIT_MSV} mSv (${fmt(b.med[n] / CAREER_LIMIT_MSV * 100)} %)`));
+  const fi = $('#forecastInputs'); fi.replaceChildren(...PARAM_SPEC.map(p => row(p.label, `${fmt(STATE.scen.A[p.key], p.d)} ${p.unit}`)), row('Gravity', `${env().gravity} g`), row('Dose rate', `${env().dose} mSv/d`));
+}
+
+/* ---------- Twin tab ---------- */
+function buildSliders() {
+  ['A', 'B'].forEach(sc => {
+    const host = $(`[data-sliders="${sc}"]`); host.replaceChildren();
+    PARAM_SPEC.forEach(p => {
+      const id = `sl${sc}_${p.key}`, out = el('output', { class: 'font-mono text-white', id: id + '_out', for: id });
+      const input = el('input', { type: 'range', class: 'astro-slider', id, min: p.min, max: p.max, step: p.step, value: STATE.scen[sc][p.key], 'data-scenario': sc, 'data-param': p.key });
+      const sync = () => { out.textContent = `${fmt(input.value, p.d)} ${p.unit}`; input.setAttribute('aria-valuetext', out.textContent); };
+      input.addEventListener('input', () => { STATE.scen[sc][p.key] = +input.value; sync(); scheduleRecompute(); });
+      sync();
+      host.append(el('div', {}, el('div', { class: 'flex justify-between mb-1' }, el('label', { for: id, class: 'text-cyan-300/90', text: p.label }), out), input));
+    });
+  });
+}
+let recomputeTimer = 0;
+function scheduleRecompute() { clearTimeout(recomputeTimer); recomputeTimer = setTimeout(recomputeAll, 120); }
+function renderTwin() {
+  const { A, B } = STATE.results, n = A.sols, metric = $('#twinMetric').value;
+  setText('twinSols', n);
+  mkChart('twin', 'chartTwinCompare', { type: 'line', data: { labels: solLabels(n), datasets: [
+    { label: 'Scenario A', data: A[metric], borderColor: '#9fb8c2', pointRadius: 0, borderWidth: 2 },
+    { label: 'Scenario B', data: B[metric], borderColor: '#52D9E8', pointRadius: 0, borderWidth: 2 }] },
+    options: { interaction: { mode: 'index', intersect: false }, scales: { x: { grid: GRID, ticks: { maxTicksLimit: 10 }, title: { display: true, text: 'Sol' } }, y: { grid: GRID, title: { display: true, text: METRIC_LABEL[metric] } } } } });
+  const sa = subsystems(A, n), sb = subsystems(B, n);
+  mkChart('twinRadar', 'chartTwinRadar', { type: 'radar', data: { labels: SUBSYS_META.map(s => s.name), datasets: [
+    { label: 'A', data: SUBSYS_META.map(s => sa[s.key]), borderColor: '#9fb8c2', backgroundColor: 'rgba(159,184,194,0.15)' },
+    { label: 'B', data: SUBSYS_META.map(s => sb[s.key]), borderColor: '#52D9E8', backgroundColor: 'rgba(82,217,232,0.15)' }] },
+    options: { scales: { r: { min: 0, max: 100, grid: GRID, angleLines: GRID, pointLabels: { color: '#c6dde3', font: { size: 9 } }, ticks: { display: false } } } } });
+  const items = [['RMSSD', B.rmssd[n] - A.rmssd[n], 'ms', false], ['BMD Δ', B.bmd[n] - A.bmd[n], 'pp', false], ['SANS proxy', B.sans[n] - A.sans[n], '', true], ['Sleep pressure', B.S[n] - A.S[n], '', true], ['Resting HR', B.hr[n] - A.hr[n], 'bpm', true]];
+  $('#netBenefit').replaceChildren(...items.map(([k, d, u, inv]) => el('div', { class: 'flex justify-between text-[12px]' }, el('dt', { class: 'text-cyan-300/80', text: k }), el('dd', { class: 'font-mono ' + ((inv ? d < 0 : d > 0) ? 'text-ok-soft' : 'text-crit-soft'), text: `${signed(d, 2)} ${u}` }))));
+  setText('readinessDelta', `${signed(B.readiness[n] - A.readiness[n], 2)} pts`);
+}
+
+/* ---------- Environment ---------- */
+const SAMPLE_EVENTS = [
+  { type: 'sep', time: 'Sample A', mag: 'S2', note: 'Proton flux >10 MeV elevated' },
+  { type: 'flare', time: 'Sample B', mag: 'M3.1', note: 'X-ray flare' },
+  { type: 'cme', time: 'Sample C', mag: 'Halo', note: 'Full-halo CME, ~48 h transit' },
+  { type: 'gst', time: 'Sample D', mag: 'Kp 5', note: 'G1 minor geomagnetic storm' },
+];
+function co2Profile(seed = 99) {
+  const r = mulberry32(seed), base = STATE.scen.A.co2, out = []; let x = base;
+  for (let h = 0; h < 30 * 24; h += 6) { x = clamp(x + 0.3 * (base + 0.25 * Math.sin(h / 24 * 2 * Math.PI) - x) + 0.12 * gauss(r), 0.3, 8); out.push(x); }
+  return out;
+}
+function renderEnvironment() {
+  const co2 = co2Profile(), A = STATE.results.A, i = STATE.mission.sol;
+  mkChart('co2', 'chartEnvCO2', { type: 'line', data: { labels: co2.map((_, k) => `D${Math.floor(k / 4) + 1}`), datasets: [
+    { label: 'pCO₂ (mmHg)', data: co2, borderColor: '#52D9E8', pointRadius: 0, borderWidth: 1.2 },
+    { label: 'Model threshold 2.5 mmHg', data: co2.map(() => 2.5), borderColor: '#f5a524', borderDash: [5, 4], pointRadius: 0, borderWidth: 1 }] },
+    options: { plugins: { tooltip: { callbacks: { afterLabel: c => c.datasetIndex === 0 ? `≈ ${Math.round(c.parsed.y * 1316)} ppm` : '' } } }, scales: { x: { grid: GRID, ticks: { maxTicksLimit: 10 } }, y: { grid: GRID, title: { display: true, text: 'mmHg' } } } } });
+  mkChart('dose', 'chartEnvDose', { type: 'line', data: { labels: solLabels(A.sols), datasets: [
+    { label: 'Cumulative dose (mSv)', data: A.dose, borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.1)', fill: true, pointRadius: 0, borderWidth: 1.5 },
+    { label: 'Career limit 600 mSv', data: A.dose.map(() => CAREER_LIMIT_MSV), borderColor: '#ef4444', borderDash: [5, 4], pointRadius: 0, borderWidth: 1 }] },
+    options: { scales: { x: { grid: GRID, ticks: { maxTicksLimit: 10 }, title: { display: true, text: 'Sol' } }, y: { grid: GRID, min: 0 } } } });
+  setText('doseNote', `Assumed constant rate ${env().dose} mSv/d for ${env().label} (${env().note}). Dose = Sol × rate; it is tracked separately and not part of the readiness composite.`);
+  const f = $('#donkiEvent').value;
+  $('#donkiFeed').replaceChildren(...SAMPLE_EVENTS.filter(e => f === 'all' || e.type === f).map(e => el('li', { class: 'p-2 rounded bg-abyss-800/60 border border-cyan-400/10' },
+    el('div', { class: 'flex justify-between items-center mb-1' }, el('span', { class: 'text-cyan-300 font-mono text-[11px]', text: `${e.type.toUpperCase()} · ${e.mag}` }), el('span', { class: 'text-cyan-300/80 font-mono text-[10px]', text: e.time })),
+    el('div', { class: 'text-[11px] text-cyan-300/90', text: e.note }))));
+  const row = (k, v) => el('div', { class: 'flex justify-between gap-3' }, el('dt', { class: 'text-cyan-300/80', text: k }), el('dd', { class: 'font-mono text-white text-right', text: v }));
+  $('#envSummary').replaceChildren(row('Mean pCO₂ (30 d)', `${fmt(mean(co2), 2)} mmHg (≈${Math.round(mean(co2) * 1316)} ppm)`), row('Peak pCO₂ (30 d)', `${fmt(Math.max(...co2), 2)} mmHg`),
+    row('Hours above 2.5 mmHg', `${co2.filter(v => v > 2.5).length * 6} h`), row('Gravity', `${env().gravity} g`), row('Dose rate (assumed)', `${env().dose} mSv/d`),
+    row(`Cumulative @ Sol ${i}`, `${fmt(A.dose[i])} mSv`), row('Share of 600 mSv limit', `${fmt(A.dose[i] / CAREER_LIMIT_MSV * 100)} %`));
+}
+
+/* ---------- Explainable AI: exact Shapley over the 5 twin inputs ---------- */
+const KEYS = PARAM_SPEC.map(p => p.key);
+const FACT = [1, 1, 2, 6, 24, 120];
+function twinOutput(p, target, n) { const t = twinSimulate(p, { sols: n }); return t[target][n]; }
+function exactShapley(x, ref, target, n) {
+  const M = KEYS.length, val = new Map();
+  const f = mask => { if (!val.has(mask)) { const p = {}; KEYS.forEach((k, j) => { p[k] = (mask >> j) & 1 ? x[k] : ref[k]; }); val.set(mask, twinOutput(p, target, n)); } return val.get(mask); };
+  const phi = KEYS.map((_, j) => {
+    let s = 0;
+    for (let mask = 0; mask < (1 << M); mask++) { if ((mask >> j) & 1) continue; let size = 0; for (let b = mask; b; b >>= 1) size += b & 1; s += (FACT[size] * FACT[M - size - 1] / FACT[M]) * (f(mask | (1 << j)) - f(mask)); }
+    return s;
+  });
+  const fx = f((1 << M) - 1), fr = f(0);
+  return { phi, fx, fr, residual: Math.abs(fr + phi.reduce((a, b) => a + b, 0) - fx) };
+}
+function background(seed = 42, N = 60) { const r = mulberry32(seed); return Array.from({ length: N }, () => Object.fromEntries(PARAM_SPEC.map(p => [p.key, uni(r, p.min, p.max)]))); }
+const PRESETS = { fatigued: { sleep: 5, rec: 0.5, workload: 90, ex: 30, co2: 3.0 }, co2: { sleep: 7, rec: 1.5, workload: 60, ex: 60, co2: 5.5 }, nominal: { sleep: 7.5, rec: 1.5, workload: 55, ex: 60, co2: 2.0 } };
+function shapBar(label, v, maxAbs, signedBar = true) {
+  const w = maxAbs ? Math.abs(v) / maxAbs * 50 : 0;
+  const bar = el('div', { class: 'shap-bar ' + (v >= 0 ? 'pos' : 'neg'), style: signedBar ? (v >= 0 ? `left:50%;width:${w}%` : `left:${50 - w}%;width:${w}%`) : `left:0;width:${w * 2}%` });
+  return el('div', { class: 'shap-row' }, el('span', { class: 'text-cyan-300/90 truncate', text: label }), el('div', { class: 'shap-bar-track', 'aria-hidden': 'true' }, signedBar ? el('div', { class: 'shap-bar-center' }) : '', bar), el('span', { class: 'font-mono text-white text-right', text: signed(v, 2) }));
+}
+function renderXAI() {
+  const n = STATE.mission.total, target = $('#xaiTarget').value, bg = background();
+  const ref = Object.fromEntries(KEYS.map(k => [k, mean(bg.map(b => b[k]))]));
+  const all = bg.map(b => exactShapley(b, ref, target, n));
+  const g = KEYS.map((_, j) => mean(all.map(a => Math.abs(a.phi[j]))));
+  const order = g.map((v, j) => j).sort((a, b) => g[b] - g[a]), gmax = Math.max(...g);
+  $('#globalShap').replaceChildren(...order.map(j => shapBar(PARAM_SPEC[j].label, g[j], gmax, false)));
+  setText('globalShapMeta', `${bg.length} seeded profiles · target ${METRIC_LABEL[target]} @ Sol ${n}`);
+  const pk = $('#xaiPreset').value, x = pk === 'A' || pk === 'B' ? STATE.scen[pk] : PRESETS[pk];
+  const loc = exactShapley(x, ref, target, n), lmax = Math.max(...loc.phi.map(Math.abs));
+  $('#localShap').replaceChildren(...loc.phi.map((v, j) => [v, j]).sort((a, b) => Math.abs(b[0]) - Math.abs(a[0])).map(([v, j]) => shapBar(`${PARAM_SPEC[j].label} = ${fmt(x[KEYS[j]], PARAM_SPEC[j].d)}`, v, lmax)));
+  setText('shapEquation', `${fmt(loc.fr, 2)} ${loc.phi.reduce((a, b) => a + b, 0) >= 0 ? '+' : '−'} ${fmt(Math.abs(loc.phi.reduce((a, b) => a + b, 0)), 2)} = ${fmt(loc.fx, 2)}`);
+  setText('shapResidual', loc.residual.toExponential(2));
+  const sleepIdx = KEYS.indexOf('sleep');
+  mkChart('dep', 'chartShapDependence', { type: 'scatter', data: { datasets: [{ label: 'φ_sleep', data: bg.map((b, k) => ({ x: b.sleep, y: all[k].phi[sleepIdx] })), backgroundColor: 'rgba(82,217,232,0.7)', pointRadius: 3.5 }] },
+    options: { plugins: { legend: { display: false } }, scales: { x: { grid: GRID, title: { display: true, text: 'Sleep (h)' } }, y: { grid: GRID, title: { display: true, text: `φ_sleep (${target})` } } } } });
+  const ab = exactShapley(STATE.scen.A, STATE.scen.B, 'readiness', n);
+  const row = (k, v) => el('div', { class: 'flex justify-between gap-3' }, el('dt', { class: 'text-cyan-300/80', text: k }), el('dd', { class: 'font-mono ' + (v >= 0 ? 'text-ok-soft' : 'text-crit-soft'), text: signed(v, 2) }));
+  $('#mechanisticAttr').replaceChildren(...ab.phi.map((v, j) => [v, j]).sort((a, b) => a[0] - b[0]).map(([v, j]) => row(`${PARAM_SPEC[j].label}: ${fmt(STATE.scen.B[KEYS[j]], PARAM_SPEC[j].d)} → ${fmt(STATE.scen.A[KEYS[j]], PARAM_SPEC[j].d)}`, v)),
+    el('div', { class: 'flex justify-between gap-3 pt-2 border-t border-cyan-400/10' }, el('dt', { class: 'text-white', text: 'Total (A − B)' }), el('dd', { class: 'font-mono text-white', text: `${signed(ab.fx - ab.fr, 2)} · residual ${ab.residual.toExponential(1)}` })));
+  STATE.xai = { target, sols: n, reference: ref, global_mean_abs_phi: Object.fromEntries(KEYS.map((k, j) => [k, g[j]])), local: { preset: pk, phi: Object.fromEntries(KEYS.map((k, j) => [k, loc.phi[j]])), f_ref: loc.fr, f_x: loc.fx, residual: loc.residual }, a_vs_b_readiness: Object.fromEntries(KEYS.map((k, j) => [k, ab.phi[j]])) };
+}
+
+/* ---------- Benchmark: fitted models, subject-held-out evaluation ---------- */
+function benchData(seed) {
+  const r = mulberry32(seed), rows = [];
+  for (let s = 0; s < 6; s++) {
+    const off = { hr: 6 * gauss(r), rmssd: 6 * gauss(r), eda: 0.8 * gauss(r), enmo: 8 * gauss(r) };
+    for (let e = 0; e < 40; e++) {
+      let y = r() < 0.4 ? 1 : 0;
+      const x = [70 + off.hr + 7 * y + 6 * gauss(r), 45 + off.rmssd - 7 * y + 7 * gauss(r), 3.5 + off.eda + 1.2 * y + 1.0 * gauss(r), 30 + off.enmo + 6 * y + 10 * gauss(r)];
+      if (r() < 0.05) y = 1 - y; // ~5 % label noise
+      rows.push({ subject: s, x, y });
+    }
+  }
+  return rows;
+}
+function standardizer(X) { const m = X[0].map((_, j) => mean(X.map(r => r[j]))), s = X[0].map((_, j) => std(X.map(r => r[j])) || 1); return x => x.map((v, j) => (v - m[j]) / s[j]); }
+const sigmoid = z => 1 / (1 + Math.exp(-z));
+function fitLogReg(X, y, lambda = 0.01, iters = 400, lr = 0.3) {
+  const d = X[0].length; let w = new Array(d).fill(0), b = 0;
+  for (let it = 0; it < iters; it++) {
+    const gw = new Array(d).fill(0); let gb = 0;
+    X.forEach((x, i) => { const e = sigmoid(b + x.reduce((s, v, j) => s + v * w[j], 0)) - y[i]; gb += e; x.forEach((v, j) => { gw[j] += e * v; }); });
+    w = w.map((wj, j) => wj - lr * (gw[j] / X.length + lambda * wj)); b -= lr * gb / X.length;
+  }
+  return x => sigmoid(b + x.reduce((s, v, j) => s + v * w[j], 0));
+}
+function fitGNB(X, y) {
+  const cls = [0, 1].map(c => { const Xc = X.filter((_, i) => y[i] === c); return { prior: Xc.length / X.length, m: X[0].map((_, j) => mean(Xc.map(r => r[j]))), v: X[0].map((_, j) => (std(Xc.map(r => r[j])) ** 2) + 1e-6) }; });
+  return x => { const ll = cls.map(c => Math.log(c.prior || 1e-9) + x.reduce((s, v, j) => s - 0.5 * Math.log(2 * Math.PI * c.v[j]) - (v - c.m[j]) ** 2 / (2 * c.v[j]), 0)); const mx = Math.max(...ll); const e = ll.map(l => Math.exp(l - mx)); return e[1] / (e[0] + e[1]); };
+}
+function aucScore(y, p) {
+  const pos = p.filter((_, i) => y[i] === 1), neg = p.filter((_, i) => y[i] === 0); if (!pos.length || !neg.length) return NaN;
+  let s = 0; pos.forEach(a => neg.forEach(b => { s += a > b ? 1 : a === b ? 0.5 : 0; })); return s / (pos.length * neg.length);
+}
+function clsMetrics(y, p) {
+  const yh = p.map(v => (v >= 0.5 ? 1 : 0)); let tp = 0, fp = 0, fn = 0, ok = 0;
+  yh.forEach((v, i) => { if (v === y[i]) ok++; if (v && y[i]) tp++; if (v && !y[i]) fp++; if (!v && y[i]) fn++; });
+  return { f1: tp ? 2 * tp / (2 * tp + fp + fn) : 0, acc: ok / y.length, auc: aucScore(y, p) };
+}
+function solve(A, b) { // Gaussian elimination with partial pivoting
+  const n = b.length, M = A.map((r, i) => [...r, b[i]]);
+  for (let c = 0; c < n; c++) { let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r; [M[c], M[p]] = [M[p], M[c]]; for (let r = c + 1; r < n; r++) { const f = M[r][c] / M[c][c]; for (let k = c; k <= n; k++) M[r][k] -= f * M[c][k]; } }
+  const x = new Array(n).fill(0); for (let r = n - 1; r >= 0; r--) { let s = M[r][n]; for (let k = r + 1; k < n; k++) s -= M[r][k] * x[k]; x[r] = s / M[r][r]; } return x;
+}
+function runBenchmark(seed = 42) {
+  const rows = benchData(seed), subjects = [...new Set(rows.map(r => r.subject))];
+  const models = { Dummy: null, 'Logistic regression': fitLogReg, 'Gaussian NB': fitGNB };
+  const folds = [], pooled = { y: [], p: [] }, agg = {}; let disjoint = true; const anom = { fp: 0, nNom: 0, tp: 0, nStr: 0 };
+  Object.keys(models).forEach(m => { agg[m] = []; });
+  subjects.forEach(s => {
+    const tr = rows.filter(r => r.subject !== s), te = rows.filter(r => r.subject === s);
+    const trS = new Set(tr.map(r => r.subject)), teS = new Set(te.map(r => r.subject));
+    if ([...teS].some(v => trS.has(v))) disjoint = false;
+    const z = standardizer(tr.map(r => r.x)), Xtr = tr.map(r => z(r.x)), ytr = tr.map(r => r.y), Xte = te.map(r => z(r.x)), yte = te.map(r => r.y);
+    Object.entries(models).forEach(([name, fit]) => {
+      let p;
+      if (!fit) { const prior = mean(ytr); p = Xte.map(() => prior); } else { const f = fit(Xtr, ytr); p = Xte.map(f); }
+      const met = clsMetrics(yte, p); agg[name].push(met);
+      if (name === 'Logistic regression') { folds.push({ subject: s, ...met }); pooled.y.push(...yte); pooled.p.push(...p); }
+    });
+    // Anomaly: z-distance fit on nominal training rows only, threshold = 95th pct of training nominal scores.
+    const nom = tr.filter(r => r.y === 0).map(r => r.x), zn = standardizer(nom), score = x => Math.sqrt(mean(zn(x).map(v => v * v)));
+    const thr = quantile(nom.map(score).sort((a, b) => a - b), 0.95);
+    te.forEach(r => { const flag = score(r.x) > thr; if (r.y === 0) { anom.nNom++; if (flag) anom.fp++; } else { anom.nStr++; if (flag) anom.tp++; } });
+  });
+  const clf = Object.fromEntries(Object.entries(agg).map(([k, v]) => [k, { f1: mean(v.map(x => x.f1)), acc: mean(v.map(x => x.acc)), auc: mean(v.filter(x => Number.isFinite(x.auc)).map(x => x.auc)), f1_sd: std(v.map(x => x.f1)) }]));
+  const bins = [0, 0.2, 0.4, 0.6, 0.8, 1.0001].slice(0, -1).map((lo, k, a) => { const hi = k === a.length - 1 ? 1.0001 : a[k + 1]; const idx = pooled.p.map((v, i) => [v, i]).filter(([v]) => v >= lo && v < hi).map(([, i]) => i); return { mid: lo + 0.1, pred: idx.length ? mean(idx.map(i => pooled.p[i])) : null, obs: idx.length ? mean(idx.map(i => pooled.y[i])) : null, n: idx.length }; });
+  // Forecasting: seeded ARX series, chronological 70/30 split.
+  const r = mulberry32(seed + 1), T = 200, wl = [], y = []; let prev = 45;
+  for (let t = 0; t < T; t++) { const w = 0.5 + 0.3 * Math.sin(t / 9) + 0.1 * gauss(r); const v = 12 + 0.72 * prev - 6 * w + 1.8 * gauss(r); wl.push(w); y.push(v); prev = v; }
+  const cut = Math.floor(T * 0.7), idxTr = [], idxTe = []; for (let t = 1; t < T; t++) (t < cut ? idxTr : idxTe).push(t);
+  const Xd = t => [1, y[t - 1], wl[t]], XtX = [[0, 0, 0], [0, 0, 0], [0, 0, 0]], Xty = [0, 0, 0];
+  idxTr.forEach(t => { const x = Xd(t); for (let a = 0; a < 3; a++) { Xty[a] += x[a] * y[t]; for (let b = 0; b < 3; b++) XtX[a][b] += x[a] * x[b]; } });
+  const beta = solve(XtX, Xty), arx = t => Xd(t).reduce((s, v, k) => s + v * beta[k], 0), trMean = mean(idxTr.map(t => y[t]));
+  const fcModels = { Mean: () => trMean, Persistence: t => y[t - 1], 'OLS ARX(1)': arx };
+  const yTe = idxTe.map(t => y[t]), ssTot = yTe.reduce((s, v) => s + (v - mean(yTe)) ** 2, 0);
+  const fc = Object.fromEntries(Object.entries(fcModels).map(([k, f]) => { const e = idxTe.map(t => y[t] - f(t)); return [k, { mae: mean(e.map(Math.abs)), rmse: Math.sqrt(mean(e.map(v => v * v))), r2: 1 - e.reduce((s, v) => s + v * v, 0) / ssTot }]; }));
+  const res = idxTr.map(t => y[t] - arx(t)).sort((a, b) => a - b), qlo = quantile(res, 0.05), qhi = quantile(res, 0.95);
+  const coverage = mean(idxTe.map(t => { const v = y[t] - arx(t); return v >= qlo && v <= qhi ? 1 : 0; }));
+  return { seed, n_rows: rows.length, n_subjects: subjects.length, scheme: 'leave-one-subject-out', subject_disjoint: disjoint, classifier: clf, folds, calibration: bins,
+    forecaster: { split: `chronological ${idxTr.length}/${idxTe.length}`, models: fc, beta, interval90: [qlo, qhi], coverage90: coverage },
+    anomaly: { fpr: anom.fp / (anom.nNom || 1), recall: anom.tp / (anom.nStr || 1), n_nominal: anom.nNom, n_stress: anom.nStr } };
+}
+function renderBenchmark() {
+  const b = runBenchmark(+$('#benchSeed').value); STATE.bench = b;
+  mkChart('cv', 'chartCV', { type: 'bar', data: { labels: b.folds.map(f => `Subject ${f.subject + 1}`), datasets: [
+    { label: 'F1', data: b.folds.map(f => f.f1), backgroundColor: 'rgba(82,217,232,0.6)' }, { label: 'ROC-AUC', data: b.folds.map(f => f.auc), backgroundColor: 'rgba(196,181,253,0.6)' }] },
+    options: { scales: { x: { grid: GRID }, y: { grid: GRID, min: 0, max: 1 } } } });
+  const cal = b.calibration.filter(c => c.n);
+  mkChart('cal', 'chartCalibration', { type: 'scatter', data: { datasets: [
+    { label: 'Held-out bins', data: cal.map(c => ({ x: c.pred, y: c.obs })), backgroundColor: '#52D9E8', pointRadius: cal.map(c => 3 + Math.sqrt(c.n)), showLine: true, borderColor: '#52D9E8' },
+    { label: 'Perfect calibration', data: [{ x: 0, y: 0 }, { x: 1, y: 1 }], showLine: true, borderColor: 'rgba(255,255,255,0.35)', borderDash: [4, 4], pointRadius: 0 }] },
+    options: { scales: { x: { min: 0, max: 1, grid: GRID, title: { display: true, text: 'Mean predicted probability' } }, y: { min: 0, max: 1, grid: GRID, title: { display: true, text: 'Observed stress rate' } } } } });
+  setText('cvNote', `${b.n_subjects} folds, one subject held out each time (${b.n_rows} rows). Logistic regression F1 = ${fmt(b.classifier['Logistic regression'].f1, 3)} ± ${fmt(b.classifier['Logistic regression'].f1_sd, 3)} across folds.`);
+  $('#tableClf tbody').replaceChildren(...Object.entries(b.classifier).map(([k, m]) => el('tr', {}, el('th', { scope: 'row', class: 'row-head', text: k }), el('td', { text: fmt(m.f1, 3) }), el('td', { text: fmt(m.acc, 3) }), el('td', { text: fmt(m.auc, 3) }))));
+  $('#tableFc tbody').replaceChildren(...Object.entries(b.forecaster.models).map(([k, m]) => el('tr', {}, el('th', { scope: 'row', class: 'row-head', text: k }), el('td', { text: fmt(m.mae, 2) }), el('td', { text: fmt(m.rmse, 2) }), el('td', { text: fmt(m.r2, 3) }))));
+  setText('fcNote', `Split ${b.forecaster.split}. ARX 90 % interval from train residual quantiles: test coverage ${fmt(b.forecaster.coverage90 * 100, 1)} %.`);
+  setText('perfFPR', `${fmt(b.anomaly.fpr, 3)} (n=${b.anomaly.n_nominal})`); setText('perfRecall', `${fmt(b.anomaly.recall, 3)} (n=${b.anomaly.n_stress})`);
+  setText('perfDisjoint', b.subject_disjoint ? 'PASS' : 'FAIL');
+  $$('#pipelineSchematic .pipe-step').forEach(s => s.classList.add('active'));
+}
+
+/* ---------- Data ingestion (local only, validated) ---------- */
+const BOUNDS = { hr_bpm: [30, 220], rr_interval_s: [0.27, 2.0], skin_temp_c: [24, 42], eda_microsiemens: [0.01, 60], sleep_efficiency_pct: [0, 100], waso_minutes: [0, 480], cabin_pco2_mmhg: [0.1, 15.2], cabin_co2_mmhg: [0.1, 15.2], cabin_co2_ppm: [150, 20000], cabin_temp_c: [10, 40], cabin_rh_pct: [5, 98], gcr_dose_rate_msv_day: [0, 10], gravity_g: [0, 2], serum_glucose_mg_dl: [40, 400], wbc_10e3_ul: [1, 30], hemoglobin_g_dl: [8, 22] };
+const KNOWN_COLS = new Set(['subject_id', 'timestamp_utc', 'mission_sol', 'actigraphy_axis_x', 'actigraphy_axis_y', 'actigraphy_axis_z', 'stress_condition_label', 'source_dataset_id', 'provenance_tier', 'data_classification', 'is_synthetic', 'synthetic_disclosure', ...Object.keys(BOUNDS)]);
+const REQUIRED_ANY = ['hr_bpm', 'rr_interval_s', 'eda_microsiemens', 'cabin_co2_ppm', 'cabin_pco2_mmhg'];
+function parseCSV(text) {
+  const rows = []; let row = [], cur = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"' && text[i + 1] === '"') { cur += '"'; i++; } else if (c === '"') q = false; else cur += c; }
+    else if (c === '"') q = true; else if (c === ',') { row.push(cur); cur = ''; } else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cur); rows.push(row); row = []; cur = ''; } else cur += c;
+  }
+  if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+  const clean = rows.filter(r => r.some(v => v.trim() !== '')); if (!clean.length) return [];
+  const head = clean[0].map(h => h.trim()); return clean.slice(1).map(r => Object.fromEntries(head.map((h, k) => [h, r[k] ?? ''])));
+}
+function interpolate(vals) { // linear interpolation between valid neighbours, median fallback at the edges
+  const out = vals.slice(), valid = out.map((v, i) => [v, i]).filter(([v]) => Number.isFinite(v)); if (!valid.length) return { out, linear: 0, median: 0, unfilled: out.length };
+  const med = quantile(valid.map(([v]) => v).sort((a, b) => a - b), 0.5); let linear = 0, median = 0;
+  for (let i = 0; i < out.length; i++) {
+    if (Number.isFinite(out[i])) continue;
+    let l = i - 1; while (l >= 0 && !Number.isFinite(vals[l])) l--; let r = i + 1; while (r < out.length && !Number.isFinite(vals[r])) r++;
+    if (l >= 0 && r < out.length) { out[i] = vals[l] + (vals[r] - vals[l]) * (i - l) / (r - l); linear++; } else { out[i] = med; median++; }
+  }
+  return { out, linear, median, unfilled: 0 };
+}
+function validateRecords(records) {
+  if (!Array.isArray(records) || !records.length) throw new Error('No records found');
+  if (records.length > 200000) throw new Error('Too many rows (limit 200,000)');
+  const cols = Object.keys(records[0]), unknown = cols.filter(c => !KNOWN_COLS.has(c)), known = cols.filter(c => KNOWN_COLS.has(c));
+  const schemaOk = REQUIRED_ANY.some(c => cols.includes(c));
+  const report = { rows: records.length, columns: cols.length, known: known.length, unknown, schemaOk, outOfBounds: {}, missing: {}, linear: 0, median: 0, emptySubject: 0, invalidTimestamp: 0 };
+  if (cols.includes('subject_id')) report.emptySubject = records.filter(r => String(r.subject_id ?? '').trim() === '').length;
+  if (cols.includes('timestamp_utc')) report.invalidTimestamp = records.filter(r => Number.isNaN(Date.parse(r.timestamp_utc))).length;
+  const cleaned = records.map(r => ({ ...r }));
+  Object.entries(BOUNDS).filter(([c]) => cols.includes(c)).forEach(([c, [lo, hi]]) => {
+    const vals = records.map(r => { const s = r[c]; const v = s === '' || s === null || s === undefined ? NaN : Number(s); return v; });
+    const miss = vals.filter(v => !Number.isFinite(v)).length, bad = vals.filter(v => Number.isFinite(v) && (v < lo || v > hi)).length;
+    const masked = vals.map(v => (Number.isFinite(v) && v >= lo && v <= hi ? v : NaN)), fill = interpolate(masked);
+    report.missing[c] = miss; if (bad) report.outOfBounds[c] = bad; report.linear += fill.linear; report.median += fill.median;
+    fill.out.forEach((v, i) => { cleaned[i][c] = v; });
+  });
+  report.cleanedPreview = cleaned.slice(0, 3);
+  return report;
+}
+function showIngest(name, rep) {
+  setText('ingestFile', name);
+  setText('ingestSchema', rep.schemaOk ? `PASS · ${rep.known}/${rep.columns} known cols` : `FAIL · none of ${REQUIRED_ANY.join(', ')}`);
+  const oob = Object.values(rep.outOfBounds).reduce((a, b) => a + b, 0);
+  setText('ingestBounds', oob ? `${oob} out-of-range → NaN` : 'PASS · all in range');
+  setText('ingestRows', `${rep.rows.toLocaleString('en-US')} rows`);
+  const miss = Object.values(rep.missing).reduce((a, b) => a + b, 0);
+  setText('ingestNan', `${miss} missing + ${oob} masked → ${rep.linear} linear, ${rep.median} median-filled`);
+  const d = $('#ingestDetails'); d.replaceChildren();
+  Object.entries(rep.outOfBounds).forEach(([c, k]) => d.append(el('li', { text: `${c}: ${k} value(s) outside [${BOUNDS[c].join(', ')}]` })));
+  if (rep.unknown.length) d.append(el('li', { text: `Ignored unknown columns: ${rep.unknown.slice(0, 8).join(', ')}${rep.unknown.length > 8 ? '…' : ''}` }));
+  if (rep.emptySubject) d.append(el('li', { text: `${rep.emptySubject} row(s) with empty subject_id flagged` }));
+  if (rep.invalidTimestamp) d.append(el('li', { text: `${rep.invalidTimestamp} row(s) with invalid timestamp_utc flagged` }));
+}
+function handleFile(file) {
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('File is larger than 5 MB.', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const text = String(reader.result); let recs;
+      if (/\.json$/i.test(file.name)) { const j = JSON.parse(text); recs = Array.isArray(j) ? j : Array.isArray(j.records) ? j.records : Array.isArray(j.data) ? j.data : null; if (!recs) throw new Error('JSON must be an array or {records:[...]}'); }
+      else recs = parseCSV(text);
+      const rep = validateRecords(recs); STATE.ingest = { file: file.name, ...rep, cleanedPreview: undefined }; showIngest(file.name, rep); toast('File validated locally.');
+    } catch (e) { setText('ingestSchema', 'FAIL · could not parse file'); toast('Could not read that file. Check it is valid CSV or JSON.', 'error'); }
+  };
+  reader.onerror = () => toast('Could not read that file.', 'error');
+  reader.readAsText(file);
+}
+const DATASETS = [
+  { id: 'OSD-575', tier: 'A', source: 'NASA OSDR · Inspiration4', vars: 'CMP, cardiac panel, cytokines', n: '4 crew × timepoints', license: 'CC0-1.0' },
+  { id: 'OSD-569', tier: 'A', source: 'NASA OSDR · Inspiration4', vars: 'CBC', n: '4 crew × timepoints', license: 'CC0-1.0' },
+  { id: 'OSD-656', tier: 'A', source: 'NASA OSDR · SOMA', vars: 'Multi-omics', n: '4 crew', license: 'CC0-1.0' },
+  { id: 'OSDR-EDA', tier: 'A', source: 'NASA OSDR Visualization', vars: 'ISS cabin CO₂, temp, RH', n: 'Multi-mission', license: 'CC0-1.0' },
+  { id: 'OSDR-RadLab', tier: 'A', source: 'NASA OSDR RadLab', vars: 'Dose rate, LET spectra', n: 'Multi-mission', license: 'CC0-1.0' },
+  { id: 'NASA-DONKI', tier: 'A', source: 'NASA CCMC DONKI API', vars: 'SEP, flares, CME, storms', n: '2010–present', license: 'Public domain' },
+  { id: 'OSD-51', tier: 'B', source: 'NASA OSDR · WISE-2005', vars: 'Head-down bed rest + countermeasures', n: 'see study', license: 'CC0-1.0' },
+  { id: 'MMASH', tier: 'B', source: 'PhysioNet', vars: 'RR, HR, actigraphy, sleep', n: '22 subjects', license: 'ODC-By' },
+  { id: 'WESAD', tier: 'B', source: 'UCI ML Repository', vars: 'ECG, EDA, resp under stress', n: '15 subjects', license: 'CC-BY-4.0' },
+  { id: 'Sleep-EDFx', tier: 'B', source: 'PhysioNet', vars: 'PSG, hypnograms', n: '197 recordings', license: 'ODC-By' },
+  { id: 'CVES', tier: 'B', source: 'PhysioNet', vars: 'Beat-to-beat HR, ABP', n: 'see study', license: 'ODC-By' },
+  { id: 'NASA-HRP', tier: 'C', source: 'NASA HRP evidence reports', vars: 'BMD loss rate, exposure limits', n: 'literature', license: 'Public domain' },
+];
+function renderDatasets() {
+  const f = $('#datasetFilter').value, tierLabel = { A: 'CAT A · SPACEFLIGHT', B: 'CAT B · TERRESTRIAL', C: 'CAT C · PRIORS' }, badge = { A: 'public', B: 'derived', C: 'simulated' };
+  $('#tableDatasets tbody').replaceChildren(...DATASETS.filter(d => f === 'all' || d.tier === f).map(d => el('tr', {}, el('th', { scope: 'row', class: 'row-head', text: d.id }), el('td', {}, el('span', { class: 'badge ' + badge[d.tier], text: tierLabel[d.tier] })), el('td', { class: 'font-sans', text: d.source }), el('td', { class: 'font-sans', text: d.vars }), el('td', { text: d.n }), el('td', { text: d.license }))));
+}
+
+/* ---------- Exports ---------- */
+function downloadFile(name, content, mime = 'text/plain') {
+  const blob = new Blob([content], { type: mime }), url = URL.createObjectURL(blob);
+  const a = el('a', { href: url, download: name }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return blob.size;
+}
+const csvCell = v => { const s = String(v); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+function trajectoryCSV() {
+  const { A, B } = STATE.results, head = ['scenario', 'sol', 'readiness', 'sleep_pressure', 'rmssd_ms', 'resting_hr_bpm', 'bmd_delta_pct', 'sans_proxy', 'cum_dose_msv', 'data_classification'];
+  const lines = [head.join(',')];
+  [['A', A], ['B', B]].forEach(([k, t]) => { for (let s = 0; s <= t.sols; s++) lines.push([k, s, t.readiness[s], t.S[s], t.rmssd[s], t.hr[s], t.bmd[s], t.sans[s], t.dose[s]].map(v => (typeof v === 'number' ? v.toFixed(4) : v)).concat(s === 0 ? 'BASELINE_ANCHOR' : 'SIMULATED_DATA').map(csvCell).join(',')); });
+  return lines.join('\n');
+}
+function stateBundle() {
+  const { A, B } = STATE.results, n = A.sols;
+  return JSON.stringify({ system: 'ASTRAVIVE', version: '2.1', generated_utc: new Date().toISOString(), data_mode: 'SIMULATED (in-browser)',
+    mission: { ...STATE.mission, environment: env() }, scenarios: STATE.scen,
+    twin: { sols: n, terminal: { A: { readiness: A.readiness[n], rmssd: A.rmssd[n], bmd: A.bmd[n], sans: A.sans[n], S: A.S[n], dose: A.dose[n] }, B: { readiness: B.readiness[n], rmssd: B.rmssd[n], bmd: B.bmd[n], sans: B.sans[n], S: B.S[n], dose: B.dose[n] } }, readiness_A: A.readiness, readiness_B: B.readiness },
+    xai: STATE.xai, benchmark: STATE.bench, diagnostics: STATE.diag, ingestion: STATE.ingest, faults: STATE.faults }, null, 2);
+}
+function sqlExport() {
+  const { A, B } = STATE.results, lines = ['-- ASTRAVIVE twin trajectories (SIMULATED)', 'CREATE TABLE IF NOT EXISTS twin_trajectory (scenario TEXT, sol INTEGER, readiness REAL, sleep_pressure REAL, rmssd_ms REAL, bmd_delta_pct REAL, sans_proxy REAL, cum_dose_msv REAL, data_classification TEXT);', 'BEGIN;'];
+  [['A', A], ['B', B]].forEach(([k, t]) => { for (let s = 0; s <= t.sols; s++) lines.push(`INSERT INTO twin_trajectory VALUES ('${k}', ${s}, ${t.readiness[s].toFixed(4)}, ${t.S[s].toFixed(4)}, ${t.rmssd[s].toFixed(4)}, ${t.bmd[s].toFixed(4)}, ${t.sans[s].toFixed(4)}, ${t.dose[s].toFixed(4)}, '${s ? 'SIMULATED_DATA' : 'BASELINE_ANCHOR'}');`); });
+  lines.push('COMMIT;'); return lines.join('\n');
+}
+
+/* ---------- Verification suite (computed PASS/FAIL) ---------- */
+function runDiagnostics() {
+  const checks = [];
+  const add = (name, fn) => { let ok = false, detail = ''; try { [ok, detail] = fn(); } catch (e) { ok = false; detail = 'threw: ' + (e && e.message); } checks.push({ name, ok: !!ok, detail }); };
+  add('Tabs: all 9 panels switch and set aria-selected', () => {
+    const prev = currentTab(), names = $$('.tab-btn').map(t => t.dataset.tab); let ok = names.length === 9;
+    names.forEach(nm => { switchTab(nm, false); ok = ok && !$('#tab-' + nm).hidden && $('#tabbtn-' + nm).getAttribute('aria-selected') === 'true'; });
+    switchTab(prev, false); return [ok, `${names.length} tabs`];
+  });
+  add('Twin parity with Python simulator (default A/B, 90 Sol, 0 g)', () => {
+    const o = { sols: 90, gravity: 0, doseRate: 0 }, a = twinSimulate(DEFAULTS.A, o), b = twinSimulate(DEFAULTS.B, o);
+    const diffs = [a.readiness[42] - PY_REFERENCE.A[42], a.readiness[90] - PY_REFERENCE.A[90], b.readiness[42] - PY_REFERENCE.B[42], b.readiness[90] - PY_REFERENCE.B[90], a.sans[90] - PY_REFERENCE.sans90A, b.rmssd[90] - PY_REFERENCE.rmssd90B, a.bmd[90] - PY_REFERENCE.bmd90A].map(Math.abs);
+    return [Math.max(...diffs) < 0.006, `max |Δ| = ${Math.max(...diffs).toExponential(1)}`];
+  });
+  add('Bounds: out-of-range inputs are clamped', () => { const p = boundParams({ sleep: 0.5, rec: 99, workload: 999, ex: -50, co2: 45 }); const t = twinSimulate(p, { sols: 5000 }); return [p.sleep === 4 && p.rec === 4 && p.workload === 100 && p.ex === 0 && p.co2 === 6 && t.sols === 900 && t.readiness.every(Number.isFinite), 'sleep→4, co2→6, sols→900']; });
+  add('Missing data: interpolation leaves no NaN', () => { const v = [NaN, 1, NaN, NaN, 4, NaN]; const r = interpolate(v); return [r.out.every(Number.isFinite) && r.linear === 2 && r.median === 2 && Math.abs(r.out[2] - 2) < 1e-9, `${r.linear} linear, ${r.median} median`]; });
+  add('Ingestion: CSV parse, bounds, empty subject', () => { const rep = validateRecords(parseCSV('subject_id,timestamp_utc,hr_bpm,eda_microsiemens\nS1,2026-01-01T00:00:00Z,295,3\n ,bad,70,\nS1,2026-01-01T00:02:00Z,72,4\n')); return [rep.schemaOk && rep.outOfBounds.hr_bpm === 1 && rep.emptySubject === 1 && rep.invalidTimestamp === 1 && rep.missing.eda_microsiemens === 1, `oob=${rep.outOfBounds.hr_bpm}, empty=${rep.emptySubject}`]; });
+  add('Benchmark: train/test subjects disjoint, models beat Dummy AUC', () => { const b = STATE.bench || runBenchmark(42); return [b.subject_disjoint && b.classifier['Logistic regression'].auc > b.classifier.Dummy.auc, `LR AUC ${fmt(b.classifier['Logistic regression'].auc, 3)} vs Dummy ${fmt(b.classifier.Dummy.auc, 3)}`]; });
+  add('Twin: default B outperforms A; Shapley additivity', () => { const n = 90, a = twinSimulate(DEFAULTS.A, { sols: n, gravity: 0 }), b = twinSimulate(DEFAULTS.B, { sols: n, gravity: 0 }); const s = exactShapley(DEFAULTS.A, DEFAULTS.B, 'readiness', n); return [b.readiness[n] > a.readiness[n] + 10 && s.residual < 1e-9, `ΔR = ${fmt(b.readiness[n] - a.readiness[n], 2)}, residual ${s.residual.toExponential(1)}`]; });
+  add('Charts rendered (or fallback shown)', () => { const k = Object.keys(STATE.charts).length; return [HAS_CHART ? k >= 3 : $$('.chart-fallback').length > 0, HAS_CHART ? `${k} live charts` : 'fallback']; });
+  add('Layout: no horizontal overflow', () => { const w = document.documentElement; return [w.scrollWidth <= w.clientWidth + 1, `${w.scrollWidth} ≤ ${w.clientWidth}`]; });
+  add('Export: JSON bundle and CSV non-empty and parseable', () => { const j = JSON.parse(stateBundle()), c = trajectoryCSV(); return [j.twin && j.twin.sols > 0 && c.split('\n').length > 100, `${c.split('\n').length} CSV lines`]; });
+  add('Integrity: no unseeded randomness in page scripts', () => { const src = $$('script:not([src])').map(s => s.textContent).join('\n'); const bad = ['Math', 'random'].join('.'); return [!src.includes(bad + '('), 'seeded mulberry32 only']; });
+  STATE.diag = { run_utc: new Date().toISOString(), passed: checks.filter(c => c.ok).length, total: checks.length, checks };
+  $('#diagnosticsList').replaceChildren(...checks.map(c => el('li', { class: 'diag-row' }, el('span', { class: 'diag-badge ' + (c.ok ? 'ok' : 'fail'), text: c.ok ? 'PASS' : 'FAIL' }), el('span', { class: 'text-[12px] text-white flex-1', text: c.name }), el('span', { class: 'text-[11px] font-mono text-cyan-300/80', text: c.detail }))));
+  const ps = $('#pipelineStatus'); ps.textContent = `DIAG ${STATE.diag.passed}/${STATE.diag.total} PASS`; ps.className = 'val ' + (STATE.diag.passed === STATE.diag.total ? 'ok' : 'crit');
+  return STATE.diag;
+}
+function injectFault(type) {
+  const log = $('#faultLog'); let msg = '';
+  if (type === 'hr_spike') { const rep = validateRecords([{ subject_id: 'S1', hr_bpm: 70 }, { subject_id: 'S1', hr_bpm: 295 }, { subject_id: 'S1', hr_bpm: 74 }]); msg = `HR 295 bpm flagged out of [30, 220] (${rep.outOfBounds.hr_bpm} row) and linearly re-filled (${rep.linear}).`; }
+  else if (type === 'pco2_high') { const p = boundParams({ ...STATE.scen.A, co2: 8.2 }), t = twinSimulate(p), n = t.sols; msg = `Twin input pCO₂ 8.2 mmHg clamped to ${p.co2} (model max). Final SANS ${fmt(t.sans[n])} vs ${fmt(STATE.results.A.sans[n])} at the current setting.`; }
+  else if (type === 'missing_data') { const r = mulberry32(5), vals = STREAM.slice(0, 200).map(x => (r() < 0.2 ? NaN : x.hr)), miss = vals.filter(v => !Number.isFinite(v)).length, f = interpolate(vals); msg = `${miss}/200 HR samples dropped; ${f.linear} linearly interpolated, ${f.median} median-filled; remaining NaN: ${f.out.filter(v => !Number.isFinite(v)).length}.`; }
+  else if (type === 'empty_subject') { const rep = validateRecords([{ subject_id: '', hr_bpm: 70 }, { subject_id: '  ', hr_bpm: 71 }, { subject_id: 'S2', hr_bpm: 72 }]); msg = `${rep.emptySubject} row(s) with empty subject_id flagged; they would be excluded from subject-grouped CV.`; }
+  else if (type === 'webgl_disable') { webglFallback('disabled by fault test'); msg = '3D renderer stopped; 2D fallback active and organ nodes still focusable.'; }
+  else if (type === 'reset') { STATE.faults = []; if (!STATE.webglEnabled) { $$('#holoStage .holo-fallback').forEach(n => n.remove()); STATE.webglEnabled = true; initHolographicAstronaut(); } msg = 'Faults cleared.'; }
+  if (type !== 'reset') STATE.faults.push({ type, msg, utc: new Date().toISOString() });
+  log.textContent = msg;
+}
+function runEmergency() {
+  const type = $('#emergencyType').value, base = STATE.results.A, n = base.sols, logEl = $('#emergencyLog');
+  if (type === 'ortho') { logEl.textContent = 'Orthostatic intolerance is not modeled by this twin (no plasma-volume state). No result is shown rather than an invented one.'; return; }
+  let t, note;
+  if (type === 'spe') { const d0 = Math.min(STATE.mission.sol, n - 3); t = twinSimulate(STATE.scen.A, { doseRate: s => (s >= d0 && s < d0 + 3 ? env().dose * 10 : env().dose) }); note = `Assumed SPE: 10× dose rate for Sols ${d0}–${d0 + 2}.`; }
+  else if (type === 'co2') { t = twinSimulate({ ...STATE.scen.A, co2: 6.8 }); note = 'Requested 6.8 mmHg; the twin clamps pCO₂ to its 6.0 mmHg domain limit.'; }
+  else { t = twinSimulate({ ...STATE.scen.A, sleep: 4 }); note = 'Sleep set to 4 h/night for the whole mission.'; }
+  logEl.textContent = `${note} Final Sol ${n}: readiness ${fmt(t.readiness[n], 2)} (${signed(t.readiness[n] - base.readiness[n], 2)}), SANS ${fmt(t.sans[n], 1)} (${signed(t.sans[n] - base.sans[n], 1)}), RMSSD ${fmt(t.rmssd[n], 1)} ms (${signed(t.rmssd[n] - base.rmssd[n], 1)}), dose ${fmt(t.dose[n], 1)} mSv (${signed(t.dose[n] - base.dose[n], 1)}). Dose is not part of readiness.`;
+}
+
+/* ---------- Modals (focus trap, Esc, restore focus) ---------- */
+let modalOpener = null;
+function openModal(sel, opener) {
+  const m = $(sel); modalOpener = opener || document.activeElement;
+  m.classList.add('open'); m.setAttribute('aria-hidden', 'false'); $('main').setAttribute('inert', '');
+  const f = m.querySelector('button, select, input'); if (f) f.focus();
+}
+function closeModal(m) { m.classList.remove('open'); m.setAttribute('aria-hidden', 'true'); $('main').removeAttribute('inert'); if (modalOpener && modalOpener.focus) modalOpener.focus(); }
+document.addEventListener('keydown', e => {
+  const m = $('.modal-backdrop.open'); if (!m) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeModal(m); return; }
+  if (e.key === 'Tab') { const f = $$('button, select, input, [tabindex]:not([tabindex="-1"])', m).filter(x => !x.disabled); if (!f.length) return; const first = f[0], last = f[f.length - 1]; if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); } }
+});
+$$('.modal-backdrop').forEach(m => { m.addEventListener('click', e => { if (e.target === m || e.target.closest('[data-close]')) closeModal(m); }); });
+
+/* ---------- Tabs (WAI-ARIA tabs pattern) ---------- */
+const TAB_RENDER = { overview: () => { renderOverview(); drawSansBrain(); }, health: renderHealth, forecast: renderForecast, twin: renderTwin, environment: renderEnvironment, xai: renderXAI, performance: () => { if (!STATE.bench) renderBenchmark(); }, data: renderDatasets, settings: () => {} };
+const rendered = {};
+const currentTab = () => ($('.tab-btn[aria-selected="true"]') || {}).dataset?.tab || 'overview';
+function switchTab(name, focus = true) {
+  $$('.tab-btn').forEach(b => { const on = b.dataset.tab === name; b.classList.toggle('active', on); b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
+  $$('.tab-panel').forEach(p => { const on = p.id === 'tab-' + name; p.hidden = !on; p.classList.toggle('active', on); });
+  STATE.threePaused = name !== 'overview';
+  if (!rendered[name]) { rendered[name] = true; TAB_RENDER[name](); }
+}
+$('#tabNav').addEventListener('click', e => { const b = e.target.closest('.tab-btn'); if (b) switchTab(b.dataset.tab); });
+$('#tabNav').addEventListener('keydown', e => {
+  const tabs = $$('.tab-btn'), i = tabs.indexOf(document.activeElement); if (i < 0) return;
+  const map = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 };
+  if (e.key in map) { e.preventDefault(); switchTab(tabs[(map[e.key] + tabs.length) % tabs.length].dataset.tab); }
+});
+
+/* ---------- Recompute and wiring ---------- */
+function recomputeAll() {
+  computeAll(); renderHeader();
+  Object.keys(rendered).forEach(k => { delete rendered[k]; });
+  const cur = currentTab(); rendered[cur] = true; TAB_RENDER[cur]();
+  if (cur !== 'overview') { renderOverview(); rendered.overview = true; }
+}
+function applyConfig(e) {
+  e.preventDefault();
+  const name = $('#cfgMission').value.replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 40) || 'UNNAMED MISSION';
+  const dur = clamp(Math.round(+$('#cfgDuration').value || 90), 14, 900), sol = clamp(Math.round(+$('#cfgSol').value || 1), 1, dur);
+  const envKey = Object.prototype.hasOwnProperty.call(ENVIRONMENTS, $('#cfgEnv').value) ? $('#cfgEnv').value : 'gateway';
+  Object.assign(STATE.mission, { name, crew: $('#cfgCrew').value, total: dur, sol, env: envKey });
+  $('#cfgDuration').value = dur; $('#cfgSol').value = sol; $('#cfgMission').value = name;
+  setText('cfgMsg', `Applied: ${dur} Sol, current Sol ${sol}, ${ENVIRONMENTS[envKey].label} (gravity ${ENVIRONMENTS[envKey].gravity} g, ${ENVIRONMENTS[envKey].dose} mSv/d).`);
+  recomputeAll(); toast('Configuration applied.');
+}
+function wire() {
+  $('#healthChannel').addEventListener('change', renderHealth); $('#healthWindow').addEventListener('change', renderHealth);
+  $('#forecastSubsystem').addEventListener('change', renderForecast); $('#forecastHorizon').addEventListener('change', renderForecast);
+  $('#twinMetric').addEventListener('change', renderTwin);
+  $$('[data-reset]').forEach(b => b.addEventListener('click', () => { const sc = b.dataset.reset; STATE.scen[sc] = { ...DEFAULTS[sc] }; buildSliders(); recomputeAll(); }));
+  $('#donkiEvent').addEventListener('change', renderEnvironment);
+  $('#xaiPreset').addEventListener('change', renderXAI); $('#xaiTarget').addEventListener('change', renderXAI);
+  $('#btnRunBenchmark').addEventListener('click', () => { renderBenchmark(); toast(`Benchmark re-run with seed ${STATE.bench.seed}.`); });
+  $('#benchSeed').addEventListener('change', renderBenchmark);
+  $('#datasetFilter').addEventListener('change', renderDatasets);
+  $('#btnDownloadDatasets').addEventListener('click', () => downloadFile('astravive_dataset_registry.csv', ['id,tier,source,variables,n,license', ...DATASETS.map(d => [d.id, d.tier, d.source, d.vars, d.n, d.license].map(csvCell).join(','))].join('\n'), 'text/csv'));
+  $('#fileIngest').addEventListener('change', e => handleFile(e.target.files[0]));
+  $('#cfgForm').addEventListener('submit', applyConfig);
+  $('#btnExportCSV').addEventListener('click', () => downloadFile('astravive_twin_trajectories.csv', trajectoryCSV(), 'text/csv'));
+  const exportJson = () => downloadFile('astravive_state_bundle.json', stateBundle(), 'application/json');
+  $('#btnExportJSON').addEventListener('click', exportJson); $('#btnExportJson').addEventListener('click', exportJson);
+  $('#btnExportSQLite').addEventListener('click', () => downloadFile('astravive_twin.sql', sqlExport(), 'application/sql'));
+  $('#btnRunDiagnostics').addEventListener('click', () => { const d = runDiagnostics(); toast(`Verification: ${d.passed}/${d.total} passed.`, d.passed === d.total ? 'success' : 'error'); });
+  $$('[data-fault]').forEach(b => b.addEventListener('click', () => injectFault(b.dataset.fault)));
+  $('#btnEmergency').addEventListener('click', e => openModal('#modalEmergency', e.currentTarget));
+  $('#btnInjectEmergency').addEventListener('click', runEmergency);
+  let rz = 0; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { if (currentTab() === 'overview') { renderOverview(); drawSansBrain(); } }, 200); });
+}
+function updateClock() { const d = new Date(); setText('utcClock', `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}:${String(d.getUTCSeconds()).padStart(2, '0')}Z`); }
+
+function init() {
+  updateClock(); setInterval(updateClock, 1000);
+  fillTable('#tableCBC', CBC); fillTable('#tableCMP', CMP);
+  buildSliders(); wire(); computeAll(); renderHeader();
+  initWaveform('waveHR', { base: 70, noise: 1.2, range: 25, color: '#f87171' });
+  initWaveform('waveRMSSD', { base: 40, noise: 1.0, range: 25, color: '#52D9E8' });
+  initHolographicAstronaut();
+  rendered.overview = true; renderOverview(); drawSansBrain();
+  requestAnimationFrame(tickWaveforms);
+  window.ASTRAVIVE = { twinSimulate, exactShapley, runBenchmark, runDiagnostics, validateRecords, parseCSV, STATE };
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+</script>
+</body>
+</html>

@@ -1,0 +1,473 @@
+{
+  "generated_at_utc": "2026-11-09T00:22:46.498715+00:00",
+  "selected_model": "1. Logistic Regression (L2 Regularized)",
+  "explainer_method": "SHAP PermutationExplainer \u00b7 probability space (LogisticRegression)",
+  "mandatory_disclaimers": {
+    "non_causation_statement": "CRITICAL EPISTEMIC LIMITATION \u2014 CORRELATION VS. CAUSATION: SHAP feature attributions (phi_j) and permutation importance scores measure how much each input variable shifts the statistical model's prediction relative to the training distribution baseline E[f(X)]. Feature contributions DO NOT establish biological or clinical causation. Observational associations in wearable and habitat telemetry can be confounded by unmeasured variables or shared autonomic pathways.",
+    "non_diagnostic_statement": "REGULATORY & CLINICAL NOTICE \u2014 NOT A MEDICAL DIAGNOSTIC TOOL: ASTRAVIVE is an exploratory biomedical research prototype and digital-twin simulation sandbox. Model predictions, risk indices, and feature explanations do NOT constitute medical diagnosis or clinical advice, and must never replace qualified aerospace medicine physicians (Flight Surgeons) or validated clinical laboratory diagnostics."
+  },
+  "global_feature_importance": [
+    {
+      "rank": 1,
+      "feature_key": "eda_microsiemens",
+      "display_name": "Electrodermal Activity EDA (uS)",
+      "subsystem": "Sympathetic Sudomotor",
+      "mean_abs_shap": 0.14811,
+      "relative_importance_pct": 49.85,
+      "permutation_importance_mean": 0.09551,
+      "permutation_importance_std": 0.00697,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 2,
+      "feature_key": "hr_bpm",
+      "display_name": "Heart Rate (bpm)",
+      "subsystem": "Cardiovascular / Autonomic",
+      "mean_abs_shap": 0.09684,
+      "relative_importance_pct": 32.6,
+      "permutation_importance_mean": 0.03983,
+      "permutation_importance_std": 0.00556,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 3,
+      "feature_key": "derived_actigraphy_enmo_g",
+      "display_name": "Wrist Actigraphy ENMO (g)",
+      "subsystem": "Locomotor / Physical Workload",
+      "mean_abs_shap": 0.01287,
+      "relative_importance_pct": 4.33,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 4,
+      "feature_key": "skin_temp_c",
+      "display_name": "Peripheral Skin Temp (degC)",
+      "subsystem": "Thermoregulatory / Vascular",
+      "mean_abs_shap": 0.01258,
+      "relative_importance_pct": 4.24,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with LOWER predicted score (-)"
+    },
+    {
+      "rank": 5,
+      "feature_key": "derived_hrv_sdnn_ms",
+      "display_name": "HRV SDNN Total Variability (ms)",
+      "subsystem": "Autonomic Nervous System",
+      "mean_abs_shap": 0.00874,
+      "relative_importance_pct": 2.94,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 6,
+      "feature_key": "derived_hrv_rmssd_ms",
+      "display_name": "HRV RMSSD Vagal Tone (ms)",
+      "subsystem": "Autonomic Parasympathetic",
+      "mean_abs_shap": 0.00851,
+      "relative_importance_pct": 2.87,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 7,
+      "feature_key": "rolling_past_workload_enmo",
+      "display_name": "Cumulative Past Physical Workload (g)",
+      "subsystem": "Musculoskeletal / Exertion",
+      "mean_abs_shap": 0.0065,
+      "relative_importance_pct": 2.19,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 8,
+      "feature_key": "derived_sympathovagal_ratio",
+      "display_name": "Sympathovagal Index (HR / RMSSD)",
+      "subsystem": "Autonomic Stress Balance",
+      "mean_abs_shap": 0.00159,
+      "relative_importance_pct": 0.53,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with HIGHER predicted score (+)"
+    },
+    {
+      "rank": 9,
+      "feature_key": "autonomic_recovery_velocity",
+      "display_name": "Post-Exertion RMSSD Rebound (ms/epoch)",
+      "subsystem": "Autonomic Recovery",
+      "mean_abs_shap": 0.001,
+      "relative_importance_pct": 0.34,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with LOWER predicted score (-)"
+    },
+    {
+      "rank": 10,
+      "feature_key": "derived_borbely_sleep_pressure_s",
+      "display_name": "Borbely Sleep Pressure (S_t)",
+      "subsystem": "Circadian / Homeostatic Sleep",
+      "mean_abs_shap": 0.00035,
+      "relative_importance_pct": 0.12,
+      "permutation_importance_mean": 0.0,
+      "permutation_importance_std": 0.0,
+      "direction_of_association": "Higher feature values associate with LOWER predicted score (-)"
+    }
+  ],
+  "individual_prediction_explanations": {
+    "nominal_baseline_observation": {
+      "observation_id": "INDIV-NOMINAL-WINDOW-01",
+      "subject_id": "SYNTH-MMASH-SUBJ-01",
+      "timestamp_utc": "2026-05-01T06:15:00Z",
+      "target_task": "Acute Autonomic Stress Probability P(Stress | x)",
+      "explainer_method": "SHAP PermutationExplainer \u00b7 probability space (LogisticRegression)",
+      "baseline_expected_value": 0.18299,
+      "final_model_prediction": 0.00049,
+      "total_additive_shift": -0.1825,
+      "additivity_check_residual": 0.0,
+      "top_positive_drivers": [
+        {
+          "feature_key": "derived_sympathovagal_ratio",
+          "display_name": "Sympathovagal Index (HR / RMSSD)",
+          "observed_value": 2.5098,
+          "reference_baseline_mean": 1.4148,
+          "unit": "bpm/ms",
+          "shap_contribution": 0.00084,
+          "contribution_pct_of_total_shift": 0.45,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "autonomic_recovery_velocity",
+          "display_name": "Post-Exertion RMSSD Rebound (ms/epoch)",
+          "observed_value": -1.218,
+          "reference_baseline_mean": 0.1044,
+          "unit": "ms/epoch",
+          "shap_contribution": 0.00033,
+          "contribution_pct_of_total_shift": 0.18,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_borbely_sleep_pressure_s",
+          "display_name": "Borbely Sleep Pressure (S_t)",
+          "observed_value": 0.1685,
+          "reference_baseline_mean": 0.1721,
+          "unit": "index [0-1]",
+          "shap_contribution": 0.0001,
+          "contribution_pct_of_total_shift": 0.06,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        }
+      ],
+      "top_negative_stabilizers": [
+        {
+          "feature_key": "eda_microsiemens",
+          "display_name": "Electrodermal Activity EDA (uS)",
+          "observed_value": 0.733,
+          "reference_baseline_mean": 1.9555,
+          "unit": "uS",
+          "shap_contribution": -0.0816,
+          "contribution_pct_of_total_shift": 44.1,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "hr_bpm",
+          "display_name": "Heart Rate (bpm)",
+          "observed_value": 61.34,
+          "reference_baseline_mean": 71.3926,
+          "unit": "bpm",
+          "shap_contribution": -0.06798,
+          "contribution_pct_of_total_shift": 36.74,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_hrv_rmssd_ms",
+          "display_name": "HRV RMSSD Vagal Tone (ms)",
+          "observed_value": 24.44,
+          "reference_baseline_mean": 68.8318,
+          "unit": "ms",
+          "shap_contribution": -0.0106,
+          "contribution_pct_of_total_shift": 5.73,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        }
+      ],
+      "all_feature_contributions": [
+        {
+          "feature_key": "eda_microsiemens",
+          "display_name": "Electrodermal Activity EDA (uS)",
+          "observed_value": 0.733,
+          "reference_baseline_mean": 1.9555,
+          "unit": "uS",
+          "shap_contribution": -0.0816,
+          "contribution_pct_of_total_shift": 44.1,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "hr_bpm",
+          "display_name": "Heart Rate (bpm)",
+          "observed_value": 61.34,
+          "reference_baseline_mean": 71.3926,
+          "unit": "bpm",
+          "shap_contribution": -0.06798,
+          "contribution_pct_of_total_shift": 36.74,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_hrv_rmssd_ms",
+          "display_name": "HRV RMSSD Vagal Tone (ms)",
+          "observed_value": 24.44,
+          "reference_baseline_mean": 68.8318,
+          "unit": "ms",
+          "shap_contribution": -0.0106,
+          "contribution_pct_of_total_shift": 5.73,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_actigraphy_enmo_g",
+          "display_name": "Wrist Actigraphy ENMO (g)",
+          "observed_value": 0.0,
+          "reference_baseline_mean": 0.1043,
+          "unit": "g",
+          "shap_contribution": -0.0101,
+          "contribution_pct_of_total_shift": 5.46,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_hrv_sdnn_ms",
+          "display_name": "HRV SDNN Total Variability (ms)",
+          "observed_value": 17.653,
+          "reference_baseline_mean": 50.3406,
+          "unit": "ms",
+          "shap_contribution": -0.00788,
+          "contribution_pct_of_total_shift": 4.26,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "rolling_past_workload_enmo",
+          "display_name": "Cumulative Past Physical Workload (g)",
+          "observed_value": 0.0661,
+          "reference_baseline_mean": 0.1044,
+          "unit": "g",
+          "shap_contribution": -0.00451,
+          "contribution_pct_of_total_shift": 2.44,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "skin_temp_c",
+          "display_name": "Peripheral Skin Temp (degC)",
+          "observed_value": 36.55,
+          "reference_baseline_mean": 36.6221,
+          "unit": "degC",
+          "shap_contribution": -0.00109,
+          "contribution_pct_of_total_shift": 0.59,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_sympathovagal_ratio",
+          "display_name": "Sympathovagal Index (HR / RMSSD)",
+          "observed_value": 2.5098,
+          "reference_baseline_mean": 1.4148,
+          "unit": "bpm/ms",
+          "shap_contribution": 0.00084,
+          "contribution_pct_of_total_shift": 0.45,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "autonomic_recovery_velocity",
+          "display_name": "Post-Exertion RMSSD Rebound (ms/epoch)",
+          "observed_value": -1.218,
+          "reference_baseline_mean": 0.1044,
+          "unit": "ms/epoch",
+          "shap_contribution": 0.00033,
+          "contribution_pct_of_total_shift": 0.18,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_borbely_sleep_pressure_s",
+          "display_name": "Borbely Sleep Pressure (S_t)",
+          "observed_value": 0.1685,
+          "reference_baseline_mean": 0.1721,
+          "unit": "index [0-1]",
+          "shap_contribution": 0.0001,
+          "contribution_pct_of_total_shift": 0.06,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        }
+      ],
+      "natural_language_explanation": "For subject 'SYNTH-MMASH-SUBJ-01' at 2026-05-01T06:15:00Z, the model's baseline expectation across the reference cohort is E[f(X)] = 0.183, and the final predicted output for 'Acute Autonomic Stress Probability P(Stress | x)' is f(x) = 0.000 (net additive shift = -0.183). The primary features associated with increasing the predicted score are: Sympathovagal Index (HR / RMSSD) (2.5098 bpm/ms, SHAP=+0.001), Post-Exertion RMSSD Rebound (ms/epoch) (-1.218 ms/epoch, SHAP=+0.000), Borbely Sleep Pressure (S_t) (0.1685 index [0-1], SHAP=+0.000). The primary features associated with reducing/stabilizing the predicted score are: Electrodermal Activity EDA (uS) (0.733 uS, SHAP=-0.082), Heart Rate (bpm) (61.34 bpm, SHAP=-0.068), HRV RMSSD Vagal Tone (ms) (24.44 ms, SHAP=-0.011). NOTE: These SHAP attributions reflect statistical model associations only and do not establish biological causation or a clinical medical diagnosis.",
+      "non_causation_disclaimer": "CRITICAL EPISTEMIC LIMITATION \u2014 CORRELATION VS. CAUSATION: SHAP feature attributions (phi_j) and permutation importance scores measure how much each input variable shifts the statistical model's prediction relative to the training distribution baseline E[f(X)]. Feature contributions DO NOT establish biological or clinical causation. Observational associations in wearable and habitat telemetry can be confounded by unmeasured variables or shared autonomic pathways.",
+      "non_diagnostic_disclaimer": "REGULATORY & CLINICAL NOTICE \u2014 NOT A MEDICAL DIAGNOSTIC TOOL: ASTRAVIVE is an exploratory biomedical research prototype and digital-twin simulation sandbox. Model predictions, risk indices, and feature explanations do NOT constitute medical diagnosis or clinical advice, and must never replace qualified aerospace medicine physicians (Flight Surgeons) or validated clinical laboratory diagnostics."
+    },
+    "acute_stress_excursion_observation": {
+      "observation_id": "INDIV-STRESS-EXCURSION-02",
+      "subject_id": "SYNTH-MMASH-SUBJ-01",
+      "timestamp_utc": "2026-05-01T07:40:00Z",
+      "target_task": "Acute Autonomic Stress Probability P(Stress | x)",
+      "explainer_method": "SHAP PermutationExplainer \u00b7 probability space (LogisticRegression)",
+      "baseline_expected_value": 0.18299,
+      "final_model_prediction": 0.98821,
+      "total_additive_shift": 0.80522,
+      "additivity_check_residual": 0.0,
+      "top_positive_drivers": [
+        {
+          "feature_key": "eda_microsiemens",
+          "display_name": "Electrodermal Activity EDA (uS)",
+          "observed_value": 6.191,
+          "reference_baseline_mean": 1.9555,
+          "unit": "uS",
+          "shap_contribution": 0.54666,
+          "contribution_pct_of_total_shift": 64.88,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "hr_bpm",
+          "display_name": "Heart Rate (bpm)",
+          "observed_value": 87.26,
+          "reference_baseline_mean": 71.3926,
+          "unit": "bpm",
+          "shap_contribution": 0.18866,
+          "contribution_pct_of_total_shift": 22.39,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "skin_temp_c",
+          "display_name": "Peripheral Skin Temp (degC)",
+          "observed_value": 36.52,
+          "reference_baseline_mean": 36.6221,
+          "unit": "degC",
+          "shap_contribution": 0.02608,
+          "contribution_pct_of_total_shift": 3.1,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        }
+      ],
+      "top_negative_stabilizers": [
+        {
+          "feature_key": "autonomic_recovery_velocity",
+          "display_name": "Post-Exertion RMSSD Rebound (ms/epoch)",
+          "observed_value": 88.172,
+          "reference_baseline_mean": 0.1044,
+          "unit": "ms/epoch",
+          "shap_contribution": -0.0157,
+          "contribution_pct_of_total_shift": 1.86,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_sympathovagal_ratio",
+          "display_name": "Sympathovagal Index (HR / RMSSD)",
+          "observed_value": 0.7115,
+          "reference_baseline_mean": 1.4148,
+          "unit": "bpm/ms",
+          "shap_contribution": -0.00294,
+          "contribution_pct_of_total_shift": 0.35,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        }
+      ],
+      "all_feature_contributions": [
+        {
+          "feature_key": "eda_microsiemens",
+          "display_name": "Electrodermal Activity EDA (uS)",
+          "observed_value": 6.191,
+          "reference_baseline_mean": 1.9555,
+          "unit": "uS",
+          "shap_contribution": 0.54666,
+          "contribution_pct_of_total_shift": 64.88,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "hr_bpm",
+          "display_name": "Heart Rate (bpm)",
+          "observed_value": 87.26,
+          "reference_baseline_mean": 71.3926,
+          "unit": "bpm",
+          "shap_contribution": 0.18866,
+          "contribution_pct_of_total_shift": 22.39,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "skin_temp_c",
+          "display_name": "Peripheral Skin Temp (degC)",
+          "observed_value": 36.52,
+          "reference_baseline_mean": 36.6221,
+          "unit": "degC",
+          "shap_contribution": 0.02608,
+          "contribution_pct_of_total_shift": 3.1,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_hrv_rmssd_ms",
+          "display_name": "HRV RMSSD Vagal Tone (ms)",
+          "observed_value": 122.638,
+          "reference_baseline_mean": 68.8318,
+          "unit": "ms",
+          "shap_contribution": 0.02505,
+          "contribution_pct_of_total_shift": 2.97,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_hrv_sdnn_ms",
+          "display_name": "HRV SDNN Total Variability (ms)",
+          "observed_value": 108.414,
+          "reference_baseline_mean": 50.3406,
+          "unit": "ms",
+          "shap_contribution": 0.02379,
+          "contribution_pct_of_total_shift": 2.82,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "autonomic_recovery_velocity",
+          "display_name": "Post-Exertion RMSSD Rebound (ms/epoch)",
+          "observed_value": 88.172,
+          "reference_baseline_mean": 0.1044,
+          "unit": "ms/epoch",
+          "shap_contribution": -0.0157,
+          "contribution_pct_of_total_shift": 1.86,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_actigraphy_enmo_g",
+          "display_name": "Wrist Actigraphy ENMO (g)",
+          "observed_value": 0.1425,
+          "reference_baseline_mean": 0.1043,
+          "unit": "g",
+          "shap_contribution": 0.01345,
+          "contribution_pct_of_total_shift": 1.6,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_sympathovagal_ratio",
+          "display_name": "Sympathovagal Index (HR / RMSSD)",
+          "observed_value": 0.7115,
+          "reference_baseline_mean": 1.4148,
+          "unit": "bpm/ms",
+          "shap_contribution": -0.00294,
+          "contribution_pct_of_total_shift": 0.35,
+          "direction": "DECREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "rolling_past_workload_enmo",
+          "display_name": "Cumulative Past Physical Workload (g)",
+          "observed_value": 0.0976,
+          "reference_baseline_mean": 0.1044,
+          "unit": "g",
+          "shap_contribution": 0.00012,
+          "contribution_pct_of_total_shift": 0.01,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        },
+        {
+          "feature_key": "derived_borbely_sleep_pressure_s",
+          "display_name": "Borbely Sleep Pressure (S_t)",
+          "observed_value": 0.1685,
+          "reference_baseline_mean": 0.1721,
+          "unit": "index [0-1]",
+          "shap_contribution": 5e-05,
+          "contribution_pct_of_total_shift": 0.01,
+          "direction": "INCREASES_PREDICTED_SCORE"
+        }
+      ],
+      "natural_language_explanation": "For subject 'SYNTH-MMASH-SUBJ-01' at 2026-05-01T07:40:00Z, the model's baseline expectation across the reference cohort is E[f(X)] = 0.183, and the final predicted output for 'Acute Autonomic Stress Probability P(Stress | x)' is f(x) = 0.988 (net additive shift = +0.805). The primary features associated with increasing the predicted score are: Electrodermal Activity EDA (uS) (6.191 uS, SHAP=+0.547), Heart Rate (bpm) (87.26 bpm, SHAP=+0.189), Peripheral Skin Temp (degC) (36.52 degC, SHAP=+0.026). The primary features associated with reducing/stabilizing the predicted score are: Post-Exertion RMSSD Rebound (ms/epoch) (88.172 ms/epoch, SHAP=-0.016), Sympathovagal Index (HR / RMSSD) (0.7115 bpm/ms, SHAP=-0.003). NOTE: These SHAP attributions reflect statistical model associations only and do not establish biological causation or a clinical medical diagnosis.",
+      "non_causation_disclaimer": "CRITICAL EPISTEMIC LIMITATION \u2014 CORRELATION VS. CAUSATION: SHAP feature attributions (phi_j) and permutation importance scores measure how much each input variable shifts the statistical model's prediction relative to the training distribution baseline E[f(X)]. Feature contributions DO NOT establish biological or clinical causation. Observational associations in wearable and habitat telemetry can be confounded by unmeasured variables or shared autonomic pathways.",
+      "non_diagnostic_disclaimer": "REGULATORY & CLINICAL NOTICE \u2014 NOT A MEDICAL DIAGNOSTIC TOOL: ASTRAVIVE is an exploratory biomedical research prototype and digital-twin simulation sandbox. Model predictions, risk indices, and feature explanations do NOT constitute medical diagnosis or clinical advice, and must never replace qualified aerospace medicine physicians (Flight Surgeons) or validated clinical laboratory diagnostics."
+    }
+  }
+}
