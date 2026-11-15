@@ -6,7 +6,7 @@
 
 ## 🎯 Try It Now
 
-> 👉 **[Open Live Dashboard](https://YOUR_USERNAME.github.io/ASTRAVIVE/)** — no install needed, runs entirely in your browser
+> 👉 **[Open Live Dashboard](https://Eyamen12.github.io/astravive/)** — no install needed, runs entirely in your browser
 >
 > 📊 **[View Presentation Slides](ASTRAVIVE_Presentation.html)** — 7-slide project overview
 
@@ -56,7 +56,7 @@ It empowers Flight Surgeons and mission planners to:
 
 | File | Role |
 |---|---|
-| `astravive_app.html` | Self-contained dashboard (9 ARIA tabs, in-browser twin, Monte Carlo forecast, exact Shapley, LOSO benchmark, CSV/JSON ingestion, 11-check verification suite) |
+| `astravive_app.html` / `index.html` | Self-contained dashboard (9 ARIA tabs, in-browser twin, Monte Carlo forecast, exact Shapley, LOSO benchmark, CSV/JSON ingestion, 11-check verification suite) |
 | `app.py` | Streamlit entry point. Runs the integrator and embeds the HTML |
 | `astravive_data_pipeline.py` | Ingestion, physiological bounds, imputation, provenance tags |
 | `astravive_ml_pipeline.py` | Subject-wise GroupKFold classifiers, chronological forecasters, held-out anomaly detector |
@@ -67,25 +67,12 @@ It empowers Flight Surgeons and mission planners to:
 | `package_astravive_zip.py` | Compiles, scans for secrets and forbidden patterns, writes a SHA-256 manifest, builds the ZIP |
 | `requirements.txt` | Pinned dependency ranges |
 | `data/`, `models/` | Example processed stream, scenario output, model bundle and XAI explanations |
-| `docs/` | Archived v2.0 documents (superseded where they conflict with v2.1) |
+| `docs/` | Complete local/cloud deployment, documentation, and evaluation guides |
 | `AUDIT_REPORT.md` | Every finding with severity, fix and verification |
 | `STEP_BY_STEP_GUIDE.md` | Setup → test → package → run → deploy |
-| `CHANGELOG.md` | v2.0 → v2.1 changes |
+| `CHANGELOG.md` | Complete development and release notes |
 
-### Upload → canonical name map
-
-| Uploaded as | Canonical |
-|---|---|
-| `astravive_streamlit_web_server_entry_point.py` | `app.py` |
-| `astravive_data_ingestion_preprocessing_pipeline-1.py` | `astravive_data_pipeline.py` |
-| `astravive_reproducible_ml_pipeline-1.py` | `astravive_ml_pipeline.py` |
-| `astravive_explainable_ai_engine-1.py` | `astravive_xai_engine.py` |
-| `astravive_digital_twin_simulator_engine(-1).py` (identical copies) | `astravive_digital_twin_simulator.py` |
-| `astravive_unified_system_orchestrator_integration_engine(-1).py` (identical copies) | `astravive_system_integrator.py` |
-| `astravive_automated_verification_test_suite.py` | `astravive_test_suite.py` |
-| `astravive_project_zip_packager_syntax_validator.py` | `package_astravive_zip.py` |
-| `python_dependencies.txt` | `requirements.txt` |
-| `code-astravive.txt` | `astravive_app.html` |
+---
 
 ## Quick start
 
@@ -96,7 +83,9 @@ python astravive_test_suite.py          # expect: Ran 9 tests ... OK
 streamlit run app.py
 ```
 
-You can also open `astravive_app.html` directly in a browser. Then go to Settings & QA → Run verification suite (expect 11/11 PASS). See `STEP_BY_STEP_GUIDE.md` for details.
+You can also open `index.html` or `astravive_app.html` directly in any web browser. Then go to Settings & QA → Run verification suite (expect 11/11 PASS). See `STEP_BY_STEP_GUIDE.md` for details.
+
+---
 
 ## Architecture
 
@@ -114,6 +103,8 @@ You can also open `astravive_app.html` directly in a browser. Then go to Setting
 | Dashboard | Self-contained HTML5, 9 ARIA tabs, WCAG 2.2 AA, zero external dependencies at runtime |
 | Backend | Python 3.10+ / Streamlit / Plotly |
 
+---
+
 ## Environment dose anchors (used by the twin)
 
 | Environment | Dose-equivalent rate | Source |
@@ -123,12 +114,16 @@ You can also open `astravive_app.html` directly in a browser. Then go to Setting
 | ISS (LEO) | ~0.5–1 mSv/day (0.5 used) | [JAXA space medicine](https://iss.jaxa.jp/med/health_promotion.pdf) |
 | Career limit | 600 mSv effective dose | NASA-STD-3001 ([NASA OCHMO brief](https://www.nasa.gov/wp-content/uploads/2023/03/radiation-protection-technical-brief-ochmo.pdf)) |
 
+---
+
 ## Honest limitations
 
 - With synthetic data, the classifiers reach AUC 1.0 because the demo labels are a deterministic function of the features. That shows the pipeline works, not that the model performs.
 - For HR forecasting, naive persistence (MAE 4.67) beats every learned model on the synthetic stream. The selector only compares learned models, and the benchmark table shows this.
 - The twin coefficients are hand-set, literature-inspired values, not fitted to crew data. `g_ML` (an ML correction term) is documented but not applied.
 - The in-browser twin matches the Python twin within |Δ| ≤ 4.1e-3. It is a port, so keep both in sync when you edit the equations.
+
+---
 
 ## Technologies & Licenses
 
@@ -143,6 +138,8 @@ You can also open `astravive_app.html` directly in a browser. Then go to Setting
 | Font Awesome | 6.5.1 | SIL OFL 1.1 + MIT |
 | Plotly | ≥5.24.0 | MIT |
 
+---
+
 ## License
 
-This project is an open-science research prototype developed for the NASA Space Apps Challenge 2026. All source code is provided for educational and research purposes.
+This project is an open-science research prototype developed for the NASA Space Apps Challenge 2026. All source code is licensed under the MIT License.
