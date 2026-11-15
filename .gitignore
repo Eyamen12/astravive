@@ -33,8 +33,9 @@ desktop.ini
 *.key
 *.pem
 
-# Build artifacts
+# Build artifacts & Media
 *.zip
+*.mp4
 ASTRAVIVE_NASA_SpaceApps_2026_Complete.zip
 
 # Model artifacts (large binary — users regenerate locally)
