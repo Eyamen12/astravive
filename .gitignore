@@ -26,6 +26,7 @@ desktop.ini
 
 # Database files (generated locally)
 *.db
+data/integrated_bundle/
 
 # Secrets — NEVER commit these
 .env
