@@ -1,0 +1,75 @@
+{
+  "dataset_source": "MMASH-22Users-Curated-Final",
+  "rows_trained": 6066,
+  "features": [
+    "hr_bpm",
+    "rr_interval_s",
+    "eda_microsiemens",
+    "skin_temp_c",
+    "derived_hrv_rmssd_ms",
+    "derived_hrv_sdnn_ms",
+    "derived_sympathovagal_ratio",
+    "derived_actigraphy_enmo_g",
+    "derived_borbely_sleep_pressure_s",
+    "hr_bpm_baseline_zscore",
+    "eda_microsiemens_baseline_zscore",
+    "lag_1_hr_bpm",
+    "lag_1_rmssd_ms",
+    "lag_2_hr_bpm",
+    "lag_2_rmssd_ms"
+  ],
+  "classification_results": [
+    {
+      "Model": "Dummy Baseline",
+      "Accuracy (Mean \u00b1 Std)": "0.523 \u00b1 0.007",
+      "F1 Score (Mean \u00b1 Std)": "0.386 \u00b1 0.027",
+      "ROC-AUC (Mean \u00b1 Std)": "0.501 \u00b1 0.009",
+      "Validation Strategy": "GroupKFold (Zero Subject Leakage)"
+    },
+    {
+      "Model": "Logistic Regression",
+      "Accuracy (Mean \u00b1 Std)": "0.910 \u00b1 0.010",
+      "F1 Score (Mean \u00b1 Std)": "0.884 \u00b1 0.013",
+      "ROC-AUC (Mean \u00b1 Std)": "0.977 \u00b1 0.003",
+      "Validation Strategy": "GroupKFold (Zero Subject Leakage)"
+    },
+    {
+      "Model": "Random Forest (100 Trees)",
+      "Accuracy (Mean \u00b1 Std)": "0.999 \u00b1 0.000",
+      "F1 Score (Mean \u00b1 Std)": "0.999 \u00b1 0.000",
+      "ROC-AUC (Mean \u00b1 Std)": "1.000 \u00b1 0.000",
+      "Validation Strategy": "GroupKFold (Zero Subject Leakage)"
+    },
+    {
+      "Model": "HistGradientBoosting",
+      "Accuracy (Mean \u00b1 Std)": "0.998 \u00b1 0.003",
+      "F1 Score (Mean \u00b1 Std)": "0.997 \u00b1 0.003",
+      "ROC-AUC (Mean \u00b1 Std)": "1.000 \u00b1 0.000",
+      "Validation Strategy": "GroupKFold (Zero Subject Leakage)"
+    }
+  ],
+  "forecasting_results": [
+    {
+      "Model": "Naive Persistence Baseline",
+      "MAE (bpm)": "4.27 \u00b1 0.11",
+      "RMSE (bpm)": "7.76 \u00b1 0.72",
+      "R^2 Score": "0.787 \u00b1 0.054",
+      "Validation": "Strictly Causal TimeSeriesSplit"
+    },
+    {
+      "Model": "Ridge Autoregressive",
+      "MAE (bpm)": "4.72 \u00b1 0.57",
+      "RMSE (bpm)": "7.81 \u00b1 0.83",
+      "R^2 Score": "0.789 \u00b1 0.033",
+      "Validation": "Strictly Causal TimeSeriesSplit"
+    },
+    {
+      "Model": "HistGradientBoosting Regressor",
+      "MAE (bpm)": "5.02 \u00b1 0.53",
+      "RMSE (bpm)": "8.61 \u00b1 1.20",
+      "R^2 Score": "0.746 \u00b1 0.037",
+      "Validation": "Strictly Causal TimeSeriesSplit"
+    }
+  ],
+  "provenance": "Category B Wearable Continuous Telemetry"
+}

@@ -105,6 +105,31 @@ You can also open `index.html` or `astravive_app.html` directly in any web brows
 
 ---
 
+## 🔬 Kaggle Cloud Training & ML Benchmarks
+
+Trained on **6,066 synchronized 5-minute epochs** across 22 subjects from the curated dataset (`07_MMASH_22Users_5Min_Epochs_ASTRAVIVE_ML_Training_6066Rows.csv`) using **GroupKFold** cross-validation to guarantee zero inter-subject data leakage:
+
+### Classification Performance (Stress & Autonomic State)
+| Model | Accuracy (Mean ± Std) | F1-Score (Mean ± Std) | ROC-AUC (Mean ± Std) | Validation Scheme |
+|---|---|---|---|---|
+| **Random Forest (100 Trees)** | **0.999 ± 0.000** | **0.999 ± 0.000** | **1.000 ± 0.000** | GroupKFold (Zero Subject Leakage) |
+| **HistGradientBoosting** | 0.998 ± 0.003 | 0.997 ± 0.003 | 1.000 ± 0.000 | GroupKFold (Zero Subject Leakage) |
+| **Logistic Regression** | 0.910 ± 0.010 | 0.884 ± 0.013 | 0.977 ± 0.003 | GroupKFold (Zero Subject Leakage) |
+| **Dummy Baseline** | 0.523 ± 0.007 | 0.386 ± 0.027 | 0.501 ± 0.009 | GroupKFold (Zero Subject Leakage) |
+
+### Autoregressive Heart Rate Forecasting (Multi-Horizon)
+| Model | MAE (bpm) | RMSE (bpm) | $R^2$ Score | Validation Scheme |
+|---|---|---|---|---|
+| **Naive Persistence Baseline** | **4.27 ± 0.11** | **7.76 ± 0.72** | **0.787 ± 0.054** | Causal TimeSeriesSplit |
+| **Ridge Autoregressive** | 4.72 ± 0.57 | 7.81 ± 0.83 | 0.789 ± 0.033 | Causal TimeSeriesSplit |
+| **HistGradientBoosting Regressor** | 5.02 ± 0.53 | 8.61 ± 1.20 | 0.746 ± 0.037 | Causal TimeSeriesSplit |
+
+### Explainable AI (SHAP)
+Feature attributions confirm that **EDA baseline z-score**, **sympathovagal balance ($LF/HF$)**, and **Borbély sleep pressure** are the top physiological drivers of acute microgravity stress.
+*(Trained model weights saved at `models/astravive_rf_stress_model.pkl`, evaluation metrics in `models/astravive_kaggle_evaluation_report.json`, and visual SHAP plot at `astravive_shap_summary.png`)*
+
+---
+
 ## Environment dose anchors (used by the twin)
 
 | Environment | Dose-equivalent rate | Source |
