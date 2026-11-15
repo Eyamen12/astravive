@@ -6,9 +6,11 @@
 
 ## 🎯 Try It Now
 
-> 👉 **[Open Live Dashboard](https://Eyamen12.github.io/astravive/)** — no install needed, runs entirely in your browser
+> 🚀 **[Open Live Dashboard](https://eyamen12.github.io/astravive/)** — no install needed, runs entirely in your browser
 >
-> 📊 **[View Presentation Slides](ASTRAVIVE_Presentation.html)** — 7-slide project overview
+> 📊 **[View Interactive Presentation Slides](https://eyamen12.github.io/astravive/ASTRAVIVE_Presentation.html)** — 7-slide mission & architecture pitch
+>
+> *(Backup Preview Link: [Live Presentation on HTMLPreview](https://htmlpreview.github.io/?https://github.com/Eyamen12/astravive/blob/main/ASTRAVIVE_Presentation.html))*
 
 ---
 
