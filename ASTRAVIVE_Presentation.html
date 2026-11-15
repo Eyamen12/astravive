@@ -1,528 +1,1657 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASTRAVIVE — Mission-Health Digital Twin | NASA Space Apps 2026</title>
-<style>
-/* ── Reset & Base ─────────────────────────────────────── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: 100%; height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif; background: #030712; color: #e2e8f0; -webkit-font-smoothing: antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASTRAVIVE · Mission-Health Digital Twin | NASA Space Apps 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    /* ── Tokens & Reset ───────────────────────────────────── */
+    :root {
+      --bg: #04060f;
+      --cyan: #22d3ee;
+      --teal: #2dd4bf;
+      --violet: #a78bfa;
+      --text: #e6edf6;
+      --muted: #9aa8bd;
+      --dim: #5d6b82;
+      --glass: rgba(17, 25, 45, 0.55);
+      --border: rgba(148, 163, 184, 0.14);
+      --grad: linear-gradient(90deg, var(--cyan), var(--teal) 55%, var(--violet));
+    }
 
-/* ── Slide Container ──────────────────────────────────── */
-.deck { position: relative; width: 100%; height: 100%; }
-.slide {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  padding: 60px 80px 80px;
-  opacity: 0; visibility: hidden;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transform: translateX(40px);
-  background: #030712;
-}
-.slide.active { opacity: 1; visibility: visible; transform: translateX(0); }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* ── Progress Bar ─────────────────────────────────────── */
-.progress-bar {
-  position: fixed; bottom: 0; left: 0; height: 3px;
-  background: linear-gradient(90deg, #06b6d4, #2dd4bf);
-  transition: width 0.4s ease; z-index: 100;
-}
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ── Navigation Buttons ───────────────────────────────── */
-.nav-btn {
-  position: fixed; top: 50%; transform: translateY(-50%);
-  width: 48px; height: 48px; border-radius: 50%;
-  background: rgba(6,182,212,0.12); border: 1px solid rgba(6,182,212,0.3);
-  color: #06b6d4; font-size: 22px; cursor: pointer; z-index: 90;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s, border-color 0.2s;
-  backdrop-filter: blur(4px);
-}
-.nav-btn:hover { background: rgba(6,182,212,0.25); border-color: #06b6d4; }
-.nav-btn.prev { left: 20px; }
-.nav-btn.next { right: 20px; }
-.nav-btn:disabled { opacity: 0.2; cursor: default; }
+    /* ── Ambient Background ───────────────────────────────── */
+    .bg-nebula {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(900px 520px at 85% -10%, rgba(34, 211, 238, 0.10), transparent 62%),
+        radial-gradient(820px 520px at -12% 112%, rgba(167, 139, 250, 0.09), transparent 62%),
+        radial-gradient(720px 420px at 50% 122%, rgba(45, 212, 191, 0.06), transparent 62%);
+    }
 
-/* ── Slide Counter ────────────────────────────────────── */
-.slide-counter {
-  position: fixed; bottom: 14px; right: 28px;
-  font-size: 13px; color: rgba(148,163,184,0.6); z-index: 90;
-  font-variant-numeric: tabular-nums;
-}
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+      -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+      mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+    }
 
-/* ── Typography ───────────────────────────────────────── */
-h1 { font-size: 3rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
-h2 { font-size: 2.2rem; font-weight: 700; line-height: 1.2; margin-bottom: 28px; letter-spacing: -0.01em; }
-h3 { font-size: 1.3rem; font-weight: 600; color: #06b6d4; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
-p  { font-size: 1.15rem; line-height: 1.7; color: #cbd5e1; max-width: 900px; }
+    .stars,
+    .stars-b {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
 
-.accent { color: #06b6d4; }
-.accent-green { color: #2dd4bf; }
-.dim { color: #64748b; }
-.glow { text-shadow: 0 0 30px rgba(6,182,212,0.25); }
+    .stars::before,
+    .stars-b::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: transparent;
+    }
 
-/* ── Slide 1 — Title ──────────────────────────────────── */
-.slide-title { text-align: center; }
-.slide-title .badge {
-  display: inline-block; padding: 6px 18px; border-radius: 999px;
-  background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3);
-  font-size: 0.85rem; font-weight: 600; color: #06b6d4;
-  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 28px;
-}
-.slide-title h1 { font-size: 3.6rem; margin-bottom: 18px; }
-.slide-title h1 .dash { color: #64748b; }
-.slide-title .tagline {
-  font-size: 1.35rem; color: #94a3b8; font-weight: 400; margin-top: 10px;
-  letter-spacing: 0.04em;
-}
-.slide-title .logo-ring {
-  width: 100px; height: 100px; border-radius: 50%;
-  border: 2px solid rgba(6,182,212,0.3);
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 24px; font-size: 2.6rem;
-  background: radial-gradient(circle, rgba(6,182,212,0.08), transparent);
-  animation: pulse-ring 3s ease-in-out infinite;
-}
-@keyframes pulse-ring {
-  0%,100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.15); }
-  50%     { box-shadow: 0 0 0 18px rgba(6,182,212,0); }
-}
+    .stars::before {
+      box-shadow:
+        456px 51px 0 0 rgba(226, 232, 240, 0.67),
+        1003px 457px 0 0 rgba(226, 232, 240, 0.25),
+        419px 1116px 0 0 rgba(226, 232, 240, 0.21),
+        1728px 65px 0 0 rgba(226, 232, 240, 0.17),
+        895px 476px 0 0 rgba(226, 232, 240, 0.5),
+        108px 1149px 0 0 rgba(226, 232, 240, 0.29),
+        1718px 451px 0 0 rgba(226, 232, 240, 0.46),
+        1139px 13px 0 0 rgba(226, 232, 240, 0.68),
+        653px 865px 0 0 rgba(226, 232, 240, 0.39),
+        636px 440px 0 0 rgba(226, 232, 240, 0.82),
+        1378px 209px 0 0 rgba(226, 232, 240, 0.21),
+        396px 735px 0 0 rgba(226, 232, 240, 0.74),
+        1083px 88px 0 0 rgba(226, 232, 240, 0.66),
+        2196px 255px 0 0 rgba(226, 232, 240, 0.83),
+        1550px 161px 0 0 rgba(226, 232, 240, 0.54),
+        1481px 1182px 0 0 rgba(226, 232, 240, 0.28),
+        284px 93px 0 0 rgba(226, 232, 240, 0.61),
+        1185px 163px 0 0 rgba(226, 232, 240, 0.75),
+        413px 778px 0 0 rgba(226, 232, 240, 0.34),
+        1494px 333px 0 0 rgba(226, 232, 240, 0.41),
+        858px 546px 0 0 rgba(226, 232, 240, 0.64),
+        292px 1247px 0 0 rgba(226, 232, 240, 0.59),
+        2187px 501px 0 0 rgba(226, 232, 240, 0.26),
+        1554px 552px 0 0 rgba(226, 232, 240, 0.84),
+        899px 664px 0 0 rgba(226, 232, 240, 0.74),
+        229px 469px 0 0 rgba(226, 232, 240, 0.73),
+        1292px 821px 0 0 rgba(226, 232, 240, 0.34),
+        864px 1161px 0 0 rgba(226, 232, 240, 0.76),
+        1288px 435px 0 0 rgba(226, 232, 240, 0.61),
+        1620px 939px 0 0 rgba(226, 232, 240, 0.25),
+        571px 505px 0 0 rgba(226, 232, 240, 0.67),
+        1076px 1197px 0 0 rgba(226, 232, 240, 0.45),
+        1635px 741px 0 0 rgba(226, 232, 240, 0.3),
+        566px 1043px 0 0 rgba(226, 232, 240, 0.5),
+        192px 224px 0 0 rgba(226, 232, 240, 0.26),
+        655px 864px 0 0 rgba(226, 232, 240, 0.57),
+        1576px 781px 0 0 rgba(226, 232, 240, 0.57),
+        1917px 1083px 0 0 rgba(226, 232, 240, 0.33),
+        47px 234px 0 0 rgba(226, 232, 240, 0.63),
+        2199px 546px 0 0 rgba(226, 232, 240, 0.69),
+        1393px 228px 0 0 rgba(226, 232, 240, 0.36),
+        647px 929px 0 0 rgba(226, 232, 240, 0.15),
+        1078px 1025px 0 0 rgba(226, 232, 240, 0.68),
+        2079px 217px 0 0 rgba(226, 232, 240, 0.76),
+        1222px 1039px 0 0 rgba(226, 232, 240, 0.58),
+        626px 765px 0 0 rgba(226, 232, 240, 0.68),
+        2172px 1px 0 0 rgba(226, 232, 240, 0.57),
+        2001px 39px 0 0 rgba(226, 232, 240, 0.23),
+        1486px 629px 0 0 rgba(226, 232, 240, 0.32),
+        986px 1161px 0 0 rgba(226, 232, 240, 0.81),
+        350px 995px 0 0 rgba(226, 232, 240, 0.72),
+        2181px 257px 0 0 rgba(226, 232, 240, 0.24),
+        1946px 1125px 0 0 rgba(226, 232, 240, 0.27),
+        2161px 1242px 0 0 rgba(226, 232, 240, 0.45),
+        867px 1104px 0 0 rgba(226, 232, 240, 0.68),
+        823px 638px 0 0 rgba(226, 232, 240, 0.43),
+        1529px 897px 0 0 rgba(226, 232, 240, 0.78),
+        1849px 247px 0 0 rgba(226, 232, 240, 0.32),
+        262px 692px 0 0 rgba(226, 232, 240, 0.16),
+        942px 1205px 0 0 rgba(226, 232, 240, 0.3),
+        290px 1292px 0 0 rgba(226, 232, 240, 0.19),
+        276px 64px 0 0 rgba(226, 232, 240, 0.75),
+        290px 1052px 0 0 rgba(226, 232, 240, 0.32),
+        1988px 438px 0 0 rgba(226, 232, 240, 0.53),
+        1936px 497px 0 0 rgba(226, 232, 240, 0.7),
+        1667px 389px 0 0 rgba(226, 232, 240, 0.22),
+        1765px 725px 0 0 rgba(226, 232, 240, 0.45),
+        1912px 110px 0 0 rgba(226, 232, 240, 0.62),
+        403px 124px 0 0 rgba(226, 232, 240, 0.43),
+        1389px 223px 0 0 rgba(226, 232, 240, 0.32),
+        779px 1098px 0 0 rgba(226, 232, 240, 0.46),
+        1728px 375px 0 0 rgba(226, 232, 240, 0.34),
+        1023px 154px 0 0 rgba(226, 232, 240, 0.46),
+        401px 103px 0 0 rgba(226, 232, 240, 0.61),
+        60px 191px 0 0 rgba(226, 232, 240, 0.8),
+        968px 340px 0 0 rgba(226, 232, 240, 0.43),
+        1971px 437px 0 0 rgba(226, 232, 240, 0.76),
+        240px 337px 0 0 rgba(226, 232, 240, 0.42),
+        1599px 543px 0 0 rgba(226, 232, 240, 0.8),
+        1863px 584px 0 0 rgba(226, 232, 240, 0.45),
+        1993px 317px 0 0 rgba(226, 232, 240, 0.28),
+        891px 119px 0 0 rgba(226, 232, 240, 0.56),
+        249px 642px 0 0 rgba(226, 232, 240, 0.19),
+        1952px 1029px 0 0 rgba(226, 232, 240, 0.79),
+        2175px 322px 0 0 rgba(226, 232, 240, 0.19),
+        2080px 164px 0 0 rgba(226, 232, 240, 0.75),
+        280px 1218px 0 0 rgba(226, 232, 240, 0.2),
+        963px 826px 0 0 rgba(226, 232, 240, 0.23),
+        1008px 1185px 0 0 rgba(226, 232, 240, 0.57),
+        335px 858px 0 0 rgba(226, 232, 240, 0.61);
+      animation: twinkle 5s ease-in-out infinite alternate;
+    }
 
-/* ── Slide 2 — Problem ────────────────────────────────── */
-.story-box {
-  background: linear-gradient(135deg, rgba(6,182,212,0.06), rgba(45,212,191,0.04));
-  border: 1px solid rgba(6,182,212,0.15); border-left: 3px solid #06b6d4;
-  border-radius: 12px; padding: 28px 34px; margin-bottom: 36px;
-  max-width: 880px; font-size: 1.1rem; line-height: 1.75; color: #cbd5e1;
-  font-style: italic;
-}
-.threat-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
-  max-width: 900px; width: 100%;
-}
-.threat-card {
-  background: rgba(15,23,42,0.7); border: 1px solid rgba(100,116,139,0.2);
-  border-radius: 12px; padding: 22px 16px; text-align: center;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.threat-card:hover { border-color: rgba(6,182,212,0.4); transform: translateY(-2px); }
-.threat-card .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
-.threat-card .label { font-size: 0.85rem; font-weight: 600; color: #e2e8f0; line-height: 1.3; }
+    .stars-b::before {
+      width: 3px;
+      height: 3px;
+      box-shadow:
+        2141px 647px 0 0 rgba(226, 232, 240, 0.8),
+        836px 643px 0 0 rgba(226, 232, 240, 0.32),
+        1621px 268px 0 0 rgba(226, 232, 240, 0.62),
+        1228px 936px 0 0 rgba(226, 232, 240, 0.37),
+        297px 19px 0 0 rgba(226, 232, 240, 0.47),
+        409px 150px 0 0 rgba(226, 232, 240, 0.53),
+        2072px 543px 0 0 rgba(226, 232, 240, 0.24),
+        1429px 140px 0 0 rgba(226, 232, 240, 0.77),
+        1513px 583px 0 0 rgba(226, 232, 240, 0.26),
+        1239px 1252px 0 0 rgba(226, 232, 240, 0.84),
+        2166px 16px 0 0 rgba(226, 232, 240, 0.62),
+        1226px 212px 0 0 rgba(226, 232, 240, 0.81),
+        550px 541px 0 0 rgba(226, 232, 240, 0.23),
+        438px 1133px 0 0 rgba(226, 232, 240, 0.26),
+        1154px 1238px 0 0 rgba(226, 232, 240, 0.3),
+        1404px 416px 0 0 rgba(226, 232, 240, 0.63),
+        1081px 1035px 0 0 rgba(226, 232, 240, 0.49),
+        208px 189px 0 0 rgba(226, 232, 240, 0.59),
+        1133px 90px 0 0 rgba(226, 232, 240, 0.15),
+        535px 536px 0 0 rgba(226, 232, 240, 0.26),
+        1809px 1129px 0 0 rgba(226, 232, 240, 0.64),
+        39px 229px 0 0 rgba(226, 232, 240, 0.2),
+        610px 1117px 0 0 rgba(226, 232, 240, 0.18),
+        1512px 1192px 0 0 rgba(226, 232, 240, 0.54),
+        1760px 261px 0 0 rgba(226, 232, 240, 0.18),
+        1493px 81px 0 0 rgba(226, 232, 240, 0.78),
+        860px 511px 0 0 rgba(226, 232, 240, 0.62),
+        1448px 1146px 0 0 rgba(226, 232, 240, 0.77),
+        1664px 1271px 0 0 rgba(226, 232, 240, 0.67),
+        969px 332px 0 0 rgba(226, 232, 240, 0.83),
+        725px 844px 0 0 rgba(226, 232, 240, 0.17),
+        1360px 843px 0 0 rgba(226, 232, 240, 0.71),
+        1016px 546px 0 0 rgba(226, 232, 240, 0.26),
+        442px 783px 0 0 rgba(226, 232, 240, 0.76),
+        1927px 455px 0 0 rgba(226, 232, 240, 0.29),
+        1885px 716px 0 0 rgba(226, 232, 240, 0.36),
+        932px 456px 0 0 rgba(226, 232, 240, 0.17),
+        791px 816px 0 0 rgba(226, 232, 240, 0.38),
+        284px 571px 0 0 rgba(226, 232, 240, 0.4),
+        2086px 818px 0 0 rgba(226, 232, 240, 0.63),
+        2196px 678px 0 0 rgba(226, 232, 240, 0.81),
+        472px 534px 0 0 rgba(226, 232, 240, 0.27),
+        1087px 78px 0 0 rgba(226, 232, 240, 0.23),
+        1779px 707px 0 0 rgba(226, 232, 240, 0.66),
+        1284px 893px 0 0 rgba(226, 232, 240, 0.57),
+        2094px 236px 0 0 rgba(226, 232, 240, 0.42),
+        778px 521px 0 0 rgba(226, 232, 240, 0.18),
+        1786px 3px 0 0 rgba(226, 232, 240, 0.51),
+        807px 745px 0 0 rgba(226, 232, 240, 0.45),
+        1352px 1276px 0 0 rgba(226, 232, 240, 0.37);
+      animation: twinkle 7s ease-in-out infinite alternate-reverse;
+    }
 
-/* ── Slide 3 — Solution / Pipeline ────────────────────── */
-.solution-top {
-  display: flex; gap: 24px; max-width: 940px; width: 100%; margin-bottom: 30px;
-}
-.sol-pillar {
-  flex: 1; background: rgba(15,23,42,0.7); border: 1px solid rgba(100,116,139,0.2);
-  border-radius: 12px; padding: 22px 20px; text-align: center;
-}
-.sol-pillar .icon { font-size: 1.8rem; margin-bottom: 8px; display: block; }
-.sol-pillar .title { font-weight: 700; font-size: 0.95rem; color: #06b6d4; margin-bottom: 6px; }
-.sol-pillar .desc { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
+    @keyframes twinkle {
+      from {
+        opacity: 0.35;
+      }
 
-.pipeline-flow {
-  display: flex; align-items: center; flex-wrap: wrap; justify-content: center;
-  gap: 4px; max-width: 960px;
-}
-.pipe-stage {
-  display: flex; align-items: center; gap: 4px;
-}
-.pipe-box {
-  background: linear-gradient(135deg, rgba(6,182,212,0.10), rgba(6,182,212,0.04));
-  border: 1px solid rgba(6,182,212,0.25); border-radius: 8px;
-  padding: 8px 12px; font-size: 0.72rem; font-weight: 600; color: #2dd4bf;
-  white-space: nowrap; text-align: center; line-height: 1.3;
-}
-.pipe-box .num { display: block; font-size: 0.6rem; color: #64748b; margin-bottom: 2px; }
-.pipe-arrow { color: #334155; font-size: 1rem; flex-shrink: 0; }
+      to {
+        opacity: 1;
+      }
+    }
 
-/* ── Slide 4 — Data ───────────────────────────────────── */
-.data-layout { display: flex; gap: 36px; max-width: 960px; width: 100%; align-items: flex-start; }
-.data-sources { flex: 1.3; }
-.data-tiers { flex: 1; }
-.source-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.source-list li {
-  display: flex; align-items: center; gap: 10px;
-  background: rgba(15,23,42,0.6); border: 1px solid rgba(100,116,139,0.15);
-  border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; font-weight: 500;
-}
-.source-list li .s-icon { font-size: 1.1rem; flex-shrink: 0; }
-.tier-stack { display: flex; flex-direction: column; gap: 6px; }
-.tier-bar {
-  display: flex; align-items: center; gap: 10px;
-  border-radius: 8px; padding: 10px 16px;
-  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-}
-.tier-bar .tier-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    /* ── Brand Bar ────────────────────────────────────────── */
+    .brand {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 30px;
+      pointer-events: none;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(148, 163, 184, 0.5);
+    }
 
-/* ── Slide 5 — Features ──────────────────────────────── */
-.feature-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;
-  max-width: 900px; width: 100%;
-}
-.feature-card {
-  background: rgba(15,23,42,0.7); border: 1px solid rgba(100,116,139,0.2);
-  border-radius: 14px; padding: 28px 22px; text-align: center;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.feature-card:hover { border-color: rgba(6,182,212,0.4); transform: translateY(-3px); }
-.feature-card .f-icon { font-size: 2.4rem; margin-bottom: 12px; display: block; }
-.feature-card .f-title { font-weight: 700; font-size: 1rem; color: #e2e8f0; margin-bottom: 6px; }
-.feature-card .f-desc { font-size: 0.82rem; color: #94a3b8; line-height: 1.5; }
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: rgba(34, 211, 238, 0.75);
+    }
 
-/* ── Slide 6 — Impact ─────────────────────────────────── */
-.impact-hero {
-  text-align: center; margin-bottom: 36px; max-width: 800px;
-}
-.impact-hero p { font-size: 1.25rem; color: #94a3b8; margin-top: 8px; }
-.next-steps {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  max-width: 900px; width: 100%;
-}
-.step-card {
-  background: rgba(15,23,42,0.7); border: 1px solid rgba(100,116,139,0.2);
-  border-radius: 12px; padding: 24px 18px; text-align: center;
-  transition: border-color 0.2s;
-}
-.step-card:hover { border-color: rgba(45,212,191,0.4); }
-.step-card .s-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
-.step-card .s-title { font-weight: 700; font-size: 0.92rem; color: #2dd4bf; margin-bottom: 6px; }
-.step-card .s-desc { font-size: 0.78rem; color: #94a3b8; line-height: 1.45; }
+    .brand-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      animation: pulse-dot 2.6s ease-in-out infinite;
+    }
 
-/* ── Slide 7 — References ────────────────────────────── */
-.ref-layout { display: flex; gap: 36px; max-width: 940px; width: 100%; align-items: flex-start; }
-.ref-col { flex: 1; }
-.ref-col h3 { font-size: 1rem; margin-bottom: 14px; }
-.ref-list { list-style: none; }
-.ref-list li {
-  font-size: 0.82rem; color: #94a3b8; line-height: 1.55;
-  padding: 6px 0; border-bottom: 1px solid rgba(100,116,139,0.1);
-}
-.ref-list li:last-child { border-bottom: none; }
-.ref-list li strong { color: #cbd5e1; }
-.team-credit {
-  margin-top: 36px; text-align: center; padding: 20px 28px;
-  background: rgba(6,182,212,0.06); border: 1px solid rgba(6,182,212,0.15);
-  border-radius: 12px; max-width: 940px; width: 100%;
-}
-.team-credit p { font-size: 0.95rem; color: #94a3b8; margin: 0 auto; }
-.team-credit .team-name { font-weight: 700; color: #06b6d4; font-size: 1.1rem; }
+    @keyframes pulse-dot {
 
-/* ── Print Styles ─────────────────────────────────────── */
-@media print {
-  body { overflow: visible; }
-  .slide {
-    position: relative; opacity: 1; visibility: visible; transform: none;
-    page-break-after: always; page-break-inside: avoid;
-    height: 100vh; width: 100vw;
-  }
-  .slide:last-child { page-break-after: auto; }
-  .nav-btn, .progress-bar, .slide-counter { display: none !important; }
-  .slide-title h1 { font-size: 2.8rem; }
-  @page { size: landscape; margin: 0; }
-}
+      0%,
+      100% {
+        opacity: 1;
+      }
 
-/* ── Responsive ───────────────────────────────────────── */
-@media (max-width: 900px) {
-  .slide { padding: 30px 28px 60px; }
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 1.6rem; }
-  .slide-title h1 { font-size: 2.4rem; }
-  .threat-grid { grid-template-columns: repeat(3, 1fr); }
-  .solution-top { flex-direction: column; }
-  .data-layout { flex-direction: column; }
-  .feature-grid { grid-template-columns: repeat(2, 1fr); }
-  .next-steps { grid-template-columns: repeat(2, 1fr); }
-  .ref-layout { flex-direction: column; }
-}
-</style>
+      50% {
+        opacity: 0.35;
+      }
+    }
+
+    /* ── Slide Container ──────────────────────────────────── */
+    .deck {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 64px 84px 84px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateX(48px) scale(0.985);
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0) scale(1);
+    }
+
+    /* Staggered entrance */
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide.active .anim {
+      animation: riseIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+      animation-delay: var(--d, 0s);
+    }
+
+    /* Big faint slide numeral */
+    .slide-num {
+      position: absolute;
+      top: 42px;
+      right: 66px;
+      z-index: -1;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 8.5rem;
+      font-weight: 700;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(148, 163, 184, 0.10);
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* ── Chrome: Progress / Nav / Dots / Counter ──────────── */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: var(--grad);
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.55);
+      transition: width 0.45s ease;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(17, 25, 45, 0.6);
+      border: 1px solid rgba(34, 211, 238, 0.28);
+      color: var(--cyan);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 95;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(34, 211, 238, 0.16);
+      border-color: var(--cyan);
+      box-shadow: 0 0 22px rgba(34, 211, 238, 0.28);
+    }
+
+    .nav-btn:active {
+      transform: translateY(-50%) scale(0.94);
+    }
+
+    .nav-btn.prev {
+      left: 22px;
+    }
+
+    .nav-btn.next {
+      right: 22px;
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.18;
+      cursor: default;
+      box-shadow: none;
+      background: rgba(17, 25, 45, 0.4);
+    }
+
+    .dots {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 95;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      background: rgba(148, 163, 184, 0.28);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s, box-shadow 0.35s;
+    }
+
+    .dot:hover {
+      background: rgba(34, 211, 238, 0.6);
+    }
+
+    .dot.active {
+      width: 24px;
+      background: var(--grad);
+      box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+    }
+
+    .slide-counter {
+      position: fixed;
+      bottom: 14px;
+      right: 28px;
+      font-size: 12.5px;
+      color: rgba(148, 163, 184, 0.6);
+      z-index: 95;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.08em;
+    }
+
+    .slide-counter b {
+      color: rgba(34, 211, 238, 0.85);
+      font-weight: 600;
+    }
+
+    /* ── Typography ───────────────────────────────────────── */
+    h1 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 2.15rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 30px;
+      letter-spacing: -0.01em;
+    }
+
+    h3 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    h3::before {
+      content: '';
+      width: 26px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--grad);
+    }
+
+    p {
+      font-size: 1.12rem;
+      line-height: 1.7;
+      color: #c3cede;
+      max-width: 900px;
+    }
+
+    .accent {
+      color: var(--cyan);
+    }
+
+    .grad-text {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 34px rgba(34, 211, 238, 0.3);
+    }
+
+    .dim {
+      color: var(--dim);
+    }
+
+    /* ── Slide 1 · Title ──────────────────────────────────── */
+    .slide-title {
+      text-align: center;
+    }
+
+    .logo-wrap {
+      position: relative;
+      width: 168px;
+      height: 168px;
+      margin: 0 auto 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-ring {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.6rem;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.14), rgba(34, 211, 238, 0.02) 70%);
+      box-shadow: 0 0 40px rgba(34, 211, 238, 0.18), inset 0 0 24px rgba(34, 211, 238, 0.10);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px dashed rgba(34, 211, 238, 0.22);
+      border-radius: 50%;
+    }
+
+    .orbit-1 {
+      width: 140px;
+      height: 140px;
+      animation: spin 16s linear infinite;
+    }
+
+    .orbit-2 {
+      width: 168px;
+      height: 168px;
+      border-color: rgba(167, 139, 250, 0.18);
+      animation: spin 26s linear infinite reverse;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      margin-left: -4px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .orbit-2 .orbit-dot {
+      background: var(--violet);
+      box-shadow: 0 0 10px var(--violet);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 20px;
+      border-radius: 999px;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -80%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+      animation: shimmer 3.4s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        left: -80%;
+      }
+
+      60%,
+      100% {
+        left: 130%;
+      }
+    }
+
+    .slide-title h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+
+    .divider {
+      display: inline-block;
+      width: 3px;
+      height: 0.82em;
+      border-radius: 3px;
+      background: linear-gradient(180deg, transparent, var(--cyan), transparent);
+      vertical-align: -0.1em;
+      margin: 0 14px;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+    }
+
+    .slide-title .tagline {
+      font-size: 1.32rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 10px;
+      letter-spacing: 0.06em;
+    }
+
+    .tagline .t-dot {
+      color: var(--cyan);
+      margin: 0 10px;
+    }
+
+    /* ── Slide 2 · Problem ────────────────────────────────── */
+    .story-box {
+      position: relative;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.07), rgba(45, 212, 191, 0.04));
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      border-left: 3px solid var(--cyan);
+      border-radius: 14px;
+      padding: 28px 34px;
+      margin-bottom: 34px;
+      max-width: 880px;
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: #c3cede;
+      font-style: italic;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .story-box strong {
+      color: var(--cyan);
+      font-style: normal;
+    }
+
+    .threat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      max-width: 920px;
+      width: 100%;
+    }
+
+    .threat-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 16px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .threat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 18%;
+      right: 18%;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--grad);
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .threat-card:hover {
+      border-color: rgba(34, 211, 238, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(2, 6, 17, 0.5), 0 0 0 1px rgba(34, 211, 238, 0.08);
+    }
+
+    .threat-card:hover::before {
+      opacity: 1;
+    }
+
+    .threat-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.3));
+    }
+
+    .threat-card .label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+
+    /* ── Slide 3 · Solution ───────────────────────────────── */
+    .solution-top {
+      display: flex;
+      gap: 18px;
+      max-width: 940px;
+      width: 100%;
+      margin-bottom: 28px;
+    }
+
+    .sol-pillar {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 20px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .sol-pillar:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.4);
+      box-shadow: 0 16px 34px rgba(2, 6, 17, 0.5);
+    }
+
+    .sol-pillar::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      left: -60%;
+      width: 50%;
+      height: 180%;
+      background: linear-gradient(100deg, transparent, rgba(34, 211, 238, 0.06), transparent);
+      transform: rotate(8deg);
+      transition: left 0.6s ease;
+    }
+
+    .sol-pillar:hover::after {
+      left: 120%;
+    }
+
+    .sol-pillar .icon {
+      font-size: 1.9rem;
+      margin-bottom: 10px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.35));
+    }
+
+    .sol-pillar .title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: var(--cyan);
+      margin-bottom: 7px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .sol-pillar .desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .pipeline-flow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      max-width: 980px;
+    }
+
+    .pipe-box {
+      position: relative;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(34, 211, 238, 0.03));
+      border: 1px solid rgba(34, 211, 238, 0.26);
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #7ef0e2;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1.3;
+      box-shadow: 0 0 0 rgba(34, 211, 238, 0);
+      transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+    }
+
+    .pipe-box:hover {
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.25);
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.5);
+    }
+
+    .pipe-box .num {
+      display: block;
+      font-size: 0.6rem;
+      color: var(--dim);
+      margin-bottom: 3px;
+      letter-spacing: 0.1em;
+    }
+
+    .pipe-arrow {
+      color: rgba(34, 211, 238, 0.35);
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Slide 4 · Data ───────────────────────────────────── */
+    .data-layout {
+      display: flex;
+      gap: 38px;
+      max-width: 980px;
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .data-sources {
+      flex: 1.35;
+    }
+
+    .data-tiers {
+      flex: 1;
+    }
+
+    .source-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .source-list li {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 15px;
+      font-size: 0.83rem;
+      font-weight: 500;
+      backdrop-filter: blur(6px);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .source-list li:hover {
+      border-color: rgba(34, 211, 238, 0.4);
+      transform: translateX(3px);
+    }
+
+    .source-list li .s-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .tier-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .tier-bar {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      border-radius: 10px;
+      padding: 12px 17px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      backdrop-filter: blur(6px);
+      transition: transform 0.2s;
+    }
+
+    .tier-bar:hover {
+      transform: translateX(4px);
+    }
+
+    .tier-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -70%;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+      animation: shimmer 4.5s ease-in-out infinite;
+    }
+
+    .tier-bar:nth-child(2)::after {
+      animation-delay: 0.6s;
+    }
+
+    .tier-bar:nth-child(3)::after {
+      animation-delay: 1.2s;
+    }
+
+    .tier-bar:nth-child(4)::after {
+      animation-delay: 1.8s;
+    }
+
+    .tier-bar:nth-child(5)::after {
+      animation-delay: 2.4s;
+    }
+
+    .tier-bar .tier-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 0 8px currentColor;
+    }
+
+    /* ── Slide 5 · Features ───────────────────────────────── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      max-width: 920px;
+      width: 100%;
+    }
+
+    .feature-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 30px 24px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1px;
+      background: var(--grad);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 18px 40px rgba(2, 6, 17, 0.5);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card .f-icon {
+      font-size: 2.3rem;
+      margin-bottom: 13px;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.3));
+    }
+
+    .feature-card .f-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 7px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .feature-card .f-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Slide 6 · Impact ─────────────────────────────────── */
+    .impact-hero {
+      text-align: center;
+      margin-bottom: 36px;
+      max-width: 840px;
+    }
+
+    .impact-hero .impact-line {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .next-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      max-width: 940px;
+      width: 100%;
+    }
+
+    .step-card {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 26px 18px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(45, 212, 191, 0.45);
+      box-shadow: 0 16px 34px rgba(2, 6, 17, 0.5);
+    }
+
+    .step-card .s-icon {
+      font-size: 2rem;
+      margin-bottom: 11px;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(45, 212, 191, 0.3));
+    }
+
+    .step-card .s-title {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--teal);
+      margin-bottom: 7px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .step-card .s-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Slide 7 · References ─────────────────────────────── */
+    .ref-layout {
+      display: flex;
+      gap: 38px;
+      max-width: 960px;
+      width: 100%;
+      align-items: flex-start;
+    }
+
+    .ref-col {
+      flex: 1;
+    }
+
+    .ref-col h3 {
+      font-size: 0.82rem;
+    }
+
+    .ref-list {
+      list-style: none;
+    }
+
+    .ref-list li {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding: 8px 0 8px 16px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      position: relative;
+      transition: color 0.2s, padding-left 0.2s;
+    }
+
+    .ref-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(34, 211, 238, 0.5);
+    }
+
+    .ref-list li:hover {
+      color: #c3cede;
+      padding-left: 20px;
+    }
+
+    .ref-list li:last-child {
+      border-bottom: none;
+    }
+
+    .ref-list li strong {
+      color: #d5deeb;
+    }
+
+    .team-credit {
+      margin-top: 34px;
+      text-align: center;
+      padding: 22px 30px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(34, 211, 238, 0.05);
+      border: 1px solid rgba(34, 211, 238, 0.16);
+      border-radius: 14px;
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .team-credit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--grad);
+    }
+
+    .team-credit p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin: 0 auto;
+    }
+
+    .team-credit .team-name {
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: 1.12rem;
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+
+    .credit-dot {
+      color: var(--cyan);
+      margin: 0 8px;
+    }
+
+    /* ── Print ────────────────────────────────────────────── */
+    @media print {
+      body {
+        overflow: visible;
+      }
+
+      .bg-nebula,
+      .bg-grid,
+      .stars,
+      .stars-b,
+      .brand {
+        display: none;
+      }
+
+      .slide {
+        position: relative;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        page-break-after: always;
+        page-break-inside: avoid;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      .slide:last-child {
+        page-break-after: auto;
+      }
+
+      .nav-btn,
+      .progress-bar,
+      .slide-counter,
+      .dots {
+        display: none !important;
+      }
+
+      .slide-title h1 {
+        font-size: 2.8rem;
+      }
+
+      @page {
+        size: landscape;
+        margin: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .slide {
+        padding: 52px 26px 72px;
+      }
+
+      .brand {
+        display: none;
+      }
+
+      .slide-num {
+        display: none;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+      }
+
+      .slide-title h1 {
+        font-size: 2.35rem;
+      }
+
+      .divider {
+        margin: 0 8px;
+      }
+
+      .threat-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .solution-top {
+        flex-direction: column;
+      }
+
+      .data-layout {
+        flex-direction: column;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .next-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ref-layout {
+        flex-direction: column;
+      }
+    }
+  </style>
+  <base target="_blank">
 </head>
+
 <body>
 
-<div class="deck" id="deck">
+  <div class="bg-nebula"></div>
+  <div class="bg-grid"></div>
+  <div class="stars"></div>
+  <div class="stars-b"></div>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 1 — TITLE
-       ════════════════════════════════════════════════════ -->
-  <div class="slide slide-title active" data-slide="0">
-    <div class="logo-ring">🛰️</div>
-    <div class="badge">NASA Space Apps Challenge 2026</div>
-    <h1 class="glow">ASTRAVIVE <span class="dash">—</span> <span class="accent">Mission-Health Digital Twin</span></h1>
-    <p class="tagline">Predict Health. Optimize Missions. Protect Astronauts.</p>
-  </div>
+  <header class="brand">
+    <span class="brand-left"><span class="brand-dot"></span>ASTRAVIVE</span>
+    <span>NASA Space Apps 2026</span>
+  </header>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 2 — THE PROBLEM
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="1">
-    <h2><span class="accent">The Problem</span></h2>
-    <div class="story-box">
-      "On Day 42 of a Gateway mission, Commander Chen wakes with blurred vision — early SANS.
-      Her Flight Surgeon on Earth has a 1.3-second delay but won't see clinical signs for 72 hours.
-      <strong style="color:#06b6d4; font-style:normal;">What if the computer already knew?</strong>"
+  <div class="deck" id="deck">
+
+    <!-- SLIDE 1 · TITLE -->
+    <div class="slide slide-title active" data-slide="0">
+      <span class="slide-num">01</span>
+      <div class="logo-wrap anim" style="--d:0.05s">
+        <div class="orbit orbit-1"><span class="orbit-dot"></span></div>
+        <div class="orbit orbit-2"><span class="orbit-dot"></span></div>
+        <div class="logo-ring">🛰️</div>
+      </div>
+      <div class="badge anim" style="--d:0.18s">NASA Space Apps Challenge 2026</div>
+      <h1 class="anim" style="--d:0.3s"><span class="glow-text">ASTRAVIVE</span><span class="divider"></span><span
+          class="grad-text">Mission-Health Digital Twin</span></h1>
+      <p class="tagline anim" style="--d:0.42s">Predict Health.<span class="t-dot">·</span>Optimize Missions.<span
+          class="t-dot">·</span>Protect Astronauts.</p>
     </div>
-    <h3>Five Threats of Deep-Space Flight</h3>
-    <div class="threat-grid">
-      <div class="threat-card">
-        <span class="icon">🦴</span>
-        <span class="label">Bone Loss</span>
-      </div>
-      <div class="threat-card">
-        <span class="icon">❤️</span>
-        <span class="label">Cardiovascular Deconditioning</span>
-      </div>
-      <div class="threat-card">
-        <span class="icon">👁️</span>
-        <span class="label">SANS (Neuro-Ocular)</span>
-      </div>
-      <div class="threat-card">
-        <span class="icon">☢️</span>
-        <span class="label">Radiation Exposure</span>
-      </div>
-      <div class="threat-card">
-        <span class="icon">😴</span>
-        <span class="label">Sleep Disruption</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 3 — OUR SOLUTION
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="2">
-    <h2><span class="accent">Our Solution:</span> ASTRAVIVE Architecture</h2>
-    <div class="solution-top">
-      <div class="sol-pillar">
-        <span class="icon">⚙️</span>
-        <div class="title">Mechanistic ODE Twin</div>
-        <div class="desc">First-principles physiology models for bone density, sleep pressure, SANS risk & radiation dose</div>
+    <!-- SLIDE 2 · THE PROBLEM -->
+    <div class="slide" data-slide="1">
+      <span class="slide-num">02</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">The Problem</span></h2>
+      <div class="story-box anim" style="--d:0.15s">
+        "On Day 42 of a Gateway mission, Commander Chen wakes with blurred vision, early SANS.
+        Her Flight Surgeon on Earth has a 1.3-second delay but won't see clinical signs for 72 hours.
+        <strong>What if the computer already knew?</strong>"
       </div>
-      <div class="sol-pillar">
-        <span class="icon">🤖</span>
-        <div class="title">ML Pipeline</div>
-        <div class="desc">Gradient Boosted models with GroupKFold CV, Monte Carlo forecasting & 95% confidence intervals</div>
-      </div>
-      <div class="sol-pillar">
-        <span class="icon">🔍</span>
-        <div class="title">XAI Explainability</div>
-        <div class="desc">SHAP-based feature attribution so Flight Surgeons understand every prediction</div>
+      <h3 class="anim" style="--d:0.25s">Five Threats of Deep-Space Flight</h3>
+      <div class="threat-grid">
+        <div class="threat-card anim" style="--d:0.3s"><span class="icon">🦴</span><span class="label">Bone Loss</span>
+        </div>
+        <div class="threat-card anim" style="--d:0.38s"><span class="icon">❤️</span><span class="label">Cardiovascular
+            Deconditioning</span></div>
+        <div class="threat-card anim" style="--d:0.46s"><span class="icon">👁️</span><span class="label">SANS
+            (Neuro-Ocular)</span></div>
+        <div class="threat-card anim" style="--d:0.54s"><span class="icon">☢️</span><span class="label">Radiation
+            Exposure</span></div>
+        <div class="threat-card anim" style="--d:0.62s"><span class="icon">😴</span><span class="label">Sleep
+            Disruption</span></div>
       </div>
     </div>
-    <h3>10-Stage Pipeline</h3>
-    <div class="pipeline-flow">
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">01</span>NASA OSDR Ingest</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">02</span>Data Cleaning</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">03</span>Feature Eng.</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">04</span>ODE Integration</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">05</span>Model Training</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">06</span>GroupKFold CV</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">07</span>Monte Carlo</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">08</span>SHAP / XAI</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">09</span>Risk Scoring</div><span class="pipe-arrow">→</span></div>
-      <div class="pipe-stage"><div class="pipe-box"><span class="num">10</span>Dashboard</div></div>
-    </div>
-  </div>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 4 — NASA DATA USED
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="3">
-    <h2><span class="accent">NASA Data</span> Sources & Classification</h2>
-    <div class="data-layout">
-      <div class="data-sources">
-        <h3>Data Sources</h3>
-        <ul class="source-list">
-          <li><span class="s-icon">🧬</span> OSDR OSD-575</li>
-          <li><span class="s-icon">🧬</span> OSDR OSD-569</li>
-          <li><span class="s-icon">🧬</span> OSDR OSD-51</li>
-          <li><span class="s-icon">🧬</span> OSDR OSD-195</li>
-          <li><span class="s-icon">📊</span> OSDR EDA</li>
-          <li><span class="s-icon">☢️</span> OSDR RadLab</li>
-          <li><span class="s-icon">🌐</span> DONKI API</li>
-          <li><span class="s-icon">📋</span> NASA-STD-3001</li>
-          <li><span class="s-icon">📄</span> HRP Evidence Reports</li>
-        </ul>
+    <!-- SLIDE 3 · OUR SOLUTION -->
+    <div class="slide" data-slide="2">
+      <span class="slide-num">03</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">Our Solution:</span> ASTRAVIVE Architecture</h2>
+      <div class="solution-top">
+        <div class="sol-pillar anim" style="--d:0.15s">
+          <span class="icon">⚙️</span>
+          <div class="title">Mechanistic ODE Twin</div>
+          <div class="desc">First-principles physiology models for bone density, sleep pressure, SANS risk &amp;
+            radiation dose</div>
+        </div>
+        <div class="sol-pillar anim" style="--d:0.24s">
+          <span class="icon">🤖</span>
+          <div class="title">ML Pipeline</div>
+          <div class="desc">Gradient Boosted models with GroupKFold CV, Monte Carlo forecasting &amp; 95% confidence
+            intervals</div>
+        </div>
+        <div class="sol-pillar anim" style="--d:0.33s">
+          <span class="icon">🔍</span>
+          <div class="title">XAI Explainability</div>
+          <div class="desc">SHAP-based feature attribution so Flight Surgeons understand every prediction</div>
+        </div>
       </div>
-      <div class="data-tiers">
-        <h3>5-Tier Classification</h3>
-        <div class="tier-stack">
-          <div class="tier-bar" style="background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3);">
-            <span class="tier-dot" style="background:#22c55e;"></span> MEASURED
-          </div>
-          <div class="tier-bar" style="background:rgba(6,182,212,0.12); border:1px solid rgba(6,182,212,0.3);">
-            <span class="tier-dot" style="background:#06b6d4;"></span> PUBLIC
-          </div>
-          <div class="tier-bar" style="background:rgba(234,179,8,0.12); border:1px solid rgba(234,179,8,0.3);">
-            <span class="tier-dot" style="background:#eab308;"></span> SIMULATED
-          </div>
-          <div class="tier-bar" style="background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.3);">
-            <span class="tier-dot" style="background:#a855f7;"></span> DERIVED
-          </div>
-          <div class="tier-bar" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.3);">
-            <span class="tier-dot" style="background:#ef4444;"></span> MODEL PREDICTION
+      <h3 class="anim" style="--d:0.42s">10-Stage Pipeline</h3>
+      <div class="pipeline-flow">
+        <div class="pipe-stage anim" style="--d:0.46s">
+          <div class="pipe-box"><span class="num">01</span>NASA OSDR Ingest</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.5s">
+          <div class="pipe-box"><span class="num">02</span>Data Cleaning</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.54s">
+          <div class="pipe-box"><span class="num">03</span>Feature Eng.</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.58s">
+          <div class="pipe-box"><span class="num">04</span>ODE Integration</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.62s">
+          <div class="pipe-box"><span class="num">05</span>Model Training</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.66s">
+          <div class="pipe-box"><span class="num">06</span>GroupKFold CV</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.7s">
+          <div class="pipe-box"><span class="num">07</span>Monte Carlo</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.74s">
+          <div class="pipe-box"><span class="num">08</span>SHAP / XAI</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.78s">
+          <div class="pipe-box"><span class="num">09</span>Risk Scoring</div><span class="pipe-arrow">→</span>
+        </div>
+        <div class="pipe-stage anim" style="--d:0.82s">
+          <div class="pipe-box"><span class="num">10</span>Dashboard</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 · NASA DATA USED -->
+    <div class="slide" data-slide="3">
+      <span class="slide-num">04</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">NASA Data</span> Sources &amp; Classification</h2>
+      <div class="data-layout">
+        <div class="data-sources anim" style="--d:0.15s">
+          <h3>Data Sources</h3>
+          <ul class="source-list">
+            <li><span class="s-icon">🧬</span> OSDR OSD-575</li>
+            <li><span class="s-icon">🧬</span> OSDR OSD-569</li>
+            <li><span class="s-icon">🧬</span> OSDR OSD-51</li>
+            <li><span class="s-icon">🧬</span> OSDR OSD-195</li>
+            <li><span class="s-icon">📊</span> OSDR EDA</li>
+            <li><span class="s-icon">☢️</span> OSDR RadLab</li>
+            <li><span class="s-icon">🌐</span> DONKI API</li>
+            <li><span class="s-icon">📋</span> NASA-STD-3001</li>
+            <li><span class="s-icon">📄</span> HRP Evidence Reports</li>
+          </ul>
+        </div>
+        <div class="data-tiers anim" style="--d:0.25s">
+          <h3>5-Tier Classification</h3>
+          <div class="tier-stack">
+            <div class="tier-bar"
+              style="background:rgba(34,197,94,0.10); border:1px solid rgba(34,197,94,0.3); color:#4ade80;">
+              <span class="tier-dot" style="background:#22c55e; color:#22c55e;"></span> MEASURED
+            </div>
+            <div class="tier-bar"
+              style="background:rgba(34,211,238,0.10); border:1px solid rgba(34,211,238,0.3); color:#67e8f9;">
+              <span class="tier-dot" style="background:#06b6d4; color:#06b6d4;"></span> PUBLIC
+            </div>
+            <div class="tier-bar"
+              style="background:rgba(234,179,8,0.10); border:1px solid rgba(234,179,8,0.3); color:#fde047;">
+              <span class="tier-dot" style="background:#eab308; color:#eab308;"></span> SIMULATED
+            </div>
+            <div class="tier-bar"
+              style="background:rgba(167,139,250,0.10); border:1px solid rgba(167,139,250,0.3); color:#c4b5fd;">
+              <span class="tier-dot" style="background:#a78bfa; color:#a78bfa;"></span> DERIVED
+            </div>
+            <div class="tier-bar"
+              style="background:rgba(244,63,94,0.10); border:1px solid rgba(244,63,94,0.3); color:#fda4af;">
+              <span class="tier-dot" style="background:#f43f5e; color:#f43f5e;"></span> MODEL PREDICTION
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- SLIDE 5 · LIVE DEMO FEATURES -->
+    <div class="slide" data-slide="4">
+      <span class="slide-num">05</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">Live Demo</span> Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card anim" style="--d:0.12s">
+          <span class="f-icon">🔀</span>
+          <div class="f-title">Scenario A vs B Simulator</div>
+          <div class="f-desc">Interactive side-by-side comparison of mission parameters &amp; crew health outcomes</div>
+        </div>
+        <div class="feature-card anim" style="--d:0.2s">
+          <span class="f-icon">📈</span>
+          <div class="f-title">Monte Carlo 95% CI</div>
+          <div class="f-desc">Stochastic forecasting with confidence intervals for every physiological variable</div>
+        </div>
+        <div class="feature-card anim" style="--d:0.28s">
+          <span class="f-icon">🧠</span>
+          <div class="f-title">SHAP Explainability</div>
+          <div class="f-desc">Feature-level attribution so clinicians understand what drives each risk prediction</div>
+        </div>
+        <div class="feature-card anim" style="--d:0.36s">
+          <span class="f-icon">✅</span>
+          <div class="f-title">11-Check Verification</div>
+          <div class="f-desc">Browser-native verification suite: data integrity, model accuracy &amp; system health
+          </div>
+        </div>
+        <div class="feature-card anim" style="--d:0.44s">
+          <span class="f-icon">🔄</span>
+          <div class="f-title">GroupKFold Cross-Val</div>
+          <div class="f-desc">Live cross-validation ensuring models generalise across crew members, not just data splits
+          </div>
+        </div>
+        <div class="feature-card anim" style="--d:0.52s">
+          <span class="f-icon">♿</span>
+          <div class="f-title">WCAG 2.2 AA</div>
+          <div class="f-desc">Fully accessible interface meeting Web Content Accessibility Guidelines for all users
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 · IMPACT & FUTURE -->
+    <div class="slide" data-slide="5">
+      <span class="slide-num">06</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">Impact</span> &amp; Future Roadmap</h2>
+      <div class="impact-hero anim" style="--d:0.15s">
+        <p class="impact-line">Supporting Flight Surgeons on <span class="grad-text">ISS</span>, <span
+            class="grad-text">Artemis</span>, and <span class="grad-text">Mars</span> missions</p>
+        <p style="margin-top:10px;">From real-time monitoring to autonomous clinical decision support, bringing
+          predictive medicine to the final frontier.</p>
+      </div>
+      <h3 class="anim" style="--d:0.25s">Next Steps</h3>
+      <div class="next-steps">
+        <div class="step-card anim" style="--d:0.3s">
+          <span class="s-icon">📡</span>
+          <div class="s-title">Real-Time OSDR Streaming</div>
+          <div class="s-desc">Live data pipeline from NASA's Open Science Data Repository</div>
+        </div>
+        <div class="step-card anim" style="--d:0.38s">
+          <span class="s-icon">⌚</span>
+          <div class="s-title">Wearable API Integration</div>
+          <div class="s-desc">Crew biometric sensors feeding continuous physiological data</div>
+        </div>
+        <div class="step-card anim" style="--d:0.46s">
+          <span class="s-icon">🧩</span>
+          <div class="s-title">PINN Hybrid Models</div>
+          <div class="s-desc">Physics-Informed Neural Networks merging ODE fidelity with ML flexibility</div>
+        </div>
+        <div class="step-card anim" style="--d:0.54s">
+          <span class="s-icon">🏥</span>
+          <div class="s-title">FDA Pre-Submission</div>
+          <div class="s-desc">Regulatory pathway for clinical-grade spaceflight health software</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 · REFERENCES & CREDITS -->
+    <div class="slide" data-slide="6">
+      <span class="slide-num">07</span>
+      <h2 class="anim" style="--d:0.05s"><span class="grad-text">References</span> &amp; Credits</h2>
+      <div class="ref-layout">
+        <div class="ref-col anim" style="--d:0.15s">
+          <h3>Key Citations</h3>
+          <ul class="ref-list">
+            <li><strong>Zeitlin, C. et al. (2013).</strong> "Measurements of Energetic Particle Radiation in Transit to
+              Mars on the Mars Science Laboratory." <em>Science</em>, 340(6136).</li>
+            <li><strong>Zhang, L.-F. &amp; Hargens, A. R. (2020).</strong> "Spaceflight-Induced Intracranial
+              Hypertension and Visual Impairment: Pathophysiology and Countermeasures."</li>
+            <li><strong>NASA-STD-3001.</strong> NASA Space Flight Human-System Standard, Volumes 1 &amp; 2.</li>
+            <li><strong>NASA HRP Evidence Reports.</strong> Human Research Program risk reports for bone,
+              cardiovascular, ocular, radiation &amp; behavioral risks.</li>
+            <li><strong>NASA OSDR.</strong> Open Science Data Repository datasets OSD-575, OSD-569, OSD-51, OSD-195.
+            </li>
+          </ul>
+        </div>
+        <div class="ref-col anim" style="--d:0.25s">
+          <h3>Open-Source Libraries</h3>
+          <ul class="ref-list">
+            <li><strong>SciPy</strong> · ODE integration (solve_ivp)</li>
+            <li><strong>scikit-learn</strong> · ML models &amp; GroupKFold CV</li>
+            <li><strong>XGBoost / LightGBM</strong> · Gradient boosted ensembles</li>
+            <li><strong>SHAP</strong> · Explainable AI feature attribution</li>
+            <li><strong>NumPy / Pandas</strong> · Data processing pipeline</li>
+            <li><strong>Plotly.js</strong> · Interactive browser visualisations</li>
+            <li><strong>Chart.js</strong> · Dashboard charting</li>
+          </ul>
+        </div>
+      </div>
+      <div class="team-credit anim" style="--d:0.35s">
+        <p class="team-name">TEAM ASTRAVIVE</p>
+        <p>Built with 🚀 for NASA Space Apps Challenge 2026 <span class="credit-dot">·</span> Leveraging open data to
+          protect the explorers of tomorrow.</p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 5 — LIVE DEMO FEATURES
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="4">
-    <h2><span class="accent">Live Demo</span> Features</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <span class="f-icon">🔀</span>
-        <div class="f-title">Scenario A vs B Simulator</div>
-        <div class="f-desc">Interactive side-by-side comparison of mission parameters & crew health outcomes</div>
-      </div>
-      <div class="feature-card">
-        <span class="f-icon">📈</span>
-        <div class="f-title">Monte Carlo 95% CI</div>
-        <div class="f-desc">Stochastic forecasting with confidence intervals for every physiological variable</div>
-      </div>
-      <div class="feature-card">
-        <span class="f-icon">🧠</span>
-        <div class="f-title">SHAP Explainability</div>
-        <div class="f-desc">Feature-level attribution so clinicians understand what drives each risk prediction</div>
-      </div>
-      <div class="feature-card">
-        <span class="f-icon">✅</span>
-        <div class="f-title">11-Check Verification</div>
-        <div class="f-desc">Browser-native verification suite: data integrity, model accuracy & system health</div>
-      </div>
-      <div class="feature-card">
-        <span class="f-icon">🔄</span>
-        <div class="f-title">GroupKFold Cross-Val</div>
-        <div class="f-desc">Live cross-validation ensuring models generalise across crew members, not just data splits</div>
-      </div>
-      <div class="feature-card">
-        <span class="f-icon">♿</span>
-        <div class="f-title">WCAG 2.2 AA</div>
-        <div class="f-desc">Fully accessible interface meeting Web Content Accessibility Guidelines for all users</div>
-      </div>
-    </div>
-  </div>
+  <button class="nav-btn prev" id="prevBtn" aria-label="Previous slide">&#8249;</button>
+  <button class="nav-btn next" id="nextBtn" aria-label="Next slide">&#8250;</button>
+  <div class="dots" id="dots" role="tablist" aria-label="Slide navigation"></div>
+  <div class="progress-bar" id="progressBar"></div>
+  <div class="slide-counter" id="slideCounter"></div>
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 6 — IMPACT & FUTURE
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="5">
-    <h2><span class="accent">Impact</span> & Future Roadmap</h2>
-    <div class="impact-hero">
-      <p style="font-size:1.35rem; color:#e2e8f0; font-weight:600;">Supporting Flight Surgeons on <span class="accent">ISS</span>, <span class="accent">Artemis</span>, and <span class="accent">Mars</span> missions</p>
-      <p style="margin-top:8px;">From real-time monitoring to autonomous clinical decision support — bringing predictive medicine to the final frontier.</p>
-    </div>
-    <h3>Next Steps</h3>
-    <div class="next-steps">
-      <div class="step-card">
-        <span class="s-icon">📡</span>
-        <div class="s-title">Real-Time OSDR Streaming</div>
-        <div class="s-desc">Live data pipeline from NASA's Open Science Data Repository</div>
-      </div>
-      <div class="step-card">
-        <span class="s-icon">⌚</span>
-        <div class="s-title">Wearable API Integration</div>
-        <div class="s-desc">Crew biometric sensors feeding continuous physiological data</div>
-      </div>
-      <div class="step-card">
-        <span class="s-icon">🧩</span>
-        <div class="s-title">PINN Hybrid Models</div>
-        <div class="s-desc">Physics-Informed Neural Networks merging ODE fidelity with ML flexibility</div>
-      </div>
-      <div class="step-card">
-        <span class="s-icon">🏥</span>
-        <div class="s-title">FDA Pre-Submission</div>
-        <div class="s-desc">Regulatory pathway for clinical-grade spaceflight health software</div>
-      </div>
-    </div>
-  </div>
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const total = slides.length;
+      let current = 0;
 
-  <!-- ════════════════════════════════════════════════════
-       SLIDE 7 — REFERENCES & CREDITS
-       ════════════════════════════════════════════════════ -->
-  <div class="slide" data-slide="6">
-    <h2><span class="accent">References</span> & Credits</h2>
-    <div class="ref-layout">
-      <div class="ref-col">
-        <h3>Key Citations</h3>
-        <ul class="ref-list">
-          <li><strong>Zeitlin, C. et al. (2013)</strong> — "Measurements of Energetic Particle Radiation in Transit to Mars on the Mars Science Laboratory." <em>Science</em>, 340(6136).</li>
-          <li><strong>Zhang, L.-F. & Hargens, A. R. (2020)</strong> — "Spaceflight-Induced Intracranial Hypertension and Visual Impairment: Pathophysiology and Countermeasures."</li>
-          <li><strong>NASA-STD-3001</strong> — NASA Space Flight Human-System Standard, Volumes 1 & 2.</li>
-          <li><strong>NASA HRP Evidence Reports</strong> — Human Research Program risk reports for bone, cardiovascular, ocular, radiation & behavioral risks.</li>
-          <li><strong>NASA OSDR</strong> — Open Science Data Repository datasets OSD-575, OSD-569, OSD-51, OSD-195.</li>
-        </ul>
-      </div>
-      <div class="ref-col">
-        <h3>Open-Source Libraries</h3>
-        <ul class="ref-list">
-          <li><strong>SciPy</strong> — ODE integration (solve_ivp)</li>
-          <li><strong>scikit-learn</strong> — ML models & GroupKFold CV</li>
-          <li><strong>XGBoost / LightGBM</strong> — Gradient boosted ensembles</li>
-          <li><strong>SHAP</strong> — Explainable AI feature attribution</li>
-          <li><strong>NumPy / Pandas</strong> — Data processing pipeline</li>
-          <li><strong>Plotly.js</strong> — Interactive browser visualisations</li>
-          <li><strong>Chart.js</strong> — Dashboard charting</li>
-        </ul>
-      </div>
-    </div>
-    <div class="team-credit">
-      <p class="team-name">Team ASTRAVIVE</p>
-      <p>Built with 🚀 for NASA Space Apps Challenge 2026 — Leveraging open data to protect the explorers of tomorrow.</p>
-    </div>
-  </div>
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const progressBar = document.getElementById('progressBar');
+      const counter = document.getElementById('slideCounter');
+      const dotsWrap = document.getElementById('dots');
 
-</div><!-- /deck -->
+      const dots = slides.map(function (_, i) {
+        const b = document.createElement('button');
+        b.className = 'dot' + (i === 0 ? ' active' : '');
+        b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        b.addEventListener('click', function (e) { e.stopPropagation(); go(i); });
+        dotsWrap.appendChild(b);
+        return b;
+      });
 
-<!-- Navigation -->
-<button class="nav-btn prev" id="prevBtn" aria-label="Previous slide">&#8249;</button>
-<button class="nav-btn next" id="nextBtn" aria-label="Next slide">&#8250;</button>
-<div class="progress-bar" id="progressBar"></div>
-<div class="slide-counter" id="slideCounter"></div>
+      function go(n) {
+        if (n < 0 || n >= total || n === current) return;
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = n;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === total - 1;
+        progressBar.style.width = ((current + 1) / total * 100) + '%';
+        counter.innerHTML = '<b>' + (current + 1) + '</b> / ' + total;
+      }
 
-<script>
-(function() {
-  const slides = document.querySelectorAll('.slide');
-  const total = slides.length;
-  let current = 0;
+      prevBtn.addEventListener('click', function (e) { e.stopPropagation(); go(current - 1); });
+      nextBtn.addEventListener('click', function (e) { e.stopPropagation(); go(current + 1); });
 
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const progressBar = document.getElementById('progressBar');
-  const counter = document.getElementById('slideCounter');
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(current + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(current - 1); }
+        if (e.key === 'Home') { e.preventDefault(); go(0); }
+        if (e.key === 'End') { e.preventDefault(); go(total - 1); }
+      });
 
-  function go(n) {
-    if (n < 0 || n >= total) return;
-    slides[current].classList.remove('active');
-    current = n;
-    slides[current].classList.add('active');
-    prevBtn.disabled = current === 0;
-    nextBtn.disabled = current === total - 1;
-    progressBar.style.width = ((current + 1) / total * 100) + '%';
-    counter.textContent = (current + 1) + ' / ' + total;
-  }
+      document.getElementById('deck').addEventListener('click', function () { go(current + 1); });
 
-  prevBtn.addEventListener('click', function() { go(current - 1); });
-  nextBtn.addEventListener('click', function() { go(current + 1); });
+      let touchX = null;
+      document.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+      document.addEventListener('touchend', function (e) {
+        if (touchX === null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 60) { dx < 0 ? go(current + 1) : go(current - 1); }
+        touchX = null;
+      }, { passive: true });
 
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(current + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); go(current - 1); }
-  });
-
-  // Click anywhere on slide (not on buttons) to advance
-  document.getElementById('deck').addEventListener('click', function(e) {
-    if (e.target.closest('.nav-btn')) return;
-    go(current + 1);
-  });
-
-  go(0);
-})();
-</script>
+      prevBtn.disabled = true;
+      progressBar.style.width = (1 / total * 100) + '%';
+      counter.innerHTML = '<b>1</b> / ' + total;
+    })();
+  </script>
 
 </body>
+
 </html>
